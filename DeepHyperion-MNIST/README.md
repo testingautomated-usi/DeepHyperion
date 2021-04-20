@@ -3,7 +3,7 @@
 Input test generator using illumination search algorithm
 
 ## General Information ##
-This folder contains the application of the DeepHyperio  approach to the handwritten digit classification problem.
+This folder contains the application of the DeepHyperion  approach to the handwritten digit classification problem.
 This tool is developed in Python on top of the DEAP evolutionary computation framework. It has been tested on a machine featuring an i7 processor, 16 GB of RAM, an Nvidia GeForce 940MX GPU with 2GB of memory. These instructions are for Ubuntu 18.04 (bionic) OS and python 3.6.
 
 ## Dependencies ##
