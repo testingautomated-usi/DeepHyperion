@@ -1,4 +1,4 @@
-# DeepHyperion #
+# DeepHyperion-MNIST #
 
 Input test generator using illumination search algorithm
 
