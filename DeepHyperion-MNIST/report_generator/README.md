@@ -20,7 +20,6 @@ The steps to generate the maps are:
    ```
    python report_generator/app.py generate-samples ./logs/run_XXX
    ```
-  
 > NOTE: the set of features to be computed is predefined for each tool.
     
     
@@ -28,13 +27,12 @@ The steps to generate the maps are:
 
    ```
    python report_generator/app.py extract-stats --parsable --feature <NAME> --feature <NAME> ./logs/run_XXX
-  ```
-  For example:
+   ```
+   For example:
 
    ```
    python report_generator/app.py extract-stats --parsable --feature bitmaps --feature moves ./logs/run_XXX
-  ```
-
+   ```
 > NOTE: you should select features based on your config in __(run_xxx/config.json)
 
   You should get an output similar to:
@@ -78,14 +76,14 @@ name=moves,min=0,max=21,missing=0
    ```
    python report_generator/app.py generate-map --feature <NAME> <MIN> <MAX> <NUM_CELL> --feature <NAME> <MIN> <MAX> <NUM_CELL> ./logs/run_XXX
    ```
-For example:
+   For example:
 
- ```
+   ```
    python report_generator/app.py generate-map --feature moves 0 25 25 --feature bitmaps 0 500 25 ./logs/run_XXX
-```
-> NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.    
+   ```
+> NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
+  
 > NOTE: You can add other features (assuming they are present in **all** the samples) by adding to the command entries like `--feature <NAME> <MIN> <MAX> <NUM_CELL>` (e.g., `--feature orientation 0 30 25`).
-
 
    You should get something like this:
    
