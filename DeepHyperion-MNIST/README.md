@@ -120,6 +120,12 @@ When the run is finished, the tool produces the following outputs in the logs fo
 
 Run the command: python mapelites_mnist.py
 
+### Generate Processed Data and Rescaled Maps ###
+
+* [__DeepHyperion-MNIST__](/DeepHyperion-MNIST/report_generator)
+
+> NOTE: There is an example report of one run in logs folder (with one combination of features)
+
 
 ### Troubleshooting ###
 

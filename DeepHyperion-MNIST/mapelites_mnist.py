@@ -198,16 +198,17 @@ def main():
     utils.setup_logging(log_to, debug)
     print("Logging results to " + log_to)
 
-    # TODO
-    # for i in range(1, 4):
     map_E = MapElitesMNIST(NGEN, POPSIZE, log_dir_name, True)
     MapElitesMNIST.print_config()
     map_E.run()
 
     Individual.COUNT = 0
 
+    print("Exporting inputs ...")
     for digit in Exploration.all_inputs:
         digit.export(all=True)
+    
+    print("Done")
 
 
 

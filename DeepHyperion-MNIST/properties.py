@@ -8,8 +8,8 @@ class MissingEnvironmentVariable(Exception):
 POPSIZE          = int(os.getenv('DH_POPSIZE', '800'))
 NGEN             = int(os.getenv('DH_NGEN', '500000'))
 
-RUNTIME          = int(os.getenv('DH_RUNTIME', '100'))
-INTERVAL         = int(os.getenv('DH_INTERVAL', '20'))
+RUNTIME          = int(os.getenv('DH_RUNTIME', '180'))
+INTERVAL         = int(os.getenv('DH_INTERVAL', '60'))
 
 # Mutation Hyperparameters
 # range of the mutation
@@ -41,8 +41,8 @@ BITMAP_THRESHOLD = float(os.getenv('DH_BITMAP_THRESHOLD', '0.5'))
 DISTANCE_SEED         = float(os.getenv('DH_DISTANCE_SEED', '5.0'))
 DISTANCE         = float(os.getenv('DH_DISTANCE', '2.0'))
 
-FEATURES             = os.getenv('FEATURES', ["Moves","Bitmaps"])
-# FEATURES             = os.getenv('FEATURES', ["Orientation","Bitmaps"])
+# FEATURES             = os.getenv('FEATURES', ["Moves","Bitmaps"])
+FEATURES             = os.getenv('FEATURES', ["Orientation","Bitmaps"])
 # FEATURES             = os.getenv('FEATURES', ["Orientation","Moves"])
 # TSHD_TYPE             = os.getenv('TSHD_TYPE', '0') # 0: no threshold
 TSHD_TYPE             = os.getenv('TSHD_TYPE', '1') # 1: threshold on vectorized-rasterized seed, use DISTANCE = 2
