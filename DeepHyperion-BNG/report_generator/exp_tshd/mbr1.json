@@ -1,0 +1,17 @@
+{
+    "elapsed": "0:00:02.054568",
+    "expected_label": "5",
+    "features": [
+        "Bitmaps",
+        "Orientation",
+        "Moves"
+    ],
+    "id": "1",
+    "misbehaviour": false,
+    "performance": "0.5315837",
+    "predicted_label": "5",
+    "run": "0",
+    "seed": " 9160",
+    "timestamp": "2021-01-01 17:49:22.734690",
+    "tool": "DeepJanus"
+}
