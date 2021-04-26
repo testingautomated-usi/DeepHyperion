@@ -33,7 +33,7 @@ pycparser==2.19
 Pygments==2.3.1
 PyGObject==3.36.1
 pyparsing==2.4.7
-pypotrace==0.2
+pypotrace==0.3
 python-dateutil==2.8.1
 pytz==2019.3
 PyWavelets==1.1.1
