@@ -60,11 +60,11 @@ copy of BeamNG.research
 
 * A trained model in h5 format. The default one is in the folder _data/trained_models_colab_;
 * The seeds used for the input generation. The default ones are in the folder _data/member_seeds/initial_population_;
-* _core/config.py_ and _core/config.py_ containing the configuration of the tool selected by the user. 
+* _core/config.py_ containing the configuration of the tool selected by the user. 
 _Note:_ you need to define feature combination in the config
 
 ### Output ###
-When the run is finished, the tool produces the following outputs in the _data_ folder:
+When the run is finished, the tool produces the following outputs in the _logs_ folder:
 * maps representing inputs distribution;
 * json files containing the final reports of the run;
 * folders containing the generated inputs (in image and json format).
