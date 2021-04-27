@@ -168,8 +168,9 @@ def filter_data_and_plot_as_boxplots(use_ax, we_plot, raw_data, palette):
                      hue_order=hue_order,
                      ax=use_ax)
 
+
 # TODO For the moment look only at white box data
-def load_probability_maps(dataset_folder):
+def load_probability_maps(dataset_folder, type="white-box"):
 
     rows_list = []
     for subdir, dirs, files in os.walk(dataset_folder, followlinks=False):
@@ -177,14 +178,14 @@ def load_probability_maps(dataset_folder):
         # Extract metadata about features
         for json_data_file in [os.path.join(subdir, f) for f in files if
                          f.startswith("DeepHyperion") and
-                         (f.endswith("-white-box-rescaled-stats.json") or f.endswith("-white-box-relative-stats.json"))]:
+                         (f.endswith("-"+type+"-rescaled-stats.json") or f.endswith("-"+type+"-relative-stats.json"))]:
 
             with open(json_data_file, 'r') as input_file:
                 # Get the JSON
                 map_dict = json.load(input_file)
 
             # TODO Read those from the json maybe?
-            # DLFuzz-017-Orientation-Moves-white-box-rescaled-stats.json
+            # DLFuzz-017-Orientation-Moves-"+type+"-rescaled-stats.json
             attrs = json_data_file.split("-")
 
             run = attrs[1]
@@ -214,11 +215,11 @@ def load_probability_maps(dataset_folder):
         # Consider only the files that match the pattern
         for npy_file in [os.path.join(subdir, f) for f in files if
                          f.startswith("probability-DeepHyperion") and
-                         (f.endswith("-white-box-rescaled.npy") or f.endswith("-white-box-relative.npy"))]:
+                         (f.endswith("-"+type+"-rescaled.npy") or f.endswith("-"+type+"-relative.npy"))]:
 
             probabilities = np.load(npy_file)
             attrs = npy_file.split("-")
-            # probability-DeepJanusBeamNG-001-segment_count-sd_steering-SegmentCount-SDSteeringAngle-white-box-rescaled.npy
+            # probability-DeepJanusBeamNG-001-segment_count-sd_steering-SegmentCount-SDSteeringAngle-"+type+"-rescaled.npy
             features = (attrs[3], attrs[4])
             map_type = attrs[9].replace(".npy", "")
             run = attrs[2]
@@ -240,8 +241,8 @@ def load_probability_maps(dataset_folder):
         # Consider only the files that match the pattern
         for npy_file in [os.path.join(subdir, f) for f in files if
                                               f.startswith("misbehaviour-DeepHyperion") and
-                                              (f.endswith("-white-box-rescaled.npy") or f.endswith(
-                                                  "-white-box-relative.npy"))]:
+                                              (f.endswith("-"+type+"-rescaled.npy") or f.endswith(
+                                                  "-"+type+"-relative.npy"))]:
             misbehaviors = np.load(npy_file)
             attrs = npy_file.split("-")
 
@@ -267,8 +268,8 @@ def load_probability_maps(dataset_folder):
         # Consider only the files that match the pattern
         for npy_file in [os.path.join(subdir, f) for f in files if
                       f.startswith("coverage-DeepHyperion") and
-                      (f.endswith("-white-box-rescaled.npy") or f.endswith(
-                          "-white-box-relative.npy"))]:
+                      (f.endswith("-"+type+"-rescaled.npy") or f.endswith(
+                          "-"+type+"-relative.npy"))]:
             coverage = np.load(npy_file)
             attrs = npy_file.split("-")
 
