@@ -1,32 +1,55 @@
+# Global variables
 DATA=data
 BEAMNG_DATA=$(DATA)/beamng
 MNIST_DATA=$(DATA)/mnist
-PYTHON=.venv/bin/python
+V_PYTHON=.venv/bin/python
 APP=data_analysis.py
 
-### SETUP PYTHON VENV
+# Check that python 3.7 is installed. See: https://stackoverflow.com/questions/4933285/how-to-detemine-python-version-in-makefile
 
+# Manually define anther PYTHON here if needed
+PYTHON3=python3
+
+PYTHON3_OK := $(shell type -P $(PYTHON3))
+ifeq ('$(PYTHON3_OK)','')
+    $(error package '$(PYTHON3)' not found)
+endif
+
+PYTHON_VERSION_MIN=3.7
+PYTHON_VERSION_MAX=3.8
+
+PYTHON_VERSION=$(shell $(PYTHON3) -c 'import sys; print("%d.%d"% sys.version_info[0:2])' )
+PYTHON_VERSION_OK=$(shell $(PYTHON3) -c 'import sys;\
+  print(int(float("%d.%d"% sys.version_info[0:2]) >= $(PYTHON_VERSION_MIN) and float("%d.%d"% sys.version_info[0:2]) < $(PYTHON_VERSION_MAX)))' )
+
+ifeq ($(PYTHON_VERSION_OK),0)
+  $(error "Need python $(PYTHON_VERSION_MIN) but found $(PYTHON_VERSION)")
+endif
+
+### Targets definition
+
+.PHONY: rq1 rq2 rq3 clean-beamng-data clean-mnist-data
+
+### Setup Python virtual environment
 
 .venv:	.venv/touchfile
 
-
 .venv/touchfile: requirements.txt
-	test -d .venv || python3 -m venv .venv
+	test -d .venv || $(PYTHON3) -m venv .venv
 	. .venv/bin/activate; pip install --upgrade pip; pip install -r requirements.txt
 	touch .venv/touchfile
 
-### DOWNLOAD EXPERIMENTAL DATA
+### Prepare the data EXPERIMENTAL DATA
 
 $(BEAMNG_DATA):
 	mkdir -p $(BEAMNG_DATA) && \
-	tar -xzvf $(DATA)/beamng.tar.gz --directory $(BEAMNG_DATA) || \
-	$(RM) -v $(DATA)/beamng.tar.gz
-
+	tar -xzvf $(DATA)/beamng.tar.gz --directory $(BEAMNG_DATA)
 
 $(MNIST_DATA):
 	mkdir -p $(MNIST_DATA) && \
-	tar -xzvf $(DATA)/mnist.tar.gz --directory $(MNIST_DATA) || \
-	$(RM) -v $(DATA)/mnist.tar.gz
+	tar -xzvf $(DATA)/mnist.tar.gz --directory $(MNIST_DATA)
+
+### Clean up
 
 clean-beamng-data:
 	$(RM) -r -v $(BEAMNG_DATA)
@@ -42,21 +65,29 @@ clean-plots:
 	$(RM) -v plots/*.stats
 	$(RM) -v plots/*.npy
 
-.PHONY: rq1 rq2 clean-beamng-data clean-mnist-data
-
-# Plots and stats
-rq1 rq2 rq3: $(BEAMNG_DATA) $(MNIST_DATA) .venv
-	$(PYTHON) $(APP) $@ 2>&1 | tee $@.log
-
+### Plotting Targets. 
 
 ./plots/RQ1-MNIST.pdf ./plots/RQ1-BeamNG.pdf: $(BEAMNG_DATA) $(MNIST_DATA) .venv
-	$(PYTHON) rq1.py
+	$(V_PYTHON) rq1.py
 
 ./plots/RQ2-MNIST.pdf ./plots/RQ2-BeamNG.pdf: $(BEAMNG_DATA) $(MNIST_DATA) .venv
-	$(PYTHON) rq2.py
+	$(V_PYTHON) rq2.py
 
 ./plots/RQ3-MNIST.pdf ./plots/RQ3-BeamNG.pdf: $(BEAMNG_DATA) $(MNIST_DATA) .venv
-	$(PYTHON) rq3.py
+	$(V_PYTHON) rq3.py
 
-final-plots: ./plots/RQ1-MNIST.pdf ./plots/RQ1-BeamNG.pdf ./plots/RQ2-MNIST.pdf ./plots/RQ2-BeamNG.pdf ./plots/RQ3-MNIST.pdf ./plots/RQ3-BeamNG.pdf
+### Plotting "Commands". Use the following only if you want to plot each single figure, otherwise use plot-all
+
+rq1: $(BEAMNG_DATA) $(MNIST_DATA) .venv
+	$(V_PYTHON) rq1.py 2>&1 | tee $@.log
+
+rq2: $(BEAMNG_DATA) $(MNIST_DATA) .venv
+	$(V_PYTHON) rq2.py 2>&1 | tee $@.log
+
+rq3: $(BEAMNG_DATA) $(MNIST_DATA) .venv
+	$(V_PYTHON) rq3.py 2>&1 | tee $@.log
+
+### Plot all the figures in the paper from the data
+
+plot-all: ./plots/RQ1-MNIST.pdf ./plots/RQ1-BeamNG.pdf ./plots/RQ2-MNIST.pdf ./plots/RQ2-BeamNG.pdf ./plots/RQ3-MNIST.pdf ./plots/RQ3-BeamNG.pdf
 	@echo Done

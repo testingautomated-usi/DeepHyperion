@@ -29,16 +29,20 @@ def preprare_the_figure(probability_df, features_df , feature_list):
 def main():
     # Load all the data and select the required feature combinations
 
+    print("Preparing MNIST plot")
     probability_df, features_df = load_probability_maps("./data/mnist")
     mnist_fig = preprare_the_figure(probability_df, features_df, [('moves', 'bitmaps'),
                                                                   ('orientation', 'bitmaps'),
                                                                   ('orientation', 'moves')])
+    print("Storing MNIST plot")
     store_figure_to_paper_folder(mnist_fig, file_name="RQ3-MNIST")
 
+    print("Preparing BEAMNG plots")
     probability_df, features_df = load_probability_maps("./data/beamng")
     beamng_fig = preprare_the_figure(probability_df, features_df,[('mean_lateral_position', 'sd_steering'),
                                                                   ('segment_count', 'min_radius'),
                                                                   ('mean_lateral_position', 'min_radius')])
+    print("Storing BEAMNG plots")
     store_figure_to_paper_folder(beamng_fig, file_name="RQ3-BeamNG")
 
 

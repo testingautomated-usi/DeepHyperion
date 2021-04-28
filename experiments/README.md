@@ -2,16 +2,44 @@
 
 ## General Information ##
 
-This folder contains the data we obtained by conducting the experimental procedure described in the paper (Section 4).
+This folder contains the data we obtained by conducting the experimental procedure described in the paper (Section 4). We used this data to generate the plots reported in the paper.
 
 ## Dependencies ##
 
-We ran the scripts in this folder with Python v3.
-To easily generate related box-plots, run the following commands:
+The scripts require `make` and `python 3.7`
+
+## (Re)Generate the plots ##
+
+To regenerate the plots, run the following command from the **current** folder:
+
 ```
-make rq1
-make rq2
-make rq3
+make plot-all
 ```
 
+This command sets up a python virtual environment in a predefined location (`./.venv`), extracts into the `data/mnist` and `data/beamng` folders the raw data (feature-maps, probability-maps, etc.), and creates the various plots.
 
+The command checks that the expected version of python is installed and fails otherwise.
+
+The command produces a verbose output (sorry) and few warnings like the following one:
+
+```
+...
+plotting_utils.py:354: RuntimeWarning: Mean of empty slice
+  avg_probabilities = np.nanmean(all_probabilities, axis=0)
+...
+```
+ 
+Those warnings are expected, so do not worry.
+
+If everything worked as expected you'll find the following plots under `./plots`:
+
+```
+RQ1-BeamNG.pdf
+RQ1-MNIST.pdf
+RQ2-BeamNG.pdf
+RQ2-MNIST.pdf
+RQ3-BeamNG.pdf
+RQ3-MNIST.pdf
+```
+
+Those plots corresponds to the ones reported in Figures 3 -- 8 of the (pre-print) version of the paper.
