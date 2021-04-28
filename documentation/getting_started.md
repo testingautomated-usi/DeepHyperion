@@ -50,7 +50,7 @@ This outputs report for each feature specified in input its name, its min/max va
 To generate a map and generate a report run the following command (add `--visualize` if you want to visualize the map):
 
 ```
-python report_generator/app.py generate-map --feature bitmaps <MIN> <MAX> 25 --feature orientation <MIN> <MAX> 25 ./logs/run_XXX
+python report_generator/app.py generate-map --feature bitmaps <MIN> <MAX> 25 --feature orientation <MIN> <MAX> 25 ./logs/run_XXX/archive
 ```
 > NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
 
