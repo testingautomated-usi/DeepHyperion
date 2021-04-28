@@ -29,7 +29,14 @@ If you use our work in your research, or it helps it, or if you simply like it, 
 Here is an example BibTeX entry:
 
 ```
-
+@inproceedings{DeepHyperion_ISSTA_2021,
+	title= {DeepHyperion: Exploring the Feature Space of DeepLearning-Based Systems through Illumination Search},
+	author= {Tahereh Zohdinasab and Vincenzo Riccio and Alessio Gambi and Paolo Tonella},
+	booktitle= {Proceedings of the ACM SIGSOFT International Symposium on Software Testing and Analysis},
+	series= {ISSTA '21},
+	publisher= {Association for Computing Machinery},
+	year= {2021}
+}
 ```
 
 ## License ##
@@ -44,5 +51,5 @@ For any related question, please contact its authors:
 * Paolo Tonella ([paolo.tonella@usi.ch](mailto:paolo.tonella@usi.ch)).
 
 ## DOI
-
+TBA
 

@@ -15,24 +15,33 @@ To set up the environment and run the DeepHyperion tool adapted to the self-driv
 To regenerate the plots reported in the paper, follow the instructions [here](/experiments/README.md) 
 
 
-## Examples ##
-- **Perform MNIST experiments with digits different from 5**
+## Extra Use Case Scenarios ##
+This section contains plausible scenarios on how DeepHyperion could be extended beyond the experiments performed in the paper.
 
-This shows the applicability of the _DeepHyperion-MNIST_ on other digit classes of MNIST.
-You can configure _DeepHyperion-MNIST_ to generate inputs for digit class "6".
-To do this, you should modify the configuration in _DeepHyperion-MNIST/properties.py_ file as follow:
+### Scenario 1: Performing MNIST experiments with digits different from 5s ###
+
+This scenario shows the applicability of the _DeepHyperion-MNIST_ on digit classes of MNIST different from the ones considered in the experimental evaluation.
+As an example, you can configure _DeepHyperion-MNIST_ to generate inputs for digit class "6".
+To do this, you should modify the configuration in _DeepHyperion-MNIST/properties.py_ file as follows:
 ```
-    EXPECTED_LABEL = int(os.getenv('DH_EXPECTED_LABEL', '9'))
+    EXPECTED_LABEL = int(os.getenv('DH_EXPECTED_LABEL', '6'))
 
 ```
 
-- **Test a different DL model**
+### Scenario 2: Test a different DL model ###
 
-This shows the possibility of using different traied models for _DeepHyperion-MNIST_.
-You can use a different model for applying the approach in MNIST case study.
-To do this, you should train a model and place it in _DeepHyperion-MNIST/models_ folder, then modify the configuration in _DeepHyperion-MNIST/properties.py_ file as follow:
+This scenario shows the possibility of using trained models for _DeepHyperion-MNIST_ different from the one considered in the experimental evaluation.
+To do this, you should train a new model running _DeepHyperion-MNIST/train_model.py file.
+and place it in _DeepHyperion-MNIST/models_ folder, then modify the configuration in _DeepHyperion-MNIST/properties.py_ file as follows:
 ```
     MODEL = os.getenv('DH_MODEL', 'models/<NEW MODEL NAME>')
 ```
 
+### Scenario 3: Modify the intervals of the maps ###
+This scenario shows that a map can be rescaled to the granularity defined by the user. This adjustment is particularly useful when the user wants to compare maps produced in different runs/configurations or by different tools.
+As an example, you can configure _DeepHyperion-BeamNG_ to generate maps with _N_ (_N > 0_) bins for each feature. 
+To do this, first run _DeepHyperion-BNG_ with predefined configuration. Then, in [Generate Processed Data and Rescaled Maps](/DeepHyperion-BNG/report_generator) step 3, one can set the number of bins for each feature as follows:
+```
+python report_generator/app.py generate-map --feature segment_count 1 5 <N> --feature mean_lateral_position 166 178 <N> .\logs\run_XXX
+```
 
