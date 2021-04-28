@@ -4,17 +4,22 @@ Follow the steps below to setup DeepHyperion and validate its general functional
 
 
 ## Step 1: Configure the environment  ##
-Pull a prepared Docker image for DeepHyperion-MNIST, run it by typing in the terminal:
+
+Pull our pre-configured Docker image for DeepHyperion-MNIST:
 
 ``` 
 docker pull zohdit/deephyperion:latest
+```
+
+Run it by typing in the terminal the following command:
+
+```
 docker run -it --rm zohdit/deephyperion:latest
 source .venv/bin/activate
 ```
 
-
 ## Step 2: Run DeepHyperion ##
-Use the following command to start a 3 minutes run of DeepHyperion-MNIST with one combination of features (Bitmaps and Orientation):
+Use the following commands to start a 3 minutes run of DeepHyperion-MNIST with the "Bitmaps - Orientation" combination of features:
 
 ```
 cd DeepHyperion/DeepHyperion-MNIST
@@ -22,16 +27,17 @@ python mapelites_mnist.py
 ```
 > NOTE: properties.py contains the configuration of the tool selected by the user. 
 
-When the run is finished, the tool produces the following outputs in the _logs/run_XXX_ folder (XXX is a part of foldername you should replace it with the correct value):
+When the run is finished, the tool produces the following outputs in the _logs/run_XXX_ folder (where XXX is the timestamp value):
 
-* _heatmap_Bitmaps_Orientation.png_ representing inputs distribution;
-* _heatmap_Bitmaps_Orientation.json_ file containing the final reports of the run;
-* folders _all_ and _archive_ containing the generated inputs (in image and npy formats).
+* _heatmap_Bitmaps_Orientation.png_ representing the feature map;
+* _heatmap_Bitmaps_Orientation.json_ file containing the final report of the run;
+* _all_ and _archive_ folders containing the generated inputs (in image and npy formats).
 
 
 
 ## Step 3: Generate Maps  ##
-To uniform anlysis and generate rescaled maps and more processed data, use the following commands:
+
+To generate rescaled maps and process the output of a run, use the following commands:
 
 ```
 python report_generator/app.py generate-samples ./logs/run_XXX
@@ -47,7 +53,7 @@ name=moves,min=inf,max=-inf,missing=132
 ```
 This outputs report for each feature specified in input its name, its min/max values, and the count of samples found for which that feature was not present.
 
-To generate a map and generate a report run the following command (add `--visualize` if you want to visualize the map):
+To generate a map and generate a report, run the following command (add `--visualize` if you want to visualize the map):
 
 ```
 python report_generator/app.py generate-map --feature bitmaps <MIN> <MAX> 25 --feature orientation <MIN> <MAX> 25 ./logs/run_XXX/archive
