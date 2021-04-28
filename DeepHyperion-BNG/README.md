@@ -8,11 +8,6 @@ This tool is developed in Python on top of the DEAP evolutionary computation fra
 
 ## Dependencies ##
 
-This tool needs the BeamNG simulator to be installed on the machine where it is running. 
-A free version of the BeamNG simulator for research purposes can be found at https://register.beamng.tech 
-We tested our tool only with the unlimited version of the simulator that has been provided to us directly by BeamNG GmbH.
-
-
 ### Installing Python 3.7.9 ###
 
 Install [_Python 3.7.9_](https://www.python.org/ftp/python/3.7.9/python-3.7.9-amd64.exe)
@@ -39,6 +34,7 @@ copy of BeamNG.research
 
 > **NOTE**: as stated on the BeamNG registration page, **please use your university email address**.
 
+> **NOTE**: required BeamNG version: BeamNG.research 1.7.0.1
 
 ## Recommended Requirements ##
 
