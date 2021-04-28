@@ -51,16 +51,16 @@ name=orientation,min=12,max=100,missing=0
 name=bitmaps,min=333,max=482,missing=0
 name=moves,min=inf,max=-inf,missing=132
 ```
-This outputs report for each feature specified in input its name, its min/max values, and the count of samples found for which that feature was not present.
+This output reports, for each feature specified as input: its name, its min and max values, and the count of cells in the interval [min:max] in which inputs are missing (i.e. not found by this run).
 
-To generate a map and generate a report, run the following command (add `--visualize` if you want to visualize the map):
+To generate the map and the report, run the following command (add `--visualize` if you want to visualize the map):
 
 ```
 python report_generator/app.py generate-map --feature bitmaps <MIN> <MAX> 25 --feature orientation <MIN> <MAX> 25 ./logs/run_XXX/archive
 ```
 > NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
 
-Then you can find these outputs in _logs/run_XXX/archive_:
+The output can be found in the _logs/run_XXX/archive_ folder:
 
 * coverage-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy
 * misbehaviour-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy
@@ -91,6 +91,6 @@ Then you can find these outputs in _plots_ folder:
 * RQ3-BeamNG.pdf
 * RQ3-MNIST.pdf
 
-Those plots corresponds to the ones reported in Figures 3 -- 8 of the (pre-print) version of the paper.
+These plots corresponds to the ones reported in Figures 3 -- 8 of the (pre-print) version of the paper.
 
 
