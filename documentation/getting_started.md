@@ -35,7 +35,7 @@ To uniform anlysis and generate rescaled maps and more processed data, use the f
 
 ```
 python report_generator/app.py generate-samples ./logs/run_XXX
-python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orintation ./logs/run_XXX
+python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX
 ```
 You should get an output similar to:
   
@@ -45,7 +45,7 @@ name=orientation,min=12,max=100,missing=0
 name=bitmaps,min=333,max=482,missing=0
 name=moves,min=inf,max=-inf,missing=132
 ```
-This outputs report for each feature specified in input its name, its min/max values, and the count of samples found for which that feature was not present.
+This outputs report for each feature specified in input its name, its min/max values, and the count of samples found for which that feature was not present. (in the output above, min and max are not specified for moves feature because it wasn't selected for extract-stats command)
 
 To generate a map and generate a report run the following command (add `--visualize` if you want to visualize the map):
 
