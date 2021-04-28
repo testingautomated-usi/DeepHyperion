@@ -56,7 +56,6 @@ python report_generator/app.py generate-map --feature bitmaps <MIN> <MAX> 25 --f
 
 Then you can find these outputs in _logs/run_XXX/archive_:
 
-
 * coverage-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy
 * misbehaviour-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy
 * probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy
@@ -70,7 +69,10 @@ We provided the data of all runs of tools in _experiments/data_. To regenerate t
 
 ```
 cd DeepHyperion/experiments
-make plot-all
+source .venv/bin/activate
+python rq1.py
+python rq2.py
+python rq3.py
 ```
 
 Then you can find these outputs in _plots_ folder:

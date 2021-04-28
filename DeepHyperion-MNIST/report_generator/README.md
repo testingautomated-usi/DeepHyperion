@@ -74,12 +74,12 @@ name=moves,min=0,max=21,missing=0
 3. Build the map and visualize it. Maps can contain two or more features, but their visualization is limited to two features at the time. To generate a map and generate a report run the following command (add `--visualize` if you want to visualize the map):
 
    ```
-   python report_generator/app.py generate-map --feature <NAME> <MIN> <MAX> <NUM_CELL> --feature <NAME> <MIN> <MAX> <NUM_CELL> ./logs/run_XXX
+   python report_generator/app.py generate-map --feature <NAME> <MIN> <MAX> <NUM_CELL> --feature <NAME> <MIN> <MAX> <NUM_CELL> ./logs/run_XXX/archive
    ```
    For example:
 
    ```
-   python report_generator/app.py generate-map --feature moves 0 25 25 --feature bitmaps 0 500 25 ./logs/run_XXX
+   python report_generator/app.py generate-map --feature moves 0 25 25 --feature bitmaps 0 500 25 ./logs/run_XXX/archive
    ```
 > NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
   
