@@ -1,9 +1,9 @@
 # Getting Started #
 
-Set up DeepHyperion and validate its general functionality
+Follow the steps below to setup DeepHyperion and validate its general functionality
 
 
-### Configure the environment  ###
+## Step 1: Configure the environment  ##
 Pull a prepared Docker image for DeepHyperion-MNIST, run it by typing in the terminal:
 
 ``` 
@@ -13,7 +13,7 @@ source .venv/bin/activate
 ```
 
 
-### Run DeepHyperion ###
+## Step 2: Run DeepHyperion ##
 Use the following command to start a 3 minutes run of DeepHyperion-MNIST with one combination of features (Bitmaps and Orientation):
 
 ```
@@ -30,7 +30,7 @@ When the run is finished, the tool produces the following outputs in the _logs/r
 
 
 
-### Generate maps  ###
+## Step 3: Generate Maps  ##
 To uniform anlysis and generate rescaled maps and more processed data, use the following commands:
 
 ```
@@ -63,7 +63,7 @@ Then you can find these outputs in _logs/run_XXX/archive_:
 * probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.pdf
 
 
-# Reproduce Experimental Results #
+## Step 4: Reproduce Experimental Results ##
 
 We provided the data of all runs of tools in _experiments/data_. To regenerate the plots reported in the paper, run the following commands on the provided docker:
 
