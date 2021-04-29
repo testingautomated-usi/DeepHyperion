@@ -124,7 +124,7 @@ Run the command: python mapelites_mnist.py
 
 ### Generate Processed Data and Rescaled Maps ###
 
-* [__DeepHyperion-MNIST/report_generator__](/DeepHyperion-MNIST/report_generator)
+* [__DeepHyperion-MNIST/report_generator__](../DeepHyperion-MNIST/report_generator)
 
 
 
