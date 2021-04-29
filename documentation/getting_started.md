@@ -57,7 +57,7 @@ This output reports, for each feature specified as input: its name, its min and 
 To generate the map and the report, run the following command:
 
 ```
-python report_generator/app.py generate-map --feature bitmaps <MIN> <MAX> 25 --feature orientation <MIN> <MAX> 25 ./logs/run_XXX/archive
+python report_generator/app.py generate-map --feature bitmaps <MIN feature 1> <MAX feature 1> 25 --feature orientation <MIN feature 2> <MAX feature 2> 25 ./logs/run_XXX/archive
 ```
 > NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
 
@@ -70,7 +70,7 @@ The output can be found in the _logs/run_XXX/archive_ folder:
 * probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.pdf
 
 <p align="center">
-<img src="probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG" alt="map" style="width:300px;"/></p>
+<img src="probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG" alt="map" style="width:1px;"/></p>
 
 
 
