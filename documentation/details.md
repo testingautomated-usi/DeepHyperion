@@ -12,7 +12,7 @@ To set up the environment and run the DeepHyperion tool adapted to the self-driv
 
 
 ## Experimental Data and Scripts ##
-To regenerate the results and plots reported in the paper, follow the instructions [here](./experiments/README.md) 
+To regenerate the results and plots reported in the paper, follow the instructions [here](././experiments/README.md) 
 
 
 ## Extra Use Case Scenarios ##
