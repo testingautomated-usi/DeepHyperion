@@ -111,5 +111,8 @@ Then, you will find the following files in _plots_ folder:
 * RQ3-MNIST.pdf
 
 These plots corresponds to the ones reported in Figures 3 -- 8 of the (pre-print) version of the paper.
-
+To check the results, you should copy the files from docker to your system, as follows:
+```
+docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/experiments/plots  /path-to-your-Desktop/
+```
 
