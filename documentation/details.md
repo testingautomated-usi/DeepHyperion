@@ -4,11 +4,11 @@ DeepHyperion is a tool for generating test inputs and feature maps using illumin
 
 
 ## DeepHyperion-MNIST ##
-To set up the environment and run the DeepHyperion tool adapted to the handwritten digit classification case study, follow the instructions [here](./DeepHyperion-MNIST/README.md).
+To set up the environment and run the DeepHyperion tool adapted to the handwritten digit classification case study, follow the instructions [here](../DeepHyperion-MNIST/README.md).
 
 
 ## DeepHyperion-BNG ##
-To set up the environment and run the DeepHyperion tool adapted to the self-driving car case study, follow the instructions [here](./DeepHyperion-BNG/README.md). 
+To set up the environment and run the DeepHyperion tool adapted to the self-driving car case study, follow the instructions [here](../DeepHyperion-BNG/README.md). 
 
 
 ## Experimental Data and Scripts ##
