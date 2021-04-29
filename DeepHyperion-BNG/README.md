@@ -27,8 +27,8 @@ This tool needs the BeamNG simulator to be installed on the machine where it is 
 A free version of the BeamNG simulator for research purposes can be obtained by registering at [https://register.beamng.tech](https://register.beamng.tech) and following the instructions provided by BeamNG. Please fill the "Application Text" field of the registration form with the following text:
 
 ```
-I would like to participate to the "Testing Self-Driving Car Software
-Contest" of the ISSTA 2021 and for that I need to a
+I would like to replicate the results of the DeepHyperion paper, 
+accepted at the ISSTA 2021 conference and for that I need to a
 copy of BeamNG.research
 ```
 
@@ -48,7 +48,7 @@ copy of BeamNG.research
 * Storage: 20 GB available space
 * Additional Notes: Recommended spec based on 1080p resolution. Installing game mods will increase required storage space. Gamepad recommended.
 
->**Note**: BeamNG.research can run also on Mac Book provided you boot them on Windows.
+>**Note**: BeamNG.research can run also on Mac Books, provided that you boot them on Windows.
 
 ## Usage ##
 
