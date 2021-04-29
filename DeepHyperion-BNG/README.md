@@ -48,7 +48,7 @@ copy of BeamNG.research
 * Storage: 20 GB available space
 * Additional Notes: Recommended spec based on 1080p resolution. Installing game mods will increase required storage space. Gamepad recommended.
 
->**Note**: BeamNG.research can run also on Mac Book provided you boot them on Windows.
+>**Note**: BeamNG.research can run also on Mac Books, provided that you boot them on Windows.
 
 ## Usage ##
 
