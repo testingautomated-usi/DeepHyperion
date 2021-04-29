@@ -36,11 +36,11 @@ To do this, you need to place the name of the new model in _DeepHyperion-MNIST/p
 ```
     MODEL = os.getenv('DH_MODEL', 'models/cnnClassifier.h5')
 ```
-Moreover you can test your own model. You can train a new model as follows:
+Moreover you can test your own model. You can train a new model by running the following command:
 ```
 python DeepHyperion-MNIST/train_model.py <YOUR_MODEL_NAME>
 ```
-it generates a new model and places it in _DeepHyperion-MNIST/models_ folder, then edit the configuration in _DeepHyperion-MNIST/properties.py_ file as follows:
+After the new model has been trained, you can place it in _DeepHyperion-MNIST/models_ folder, then edit the configuration in _DeepHyperion-MNIST/properties.py_ file as follows:
 ```
     MODEL = os.getenv('DH_MODEL', 'models/<YOUR_MODEL_NAME>.h5')
 ```
