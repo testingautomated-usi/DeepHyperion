@@ -70,7 +70,7 @@ class BeamNGNvidiaOob(BeamNGEvaluator):
     def _run_simulation(self, member) -> SimulationData:
         nodes = member.sample_nodes
         if not self.brewer:
-            self.brewer = BeamNGBrewer(beamng_home=self.config.BNG_HOME)
+            self.brewer = BeamNGBrewer(beamng_home=self.config.BNG_HOME, beamng_user=self.config.BNG_USER)
             self.vehicle = self.brewer.setup_vehicle()
             self.camera = self.brewer.setup_scenario_camera()
 

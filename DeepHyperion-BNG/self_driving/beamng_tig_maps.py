@@ -70,7 +70,14 @@ class Maps:
     source_map: MapFolder
 
     def __init__(self):
-        self.beamng_levels = LevelsFolder(os.path.join(os.environ['USERPROFILE'], r'Documents/BeamNG.research/levels'))
+
+        try:
+            self.beamng_levels = LevelsFolder(os.path.join(os.environ['BNG_USER'], r'levels'))
+        except Error:
+            self.beamng_levels = LevelsFolder(os.path.join(os.environ['USERPROFILE'], r'Documents/BeamNG.research/levels'))
+
+        print("self.beamng_levels is", self.beamng_levels.path)
+
         self.source_levels = LevelsFolder('levels_template')
         self.source_map = self.source_levels.get_map('tig')
         self.beamng_map = self.beamng_levels.get_map('tig')
