@@ -18,7 +18,7 @@ The steps to generate the maps are:
    Go to the root of the project (`./DeepHyperion-BNG`) and run the following command to process a dataset folder (folders will be recursively checked):
 
    ```
-   python report_generator/app.py generate-samples --force-attribute run 1 --force-attribute tool DeepHyperionBeamNG ./logs/run_XXX
+   python report_generator/app.py generate-samples --force-attribute run 1 --force-attribute tool DeepHyperionBeamNG ./logs/run_XXX/simulations
    ```
 > NOTE: the set of features to be computed is predefined for each tool.
     
@@ -26,12 +26,12 @@ The steps to generate the maps are:
 2. Process all the json files corresponding to the samples of all the runs for all the tools, to extract the maps `extrema` for each feature. Go to the root of the project (`./DeepHyperion-BeamNG`) and run the following command:
 
    ```
-   python report_generator/app.py extract-stats --parsable --feature <NAME> --feature <NAME> ./logs/run_XXX
+   python report_generator/app.py extract-stats --parsable --feature <NAME> --feature <NAME> ./logs/run_XXX/simulations
    ```
    For example:
 
    ```
-   python report_generator/app.py extract-stats --parsable --feature segment_count --feature mean_lateral_position .\logs\run_XXX\simulations\
+   python report_generator/app.py extract-stats --parsable --feature segment_count --feature mean_lateral_position ./logs/run_XXX/simulations
    ```
 > NOTE: you should select features based on your config in __(run_xxx/config.json)
 
@@ -68,12 +68,12 @@ name=mean_lateral_position,min=166,max=178,missing=0
 3. Build the map and visualize it. Maps can contain two or more features, but their visualization is limited to two features at the time. To generate a map and generate a report run the following command (add `--visualize` if you want to visualize the map):
 
    ```
-   python report_generator/app.py generate-map --feature <NAME> <MIN> <MAX> <NUM_CELL> --feature <NAME> <MIN> <MAX> <NUM_CELL> ./logs/run_XXX
+   python report_generator/app.py generate-map --feature <NAME> <MIN> <MAX> <NUM_CELL> --feature <NAME> <MIN> <MAX> <NUM_CELL> ./logs/run_XXX/simulations
    ```
    For example:
 
    ```
-   python report_generator/app.py generate-map --feature segment_count 1 5 4 --feature mean_lateral_position 166 178 25 .\logs\run_XXX
+   python report_generator/app.py generate-map --feature segment_count 1 5 4 --feature mean_lateral_position 166 178 25 ./logs/run_XXX/simulations
    ```
 > NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
     
