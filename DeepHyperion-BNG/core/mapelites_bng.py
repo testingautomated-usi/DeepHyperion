@@ -286,7 +286,7 @@ def main():
     log_dir_name = folders.experiments
     # Ensure the folder exists
     Path(log_dir_name).mkdir(parents=True, exist_ok=True)
-
+    
     config = cfg.BeamNGConfig()
     problem = BeamNGProblem.BeamNGProblem(config)
     
