@@ -6,7 +6,7 @@ Test Input Generator using illumination search algorithm.
 This folder contains the application of the DeepHyperion approach to the steering angle prediction problem.
 DeepHyperion is developed in Python on top of the DEAP evolutionary computation framework. 
 
-We have been tested DeepHyperion on a Windows machine equipped with a i9 processor, 32 GB of memory, and an Nvidia GPU GeForce RTX 2080 Ti with 11GB of dedicated memory.
+We tested DeepHyperion on a Windows machine equipped with a i9 processor, 32 GB of memory and an Nvidia GPU GeForce RTX 2080 Ti with 11GB of dedicated memory.
 
 ## Dependencies ##
 
@@ -40,16 +40,16 @@ A free version of the BeamNG simulator for research purposes can be obtained by 
 
 ```
 I would like to replicate the results of the DeepHyperion paper, 
-accepted at the ISSTA 2021 conference and for that I need to a
+accepted at the ISSTA 2021 conference. Therefore, I need to a
 copy of BeamNG.research
 ```
 > **NOTE**: as stated on the BeamNG registration page, **please use your university email address**. 
 
 #### Post Registration
-If BeamNG.GmbH accepts your registration you will receive an email with a link to download the simulator and a registration key file named `tech.key`.
+If BeamNG.GmbH accepts your registration, you will receive an email with a link to download the simulator and a registration key file named `tech.key`.
 Please download the following version `BeamNG.research 1.7.0.1` and **rename** the `tech.key` to `research.key`.
 
-The first time you run the simulation it creates a folder under `~/Documents/BeamNG.reseach` and checked whether the `research.key` is present or not. If it cannot find the `research.key` files it will show a message and stop. Copy the `research.key` in the folder to fix this.
+The first time you run the simulation, it creates a folder under `~/Documents/BeamNG.research` and checks whether the `research.key` is present or not. If it cannot find the `research.key` files it will show an error message and stop. Copy the `research.key` in the correct folder to fix this.
 
 ## Recommended Requirements ##
 
@@ -65,7 +65,7 @@ The first time you run the simulation it creates a folder under `~/Documents/Bea
 
 >**Note**: BeamNG.research can run on Mac Books, provided that you boot them on Windows, or inside a virtual machine, provided the it is managed by [Parallels](https://www.parallels.com/eu/). Parallels is not a free software, but probably a temporary evaluation license can be obtained. 
 
-> **WARNING:** Running BeamNG inside a VM results in lags and possibly other misbehaviors. So we advice to use a physical machine, whenever is possible. Additionally, running BeamNG inside VMs managed by hypervisors other than Parallels (e.g., VMWare or VirtualBox) does not work smoothly.
+> **WARNING:** Running BeamNG inside a VM results in lags and possibly other misbehaviors. So we advice to use a physical machine, if possible. Additionally, running BeamNG inside VMs managed by hypervisors other than Parallels (e.g., VMWare or VirtualBox) did not work smoothly in our evaluations.
 
 
 ## Usage ##
@@ -78,7 +78,7 @@ The first time you run the simulation it creates a folder under `~/Documents/Bea
 
 * The feature combination to use for the generation. 
 
-To specify the feature combination to use for the generation, directly edit the `core/config.py` file. The available configuration options are already listed inside the `core/config.py` file, uncomment the chosen one that or leave the default configuration
+To specify the feature combination to use for the generation, directly edit the `core/config.py` file. The available configuration options are already listed inside the `core/config.py` file, uncomment the chosen one that or leave the default configuration:
 
 ```
 self.Feature_Combination = ["SegmentCount", "MeanLateralPosition"]
@@ -101,7 +101,7 @@ To run the tool, activate the python virtual environment and run the `core/mapel
 py.exe core/mapelites_bng.py
 ```
 
-If everything works fine, you should see on that BeamNG.research opens automatically, loads a newly generated test, and the virtual car moves autonomously. As described in the paper, the car is driven by a controller based on the NVidia DAVE2 architecture that receives images from the camera mounted on the virtual car (not from the user camera that shows the simulator on the screen) and predict the steering angle to apply. On the console, you might see messages about CUDA and other CNN-related libraries.
+If everything works fine, you should see that BeamNG.research starts automatically, loads a newly generated test scenario, and the virtual car moves autonomously. As described in the paper, the car is driven by a controller based on the NVidia DAVE2 architecture that receives images from the camera mounted on the virtual car (not from the user camera that shows the simulator on the screen) and predict the steering angle to apply. On the console, you might see messages about CUDA and other CNN-related libraries.
 
 [TBD] Add the link to the you tube video.
 
