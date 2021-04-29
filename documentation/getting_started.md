@@ -26,6 +26,7 @@ cd DeepHyperion/DeepHyperion-MNIST
 python mapelites_mnist.py
 ```
 > NOTE: properties.py contains the tool configuration. The user should edit this file to change the configuration. 
+> 
 > NOTE: If you want to run _DeepHyperion-MNIST_ with the same configuration as in the paper, you need to set RUNTIME in properties.py as follows:
 ```
 RUNTIME  = int(os.getenv('DH_RUNTIME', '3600'))
