@@ -38,7 +38,7 @@ To do this, you need to place the name of the new model in _DeepHyperion-MNIST/p
 ```
 Moreover you can test your own model. You can train a new model as follows:
 ```
-python DeepHyperion-MNIST/train_model.py <MODEL NAME>
+python DeepHyperion-MNIST/train_model.py <YOUR_MODEL_NAME>
 ```
 it generates a new model and places it in _DeepHyperion-MNIST/models_ folder, then edit the configuration in _DeepHyperion-MNIST/properties.py_ file as follows:
 ```
