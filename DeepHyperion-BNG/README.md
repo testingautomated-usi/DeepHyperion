@@ -77,7 +77,7 @@ Run _core/mapelites_bng.py_
 
 ### Generate Processed Data and Rescaled Maps ###
 
-* [__DeepHyperion-BNG/report_generator__](./DeepHyperion-BNG/report_generator)
+* [__DeepHyperion-BNG/report_generator__](/DeepHyperion-BNG/report_generator)
 
 
 
