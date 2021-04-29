@@ -51,6 +51,9 @@ Please download the following version `BeamNG.research 1.7.0.1` and **rename** t
 
 The first time you run the simulation, it creates a folder under `~/Documents/BeamNG.research` and checks whether the `research.key` is present or not. If it cannot find the `research.key` files it will show an error message and stop. Copy the `research.key` in the correct folder to fix this.
 
+### DeepHyperion Configuration ###
+Edit the parameter named BNG_HOME in `core/config.py` by inserting the path pointing to the folder **trunk**, which is inside the folder of the simulator you dowloaded. 
+
 ## Recommended Requirements ##
 
 [BeamNG](https://wiki.beamng.com/Requirements) recommends the following hardware requirements:
