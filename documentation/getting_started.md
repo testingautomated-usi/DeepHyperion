@@ -59,7 +59,10 @@ To generate the map and the report, run the following command:
 ```
 python report_generator/app.py generate-map --feature bitmaps <MIN feature 1> <MAX feature 1> 25 --feature orientation <MIN feature 2> <MAX feature 2> 25 ./logs/run_XXX/archive
 ```
-> NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
+> NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind. In our example, we ran the following command:
+```
+python report_generator/app.py generate-map --feature bitmaps 7 94 25 --feature orientation 3 207 25 ./logs/run_XXX/archive
+```  
 
 The output can be found in the _logs/run_XXX/archive_ folder:
 
