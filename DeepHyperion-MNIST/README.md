@@ -8,7 +8,7 @@ This tool is developed in Python on top of the DEAP evolutionary computation fra
 
 ## Dependencies ##
 
-> NOTE: If you want to use DeepHyperion-MNIST easily without configuring environment, you can also see [__Getting Started__](/documentation/getting_started.md)
+> NOTE: If you want to use DeepHyperion-MNIST easily without configuring environment, you can also see [__Getting Started__](./documentation/getting_started.md)
 
 ### Configure Ubuntu ###
 Pull an Ubuntu Docker image, run and configure it by typing in the terminal:
@@ -124,7 +124,7 @@ Run the command: python mapelites_mnist.py
 
 ### Generate Processed Data and Rescaled Maps ###
 
-* [__DeepHyperion-MNIST/report_generator__](/DeepHyperion-MNIST/report_generator)
+* [__DeepHyperion-MNIST/report_generator__](./DeepHyperion-MNIST/report_generator)
 
 
 

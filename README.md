@@ -7,19 +7,19 @@ Systems through Illumination Search"
 
 ## Getting Started ##
 
-Click [here](/documentation/getting_started.md) to see how to set up DeepHyperion and validate its general functionality.
+Click [here](./documentation/getting_started.md) to see how to set up DeepHyperion and validate its general functionality.
 
 ## Detailed Description ##
 
-Click [here](/documentation/details.md) to see how to validate the paper’s claims and results in detail. This section introduces also extra use case scenarios to suggest how to extend the code beyond the scope of the paper.
+Click [here](./documentation/details.md) to see how to validate the paper’s claims and results in detail. This section introduces also extra use case scenarios to suggest how to extend the code beyond the scope of the paper.
 
 ## Repository Structure ##
 The package is structured as follows:
 
-* [__DeepHyperion-MNIST__](/DeepHyperion-MNIST) contains the DeepHyperion tool adapted to the handwritten digit classification case study and the instructions on how to use it;
-* [__DeepHyperion-BNG__](/DeepHyperion-BNG) contains the DeepHyperion tool adapted to the self-driving car case study and the instructions on how to use it;
-* [__experiments__](/experiments) contains the raw experimental data and the scripts to obtain the results reported in the paper;
-* [__documentation__](/documentation) contains a quick installation guide and a detailed description of the tool.
+* [__DeepHyperion-MNIST__](./DeepHyperion-MNIST) contains the DeepHyperion tool adapted to the handwritten digit classification case study and the instructions on how to use it;
+* [__DeepHyperion-BNG__](./DeepHyperion-BNG) contains the DeepHyperion tool adapted to the self-driving car case study and the instructions on how to use it;
+* [__experiments__](./experiments) contains the raw experimental data and the scripts to obtain the results reported in the paper;
+* [__documentation__](./documentation) contains a quick installation guide and a detailed description of the tool.
 
 _Note:_ each sub-package contains further specific instructions.
 
@@ -40,7 +40,7 @@ Here is an example BibTeX entry:
 ```
 
 ## License ##
-The software we developed is distributed under MIT license. See the [license](/LICENSE.md) file.
+The software we developed is distributed under MIT license. See the [license](./LICENSE.md) file.
 
 ## Contacts
 

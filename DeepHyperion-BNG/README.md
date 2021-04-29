@@ -31,10 +31,17 @@ I would like to replicate the results of the DeepHyperion paper,
 accepted at the ISSTA 2021 conference and for that I need to a
 copy of BeamNG.research
 ```
+> **NOTE**: as stated on the BeamNG registration page, **please use your university email address**. 
 
-> **NOTE**: as stated on the BeamNG registration page, **please use your university email address**.
+#### Post Registration
+If BeamNG.GmbH accepts your registration you will receive an email with a link to download the simulator and a registration key file named `tech.key`.
+Please download the following version `BeamNG.research 1.7.0.1` and **rename** the `tech.key` to `research.key`.
 
-> **NOTE**: required BeamNG version: BeamNG.research 1.7.0.1
+The first time you run the simulation it creates a folder under `~/Documents/BeamNG.reseach` and checked whether the `research.key` is present or not. If it cannot find the `research.key` files it will show a message and stop. Copy the `research.key` in the folder to fix this.
+
+The simulator requires Windows 10 (at least), but can be run also on a Mac provided it is installed inside a virtual machine managed by [Parallels](https://www.parallels.com/eu/). Parallels is not a free software, but probably a temporary evaluation license can be obtained. 
+
+> **WARNING:** Running BeamNG inside a VM might result in lags and other misbehaviors, so we advice to use a physical machine, whenever is possible. Additionally, running BeamNG inside VMs managed by hypervisors other than Parallels (e.g., VMWare or VirtualBox) does not work smoothly.
 
 ## Recommended Requirements ##
 
@@ -70,7 +77,7 @@ Run _core/mapelites_bng.py_
 
 ### Generate Processed Data and Rescaled Maps ###
 
-* [__DeepHyperion-BNG/report_generator__](/DeepHyperion-BNG/report_generator)
+* [__DeepHyperion-BNG/report_generator__](./DeepHyperion-BNG/report_generator)
 
 
 
