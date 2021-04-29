@@ -49,18 +49,19 @@ it generates a new model and places it in _DeepHyperion-MNIST/models_ folder, th
 ### Scenario 3: Modify the intervals of the maps ###
 
 This scenario shows that a map can be rescaled to the granularity defined by the user. This adjustment is particularly useful when the user wants to compare maps produced in different runs/configurations or by different tools.
+
 As an example, you can configure _DeepHyperion-BeamNG_ to generate maps with _N_ (_N > 0_) bins for each feature. 
-To do this, first run _DeepHyperion-BNG_ with predefined configuration. Then, in [Generate Processed Data and Rescaled Maps](/DeepHyperion-BNG/report_generator) step 3, one can set the number of bins for each feature as follows:
+To do this, first run _DeepHyperion-BNG_ with predefined configuration. Then, as explained in [Generate Processed Data and Rescaled Maps](/DeepHyperion-BNG/report_generator) step 3, you can set the number of bins for each feature as follows:
 ```
 python report_generator/app.py generate-map --feature sd_steering 13 171 <N> --feature mean_lateral_position 153 173 <N> .\logs\run_XXX
 ```
-For example, you can set the N to 25, which generates the following map:
+For example, you can set N = 25, which generates the following map:
 
 <p align="center">
 <img src="probability-DeepHyperionBeamNG-001-sd_steering-mean_lateral_position_25.PNG" alt="map" style="width:300px;"/></p>
 
 
-Or, you can set the N to 10, which generates the following map:
+Or, you can set the N = 10, which generates the following map:
 
 
 <p align="center">
