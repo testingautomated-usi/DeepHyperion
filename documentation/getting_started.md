@@ -46,7 +46,7 @@ To generate rescaled maps and process the output of a run, use the following com
 
 ```
 python report_generator/app.py generate-samples ./logs/run_XXX
-python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX
+python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX/archive
 ```
 Where _logs/run_XXX_ is the path of a folder containing the results of a run, e.g. the results obtained in Step 2.
 You should get an output similar to the following:
@@ -55,9 +55,8 @@ You should get an output similar to the following:
 2020-12-22 22:41:02,764 INFO     Process Started
 name=orientation,min=7,max=94,missing=0
 name=bitmaps,min=3,max=207,missing=0
-name=moves,min=inf,max=-inf,missing=132
 ```
-This output reports, for each feature specified as input: its name, its min and max values, and the count of cells in the interval [min:max] in which inputs are missing (i.e. not found by this run). In the output above, min and max are not specified for the `moves` feature since it wasn't selected for extract-stats command.
+This output reports, for each feature specified as input: its name, its min and max values, and the count of cells in the interval [min:max] in which inputs are missing (i.e. not found by this run). 
 
 To generate the map and the report, run the following command:
 
