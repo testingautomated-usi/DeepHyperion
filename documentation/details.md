@@ -12,7 +12,7 @@ To set up the environment and run the DeepHyperion tool adapted to the self-driv
 
 
 ## Experimental Data and Scripts ##
-To regenerate the plots reported in the paper, follow the instructions [here](/experiments/README.md) 
+To regenerate the results and plots reported in the paper, follow the instructions [here](/experiments/README.md) 
 
 
 ## Extra Use Case Scenarios ##
@@ -20,9 +20,9 @@ This section contains plausible scenarios on how DeepHyperion could be extended 
 
 ### Scenario 1: Performing MNIST experiments with digits different from 5s ###
 
-This scenario shows the applicability of the _DeepHyperion-MNIST_ on digit classes of MNIST different from the ones considered in the experimental evaluation.
+This scenario shows the applicability of the _DeepHyperion-MNIST_ on digit classes of MNIST different from the ones considered in the experimental evaluation, i.e. digit class "5".
 As an example, you can configure _DeepHyperion-MNIST_ to generate inputs for digit class "6".
-To do this, you should modify the configuration in _DeepHyperion-MNIST/properties.py_ file as follows:
+To do this, you should edit the parameter EXPECTED_LABEL in _DeepHyperion-MNIST/properties.py_ file as follows:
 ```
     EXPECTED_LABEL = int(os.getenv('DH_EXPECTED_LABEL', '6'))
 
@@ -36,11 +36,14 @@ To do this, you need to place the name of the new model in _DeepHyperion-MNIST/p
 ```
     MODEL = os.getenv('DH_MODEL', 'models/cnnClassifier.h5')
 ```
-Also you can train a new model as follows:
+Moreover you can test your own model. You can train a new model as follows:
 ```
 python DeepHyperion-MNIST/train_model.py <MODEL NAME>
 ```
-it generates a new model and places it in _DeepHyperion-MNIST/models_ folder, then modify the configuration in _DeepHyperion-MNIST/properties.py_ file and replace the name of your model in `MODEL` variable.
+it generates a new model and places it in _DeepHyperion-MNIST/models_ folder, then edit the configuration in _DeepHyperion-MNIST/properties.py_ file as follows:
+```
+    MODEL = os.getenv('DH_MODEL', 'models/<YOUR_MODEL_NAME>.h5')
+```
 
 
 ### Scenario 3: Modify the intervals of the maps ###

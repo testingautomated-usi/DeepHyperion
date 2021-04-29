@@ -1,7 +1,7 @@
 # DeepHyperion
 
 ## General Information ##
-This repository contains the tools and the data of the paper "DeepHyperion: Exploring the Feature Space of Deep Learning-Based
+This repository contains the source code and the data of the paper "DeepHyperion: Exploring the Feature Space of Deep Learning-Based
 Systems through Illumination Search"
  by T. Zohdinasab, V. Riccio, A. Gambi and P. Tonella, to be published in the Proceedings of the ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA 2021).
 
@@ -11,14 +11,14 @@ Click [here](/documentation/getting_started.md) to see how to set up DeepHyperio
 
 ## Detailed Description ##
 
-Click [here](/documentation/details.md) to see how to validate the paper’s claims and results in detail.
+Click [here](/documentation/details.md) to see how to validate the paper’s claims and results in detail. This section introduces also extra use case scenarios to suggest how to extend the code beyond the scope of the paper.
 
 ## Repository Structure ##
 The package is structured as follows:
 
 * [__DeepHyperion-MNIST__](/DeepHyperion-MNIST) contains the DeepHyperion tool adapted to the handwritten digit classification case study and the instructions on how to use it;
 * [__DeepHyperion-BNG__](/DeepHyperion-BNG) contains the DeepHyperion tool adapted to the self-driving car case study and the instructions on how to use it;
-* [__experiments__](/experiments) contains the raw experimental data reported in the paper and the scripts to obtain the data.
+* [__experiments__](/experiments) contains the raw experimental data and the scripts to obtain the results reported in the paper;
 * [__documentation__](/documentation) contains a quick installation guide and a detailed description of the tool.
 
 _Note:_ each sub-package contains further specific instructions.
