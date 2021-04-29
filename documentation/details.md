@@ -38,6 +38,9 @@ To do this, you need to place the name of the new model in _DeepHyperion-MNIST/p
 ```
 Moreover, you can train a new model running _DeepHyperion-MNIST/train_model.py_ file.
 and place it in _DeepHyperion-MNIST/models_ folder, then modify the configuration in _DeepHyperion-MNIST/properties.py_ file.
+```
+    MODEL = os.getenv('DH_MODEL', 'models/<YOUR_MODEL_NAME>.h5')
+```
 
 
 ### Scenario 3: Modify the intervals of the maps ###
