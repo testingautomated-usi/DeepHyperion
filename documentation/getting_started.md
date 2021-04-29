@@ -69,7 +69,7 @@ The output can be found in the _logs/run_XXX/archive_ folder:
 * probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.pdf
 
 <p align="center">
-!<img src="probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG" alt="map" style="width:300px;"/></p>
+<img src="probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG" alt="map" style="width:300px;"/></p>
 
 
 
