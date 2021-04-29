@@ -26,12 +26,12 @@ The steps to generate the maps are:
 2. Process all the json files corresponding to the samples of all the runs for all the tools, to extract the maps `extrema` for each feature. Go to the root of the project (`./DeepHyperion-MNIST`) and run the following command:
 
    ```
-   python report_generator/app.py extract-stats --parsable --feature <NAME> --feature <NAME> ./logs/run_XXX
+   python report_generator/app.py extract-stats --parsable --feature <NAME> --feature <NAME> ./logs/run_XXX/archive
    ```
    For example:
 
    ```
-   python report_generator/app.py extract-stats --parsable --feature bitmaps --feature moves ./logs/run_XXX
+   python report_generator/app.py extract-stats --parsable --feature bitmaps --feature moves ./logs/run_XXX/archive
    ```
 > NOTE: you should select features based on your config in __(run_xxx/config.json)
 
