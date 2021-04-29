@@ -128,7 +128,7 @@ Since the setup is complex, it might now work out-of-the box. Possible issues in
 
 ### Generate Processed Data and Rescaled Maps ###
 
-* [__DeepHyperion-BNG/report_generator__](./DeepHyperion-BNG/report_generator)
+* [__DeepHyperion-BNG/report_generator__](/DeepHyperion-BNG/report_generator)
 
 
 ## More Usages ##
