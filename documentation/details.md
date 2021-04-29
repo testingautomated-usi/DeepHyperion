@@ -31,13 +31,17 @@ To do this, you should modify the configuration in _DeepHyperion-MNIST/propertie
 ### Scenario 2: Test a different DL model ###
 
 This scenario shows the possibility of using trained models for _DeepHyperion-MNIST_ different from the one considered in the experimental evaluation.
-To do this, you should train a new model running _DeepHyperion-MNIST/train_model.py file.
-and place it in _DeepHyperion-MNIST/models_ folder, then modify the configuration in _DeepHyperion-MNIST/properties.py_ file as follows:
+As an example, you can configure _DeepHyperion-MNIST_ to use the alternative model `cnnClassifier.h5` which is already in _models_ folder.
+To do this, you need to place the name of the new model in _DeepHyperion-MNIST/properties.py_ as follows:
 ```
-    MODEL = os.getenv('DH_MODEL', 'models/<NEW MODEL NAME>')
+    MODEL = os.getenv('DH_MODEL', 'models/cnnClassifier.h5')
 ```
+Also you can train a new model running _DeepHyperion-MNIST/train_model.py_ file.
+and place it in _DeepHyperion-MNIST/models_ folder, then modify the configuration in _DeepHyperion-MNIST/properties.py_ file.
+
 
 ### Scenario 3: Modify the intervals of the maps ###
+
 This scenario shows that a map can be rescaled to the granularity defined by the user. This adjustment is particularly useful when the user wants to compare maps produced in different runs/configurations or by different tools.
 As an example, you can configure _DeepHyperion-BeamNG_ to generate maps with _N_ (_N > 0_) bins for each feature. 
 To do this, first run _DeepHyperion-BNG_ with predefined configuration. Then, in [Generate Processed Data and Rescaled Maps](/DeepHyperion-BNG/report_generator) step 3, one can set the number of bins for each feature as follows:
