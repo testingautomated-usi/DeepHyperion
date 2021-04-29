@@ -106,7 +106,7 @@ py.exe core/mapelites_bng.py
 
 If everything works fine, you should see that BeamNG.research starts automatically, loads a newly generated test scenario, and the virtual car moves autonomously. As described in the paper, the car is driven by a controller based on the NVidia DAVE2 architecture that receives images from the camera mounted on the virtual car (not from the user camera that shows the simulator on the screen) and predict the steering angle to apply. On the console, you might see messages about CUDA and other CNN-related libraries.
 
-[({image-url})]({https://tinyurl.com/deephyperion})
+[![Watch the video](https://tinyurl.com/deephyperion)](https://tinyurl.com/deephyperion)
 
 ### Troubleshooting
 
