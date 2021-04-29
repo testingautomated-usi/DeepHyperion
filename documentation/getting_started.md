@@ -79,7 +79,14 @@ The output can be found in the _logs/run_XXX/archive_ folder:
 <p align="center">
 <img src="probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG" alt="map" style="width:1px;"/></p>
 
-
+To check the results and maps, you should copy the files from docker to your system, as follows:
+```
+docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/DeepHyperion-MNIST/logs/run_XXX/archive/  /path-to-your-Desktop/
+```
+> NOTE: you can find your docker's name using this command:
+```
+docker ps -a
+```
 
 ## Step 4: Reproduce Experimental Results ##
 
