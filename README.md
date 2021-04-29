@@ -20,7 +20,7 @@ The package is structured as follows:
 * [__DeepHyperion-BNG__](./DeepHyperion-BNG) contains the DeepHyperion tool adapted to the self-driving car case study and the instructions on how to use it;
 * [__experiments__](./experiments) contains the raw experimental data and the scripts to obtain the results reported in the paper;
 * [__documentation__](./documentation) contains a quick installation guide and a detailed description of the tool.
-* [__preprint__](./preprint.pdf) is the preprint version of our paper.
+* [__preprint__](./preprint.pdf) is the preprint version of our paper describing DeepHyperion.
 
 _Note:_ each sub-package contains further specific instructions.
 
