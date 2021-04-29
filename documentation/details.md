@@ -36,8 +36,11 @@ To do this, you need to place the name of the new model in _DeepHyperion-MNIST/p
 ```
     MODEL = os.getenv('DH_MODEL', 'models/cnnClassifier.h5')
 ```
-Also you can train a new model running _DeepHyperion-MNIST/train_model.py_ file.
-and place it in _DeepHyperion-MNIST/models_ folder, then modify the configuration in _DeepHyperion-MNIST/properties.py_ file.
+Also you can train a new model as follows:
+```
+python DeepHyperion-MNIST/train_model.py <MODEL NAME>
+```
+it generates a new model and places it in _DeepHyperion-MNIST/models_ folder, then modify the configuration in _DeepHyperion-MNIST/properties.py_ file and replace the name of your model in `MODEL` variable.
 
 
 ### Scenario 3: Modify the intervals of the maps ###
@@ -46,6 +49,16 @@ This scenario shows that a map can be rescaled to the granularity defined by the
 As an example, you can configure _DeepHyperion-BeamNG_ to generate maps with _N_ (_N > 0_) bins for each feature. 
 To do this, first run _DeepHyperion-BNG_ with predefined configuration. Then, in [Generate Processed Data and Rescaled Maps](/DeepHyperion-BNG/report_generator) step 3, one can set the number of bins for each feature as follows:
 ```
-python report_generator/app.py generate-map --feature segment_count 1 5 <N> --feature mean_lateral_position 166 178 <N> .\logs\run_XXX
+python report_generator/app.py generate-map --feature sd_steering 13 171 <N> --feature mean_lateral_position 153 173 <N> .\logs\run_XXX
 ```
+For example, you can set the N to 25, which generates the following map:
 
+<p align="center">
+<img src="probability-DeepHyperionBeamNG-001-sd_steering-mean_lateral_position_25.PNG" alt="map" style="width:300px;"/></p>
+
+
+Or, you can set the N to 10, which generates the following map:
+
+
+<p align="center">
+<img src="probability-DeepHyperionBeamNG-001-sd_steering-mean_lateral_position_10.PNG" alt="map" style="width:300px;"/></p>

@@ -15,16 +15,33 @@ def plot_heatmap(data,
                 savefig_path=None,
                  ):
     
-    ax = sns.heatmap(data)
+    plt.clf()
+    plt.cla()
+
+    # figure
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    cmap = sns.cubehelix_palette(dark=0.1, light=0.9, as_cmap=True)
+    # Cells have a value between 0.0 and 1.0 since they represent probabilities
+
+    # Set the color for the under the limit to be white (0.0) so empty cells are not visualized
+    # cmap.set_under('0.0')
+    # Plot NaN in white
+    cmap.set_bad(color='white')    
+    
+    ax = sns.heatmap(data, cmap=cmap)
     ax.invert_yaxis()
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-  
+    plt.xlabel(xlabel.name)
+    plt.ylabel(ylabel.name)
+
     # get figure to save to file
     if savefig_path:
         ht_figure = ax.get_figure()
-        ht_figure.savefig(savefig_path+"/heatmap_"+xlabel+"_"+ylabel, dpi=400)
-    
+        fig_name = savefig_path+"/heatmap_"+xlabel.name+"_"+ylabel.name
+        print(os.path.abspath(fig_name))
+        ht_figure.savefig(fig_name)
+
+
     plt.clf()
     plt.cla()
     plt.close()

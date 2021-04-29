@@ -1,5 +1,5 @@
 import argparse
-
+import sys
 import numpy as np
 from os import makedirs
 from os.path import exists
@@ -21,7 +21,7 @@ MaxPooling2D = tf.keras.layers.MaxPooling2D
 l2 = tf.keras.regularizers.l2
 
 
-def train():
+def train(name):
 
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_train = x_train.reshape(-1, 28, 28, 1)
@@ -73,9 +73,9 @@ def train():
     if not exists("model"):
         makedirs("model")
 
-    model.save("./models/model_{}.h5".format("mnist"))
+    model.save(f"./models/{name}.h5")
 
 
 if __name__ == "__main__":
-
-    train()
+    name = str(sys.argv[1])
+    train(name)
