@@ -53,4 +53,4 @@ For any related question, please contact its authors:
 
 ## DOI
 
-
+[![DOI](https://zenodo.org/badge/359465104.svg)](https://zenodo.org/badge/latestdoi/359465104)
