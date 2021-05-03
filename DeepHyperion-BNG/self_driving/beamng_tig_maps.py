@@ -73,7 +73,7 @@ class Maps:
 
         try:
             self.beamng_levels = LevelsFolder(os.path.join(os.environ['BNG_USER'], r'levels'))
-        except Error:
+        except KeyError:
             self.beamng_levels = LevelsFolder(os.path.join(os.environ['USERPROFILE'], r'Documents/BeamNG.research/levels'))
 
         print("self.beamng_levels is", self.beamng_levels.path)

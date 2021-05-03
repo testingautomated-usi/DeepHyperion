@@ -17,14 +17,14 @@ class Config:
     def __init__(self):
         try:
             self.BNG_HOME = os.environ['BNG_HOME']
-        except Error:
+        except KeyError:
             self.BNG_HOME = f"{str(Path.home())}/Downloads/BeamNG.research.v1.7.0.1"
 
         print("Setting BNG_HOME to ", self.BNG_HOME)
 
         try:
             self.BNG_USER = os.environ['BNG_USER']
-        except Error:
+        except KeyError:
             self.BNG_USER = f"{str(Path.home())}/Documents/BeamNG.research"
 
         print("Setting BNG_USER to ", self.BNG_USER)
