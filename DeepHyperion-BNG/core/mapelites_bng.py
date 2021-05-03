@@ -269,7 +269,7 @@ class MapElitesBNG(MapElites):
             "generator_name": str(self.config.generator_name),
             "seed_folder": str(self.config.seed_folder),
             "initial_population_folder": str(self.config.initial_population_generator), 
-            "Feature_Combination": str(self.configg.Feature_Combination),
+            "Feature_Combination": str(self.config.Feature_Combination),
             "RUNTIME": str(self.config.RUNTIME),
             "RUN": str(self.config.run_id) 
 
