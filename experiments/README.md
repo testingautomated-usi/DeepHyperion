@@ -20,7 +20,7 @@ This command sets up a python virtual environment in a predefined location (`./.
 
 The command checks that the expected version of python is installed and fails otherwise.
 
-The command produces a verbose output (sorry) and few warnings like the following one:
+The command produces a verbose output (sorry) and a few warnings like the following one:
 
 ```
 ...
