@@ -26,6 +26,8 @@ At this point, you need to activate the virtual environment, upgrade `pip`, and 
 
 python -m pip install --upgrade pip
 
+pip install beamngpy-1.18.tar.gz
+
 pip install -r requirements-37.txt
 ```
 
