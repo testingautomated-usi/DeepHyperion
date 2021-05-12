@@ -45,6 +45,8 @@ When the run is finished, the tool produces the following outputs in the _logs/r
 To generate rescaled maps and process the output of a run, use the following commands:
 
 ```
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 python report_generator/app.py generate-samples ./logs/run_XXX
 python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX/archive
 ```
