@@ -14,23 +14,22 @@ def plot_heatmap(data,
                 minimization=False,
                 savefig_path=None,
                  ):
-    
     plt.clf()
     plt.cla()
 
     ax = sns.heatmap(data)
-     ax.invert_yaxis()
-     plt.xlabel(xlabel)
-     plt.ylabel(ylabel)
+    ax.invert_yaxis()
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
 
      # get figure to save to file
-     if savefig_path:
+    if savefig_path:
          ht_figure = ax.get_figure()
          ht_figure.savefig(savefig_path+"/heatmap_"+xlabel+"_"+ylabel, dpi=400)
 
-     plt.clf()
-     plt.cla()
-     plt.close()
+    plt.clf()
+    plt.cla()
+    plt.close()
     
 
 def plot_svg(xml, filename):
