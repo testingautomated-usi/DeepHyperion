@@ -32,7 +32,7 @@ python mapelites_mnist.py
 RUNTIME  = int(os.getenv('DH_RUNTIME', '3600'))
 ```
 
-When the run is finished, the tool produces the following outputs in the _logs/run_XXX_ folder (where XXX is the timestamp value):
+When the run is finished, the tool produces the following outputs in the _logs/run_XXX_/log_800_XXX folder (where XXX is the timestamp value):
 
 * _heatmap_Bitmaps_Orientation.png_: image representing the feature map;
 * _heatmap_Bitmaps_Orientation.json_: file containing the final report of the run;

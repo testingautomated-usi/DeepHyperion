@@ -88,7 +88,7 @@ class MapElites(ABC):
         best_perf = self.performances[idx]
         best_ind = self.solutions[idx]
         log.info(f"Best overall value: {best_perf}"
-              f" produced by individual {best_ind}"
+              f" produced by individual {best_ind.member.id}"
               f" and placed at {self.map_x_to_b(best_ind)}")
 
     def extract_results(self, iterations, execution_time):
