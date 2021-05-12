@@ -17,21 +17,34 @@ Install [_Python 3.7.9_](https://www.python.org/ftp/python/3.7.9/python-3.7.9-am
 
 To easily install the dependencies with pip, we suggest to create a dedicated virtual environment. For example, you can use `venv` and create a virtual environment called `.venv` inside the current folder (`DeepHyperion-BNG`):
 
-```python -m venv .venv```
+```
+python -m venv .venv
+```
 
-At this point, you need to activate the virtual environment, upgrade `pip`, and install the required packages:
+At this point, you need to activate the virtual environment, and check that you are using the correct version of python.
 
 ``` 
 .\.venv\Scripts\activate
 
-python -m pip install --upgrade pip
+py.exe -V
+```
+This command should produce as output the following string: `Python 3.7.9`
+
+> **NOTE**: The command is `py.exe` not `python.exe`
+
+At this point, upgrade `pip`, and install the required packages:
+
+```
+py.exe -m pip install --upgrade pip
+
+pip install setuptools wheel --upgrade
 
 pip install beamngpy-1.18.tar.gz
 
 pip install -r requirements-37.txt
 ```
 
-Alternatively, you can manually install each required library listed in the `requirements-37.txt`.
+> **NOTE**: We need to install `beamngpy` manually because an issue with `pip` and old versions of the library prevents `beamngpy` to be installed automatically.
 
 > **Note**: the version of Shapely should match your system.
 
@@ -55,7 +68,7 @@ Please download the following version `BeamNG.research 1.7.0.1` and **rename** t
 The first time you run the simulation, it creates a folder under `~/Documents/BeamNG.research` and checks whether the `research.key` is present or not. If it cannot find the `research.key` files it will show an error message and stop. Copy the `research.key` in the correct folder to fix this.
 
 ### DeepHyperion Configuration ###
-Edit the parameter named BNG_HOME in `core/config.py` by inserting the path pointing to the folder **trunk**, which is inside the folder of the simulator you dowloaded. 
+Set the `BNG_HOME` environment variable from Windows Control panel or edit the parameter named `BNG_HOME` in `core/config.py` by inserting the path pointing to the folder where you _installed_ the simulator (e.g, `C:\BeamNG.research.v1.7.0.1\`)
 
 ## Recommended Requirements ##
 
@@ -90,14 +103,6 @@ To specify the feature combination to use for the generation, directly edit the 
 self.Feature_Combination = ["SegmentCount", "MeanLateralPosition"]
 ```
 
-### Output ###
-
-When the run is finished, the tool produces the following outputs in the `logs` folder:
-
-* maps representing inputs distribution;
-* json files containing the final reports of the run;
-* additional folders containing the generated inputs (as png and json files).
-
 ### Run the Tool ###
 To run the tool, activate the python virtual environment and run the `core/mapelites_bng.py` script:
 
@@ -111,6 +116,16 @@ If everything works fine, you should see that BeamNG.research starts automatical
 
 Click on the image to watch the demo:
 [![Watch the video](https://img.youtube.com/vi/a_fE4QRpCBQ/hqdefault.jpg)](https://www.youtube.com/watch?v=a_fE4QRpCBQ)
+
+> **NOTE**: The tool is configured to run for 300 **simulated** seconds to keep the demonstration small. This configuration should result in executing ca 10 simulations, which might take a different (real) time depending on the power of your computer. You can change the time budget by editing the `core/config.py` file and updating the value assigned to the `self.RUNTIME` variable.
+
+### Output ###
+
+When the run is finished, the tool produces the following outputs in the `logs` folder:
+
+* maps representing inputs distribution;
+* json files containing the final reports of the run;
+* other folders containing the generated inputs (as png and json files).
 
 ### Troubleshooting
 
@@ -128,7 +143,7 @@ Since the setup is complex, it might now work out-of-the box. Possible issues in
 
 - BeamNG executable cannot be found. This can be solved by setting the `BNG_HOME` env variable to point to the directory where you have extracted BeamNG.research (e.g, `C:\BeamNG.research.v1.7.0.1`)
 
-- BeamNG cannot find the `registration.key`. BeamNG looks for this file in predefined directories, but you can force a specific directory by setting the `BNG_USER` env variable.
+- BeamNG cannot find the `registration.key`. BeamNG looks for this file in predefined directories, but you can force a specific directory by setting the `BNG_USER` env variable. Be sure to copy the `registration.key` into the folder defined by `BNG_USER`.
 
 > **NOTE**: A known BeamNG bug is caused by whitespaces in path, so avoid to use paths that contains whitespaces for `BNG_HOME` and `BNG_USER`
 
