@@ -286,6 +286,7 @@ def main():
     log_dir_name = folders.experiments
     # Ensure the folder exists
     Path(log_dir_name).mkdir(parents=True, exist_ok=True)
+    Config.EXECTIME = 0
     
     config = cfg.BeamNGConfig()
     problem = BeamNGProblem.BeamNGProblem(config)
@@ -298,7 +299,7 @@ def main():
     us.setup_logging(log_to, debug)
     print("Logging results to " + log_to)
 
-    Config.EXECTIME = 0
+    
     map_E = MapElitesBNG(config.Feature_Combination, problem, log_dir_name, int(config.run_id), True)
     map_E.run()
     log.info(f"invalid mutation: {Config.INVALID}")
