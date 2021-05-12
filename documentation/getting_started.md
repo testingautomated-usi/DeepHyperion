@@ -14,7 +14,7 @@ docker pull zohdit/deephyperion:latest
 Run it by typing in the terminal the following commands:
 
 ```
-docker run -it --rm zohdit/deephyperion:latest
+docker run -it --rm zohdit/deephyperion:v1.1
 source .venv/bin/activate
 ```
 
