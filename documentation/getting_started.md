@@ -48,11 +48,7 @@ To generate rescaled maps and process the output of a run, use the following com
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 python report_generator/app.py generate-samples ./logs/run_XXX
-python report_generator/app.py extract-stats \
-    --parsable \
-    --feature bitmaps \
-    --feature orientation \
-        ./logs/run_XXX/archive
+python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX/archive
 ```
 Where _logs/run_XXX_ is the path of a folder containing the results of a run, e.g. the results obtained in Step 2.
 You should get an output similar to the following:
@@ -67,19 +63,13 @@ This output reports, for each feature specified as input: its name, its min and 
 To generate the map and the report, run the following command:
 
 ```
-python report_generator/app.py generate-map \
-    --feature bitmaps [MIN feature 1] [MAX feature 1] 25 \
-    --feature orientation [MIN feature 2] [MAX feature 2] 25 \
-        ./logs/run_XXX/archive
+python report_generator/app.py generate-map --feature bitmaps [MIN feature 1] [MAX feature 1] 25 --feature orientation [MIN feature 2] [MAX feature 2] 25 ./logs/run_XXX/archive
 ```
 
 > NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind. In our example, we ran the following command:
 
 ```
-python report_generator/app.py generate-map \
-    --feature bitmaps 7 94 25 \
-    --feature orientation 3 207 25 \
-        ./logs/run_XXX/archive
+python report_generator/app.py generate-map --feature bitmaps 7 94 25 --feature orientation 3 207 25 ./logs/run_XXX/archive
 ```  
 
 The output can be found in the _logs/run_XXX/archive_ folder:
