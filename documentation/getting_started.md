@@ -68,8 +68,8 @@ To generate the map and the report, run the following command:
 
 ```
 python report_generator/app.py generate-map \
-    --feature bitmaps <MIN feature 1> <MAX feature 1> 25 \
-    --feature orientation <MIN feature 2> <MAX feature 2> 25 \
+    --feature bitmaps [MIN feature 1] [MAX feature 1] 25 \
+    --feature orientation [MIN feature 2] [MAX feature 2] 25 \
         ./logs/run_XXX/archive
 ```
 
