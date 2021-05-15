@@ -8,36 +8,44 @@ Follow the steps below to set up DeepHyperion and validate its general functiona
 Pull our pre-configured Docker image for DeepHyperion-MNIST:
 
 ``` 
-docker pull zohdit/deephyperion:v1.1
+$ docker pull zohdit/deephyperion:v1.1
 ```
 
 Run it by typing in the terminal the following commands:
 
 ```
-docker run -it --rm zohdit/deephyperion:v1.1
-source .venv/bin/activate
+$ docker run -it --rm zohdit/deephyperion:v1.1
+root@docker $ . .venv/bin/activate
 ```
 
 ## Step 2: Run DeepHyperion ##
 Use the following commands to start a 3 minutes run of DeepHyperion-MNIST with the "Bitmaps - Orientation" combination of features:
 
 ```
-cd DeepHyperion/DeepHyperion-MNIST
-python mapelites_mnist.py
+(.venv) root@docker $ cd DeepHyperion/DeepHyperion-MNIST
+(.venv) root@docker $ python mapelites_mnist.py
 ```
-> NOTE: properties.py contains the tool configuration. The user should edit this file to change the configuration. 
-> 
-> NOTE: If you want to run _DeepHyperion-MNIST_ with the same configuration as in the paper, you need to set RUNTIME in properties.py as follows:
+
+> NOTE: `properties.py` contains the tool configuration. You should edit this file to change the configuration. For example, if you want to run <i>DeepHyperion-MNIST</i> with the same configuration as in the paper, you need to set the `RUNTIME` variable inside `properties.py` as follows:
+
 ```
 RUNTIME  = int(os.getenv('DH_RUNTIME', '3600'))
 ```
 
-When the run is finished, the tool produces the following outputs in the _logs/run_XXX_/log_800_XXX folder (where XXX is the timestamp value):
+When the run ends, on the console you should see a message like this:
 
-* _heatmap_Bitmaps_Orientation.png_: image representing the feature map;
-* _heatmap_Bitmaps_Orientation.json_: file containing the final report of the run;
-* _all_: folder containing all the inputs generated during the run (in image and npy formats);
-* _archive_: folder containing the solutions found during the run (in image and npy formats).
+```
+2021-05-14 14:27:41,494 INFO     Best overall value: -1.0 produced by individual <individual.Individual object at 0x7f48f91cc4a8> and placed at (54, 93)
+Exporting inputs ...
+Done
+```
+
+The tool produces the following outputs in the `logs/run_XXX_/log_800_XXX` folder (where XXX is the timestamp value):
+
+* `heatmap_Bitmaps_Orientation.png`: image representing the feature map;
+* `heatmap_Bitmaps_Orientation.json`: file containing the final report of the run;
+* `all`: folder containing all the inputs generated during the run (in image and npy formats);
+* `archive`: folder containing the solutions found during the run (in image and npy formats).
 
 
 ## Step 3: Generate Maps  ##
@@ -45,12 +53,12 @@ When the run is finished, the tool produces the following outputs in the _logs/r
 To generate rescaled maps and process the output of a run, use the following commands:
 
 ```
-export LC_ALL=C.UTF-8
-export LANG=C.UTF-8
-python report_generator/app.py generate-samples ./logs/run_XXX
-python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX/archive
+(.venv) root@docker $ export LC_ALL=C.UTF-8
+(.venv) root@docker $ export LANG=C.UTF-8
+(.venv) root@docker $ python report_generator/app.py generate-samples ./logs/run_XXX
+(.venv) root@docker $ python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX/archive
 ```
-Where _logs/run_XXX_ is the path of a folder containing the results of a run, e.g. the results obtained in Step 2.
+Where `logs/run_XXX` is the path of a folder containing the results of a run, e.g. the results obtained in Step 2.
 You should get an output similar to the following:
   
 ```
@@ -58,65 +66,79 @@ You should get an output similar to the following:
 name=orientation,min=7,max=94,missing=0
 name=bitmaps,min=3,max=207,missing=0
 ```
-This output reports, for each feature specified as input: its name, its min and max values, and the count of cells in the interval [min:max] in which inputs are missing (i.e. not found by this run). 
+This output reports, for each feature specified as input: 
+
+- its name
+- its min and max values
+- the count of cells in the interval [min:max] in which inputs are missing (i.e., not found by this run). 
 
 To generate the map and the report, run the following command:
 
 ```
-python report_generator/app.py generate-map --feature bitmaps [MIN feature 1] [MAX feature 1] 25 --feature orientation [MIN feature 2] [MAX feature 2] 25 ./logs/run_XXX/archive
+(.venv) root@docker $ python report_generator/app.py generate-map --feature bitmaps [MIN feature 1] [MAX feature 1] 25 --feature orientation [MIN feature 2] [MAX feature 2] 25 ./logs/run_XXX/archive
 ```
 
-> NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind. In our example, we ran the following command:
+> NOTE: You should set the minimum and maximum values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bounds. In our example, we ran the following command:
 
 ```
-python report_generator/app.py generate-map --feature bitmaps 7 94 25 --feature orientation 3 207 25 ./logs/run_XXX/archive
+(.venv) root@docker $ python report_generator/app.py generate-map --feature bitmaps 7 94 25 --feature orientation 3 207 25 ./logs/run_XXX/archive
 ```  
 
-The output can be found in the _logs/run_XXX/archive_ folder:
+This command produces many files in the `logs/run_XXX/archive` folder; the most relevant ones are:
 
-* coverage-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy
-* misbehaviour-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy
-* probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy
-* DeepHyperion-X-Orientation-Bitmaps-black-box-rescaled-stats.json
-* probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.pdf
+* `coverage-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy`
+* `misbehaviour-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy`
+* `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.npy`
+* `DeepHyperion-<RUN_ID>-Orientation-Bitmaps-black-box-rescaled-stats.json`
+* `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.pdf`
 
-<p align="center">
-<img src="probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG" alt="map" style="width:1px;"/></p>
+The `.npy` files contain the raw data collected from the tool's execution, the `-stats.json` file contains the statistics in of the execution, while the `-rescaled.pdf` file contains a visualization of the Misbehavior Probability map, similar to the following:
 
-To check the results and maps, you should copy the files from docker to your system, as follows:
+![](./probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG)
+
+You can copy those files from the running docker image to your system, as follows:
+
 ```
-docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/DeepHyperion-MNIST/logs/run_XXX/archive/  /path-to-your-Desktop/
+$ docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/DeepHyperion-MNIST/logs/run_XXX/archive/  /path-to-your-Desktop/
 ```
-> NOTE: you can find your docker's name using this command:
+
+You can find your docker's name and id using the following command:
+
 ```
-docker ps -a
+$ docker ps -a
+
+CONTAINER ID   IMAGE                      COMMAND       CREATED          STATUS          PORTS     NAMES
+3a77c777954d   zohdit/deephyperion:v1.1   "/bin/bash"   25 minutes ago   Up 25 minutes             tender_zhukovsky
 ```
+
+
 
 ## Step 4: Reproduce Experimental Results ##
 
-We provided the data of all runs of tools in _experiments/data_. To regenerate the plots reported in the paper, run the following commands on the provided docker:
+We provided the data of all runs of tools in `experiments/data`. To regenerate the plots reported in the paper, run the following commands on the provided docker:
 
 ```
-cd DeepHyperion/experiments
-source .venv/bin/activate
-python rq1.py
-python rq2.py
-python rq3.py
+root@docker $ cd /DeepHyperion/experiments
+root@docker $ . .venv/bin/activate
+(.venv) root@docker $ python rq1.py
+(.venv) root@docker $ python rq2.py
+(.venv) root@docker $ python rq3.py
 ```
 
-Then, you will find the following files in _plots_ folder:
+Then, you will find the following files in `plots` folder:
 
 
-* RQ1-BeamNG.pdf
-* RQ1-MNIST.pdf
-* RQ2-BeamNG.pdf
-* RQ2-MNIST.pdf
-* RQ3-BeamNG.pdf
-* RQ3-MNIST.pdf
+* `RQ1-BeamNG.pdf`
+* `RQ1-MNIST.pdf`
+* `RQ2-BeamNG.pdf`
+* `RQ2-MNIST.pdf`
+* `RQ3-BeamNG.pdf`
+* `RQ3-MNIST.pdf`
 
-These plots corresponds to the ones reported in Figures 3 -- 8 of the (pre-print) version of the paper.
-To check the results, you should copy the files from docker to your system, as follows:
+These plots correspond to the ones reported in Figures 3 -- 8 of the (pre-print) version of the paper.
+To check the results, you should copy the files from the running docker to your system, as follows:
+
 ```
-docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/experiments/plots  /path-to-your-Desktop/
+$ docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/experiments/plots  /path-to-your-Desktop/
 ```
 
