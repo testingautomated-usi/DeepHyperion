@@ -6,6 +6,7 @@ from pathlib import Path
 import numpy as np
 from datetime import datetime
 import logging as log
+import shutil
 #sys.path.insert(0, r'C:\DeepHyperion-BNG')
 #sys.path.append(os.path.dirname(os.path.dirname(os.path.join(__file__))))
 path = Path(os.path.abspath(__file__))
@@ -285,6 +286,8 @@ def main():
     from folders import folders
     log_dir_name = folders.experiments
     # Ensure the folder exists
+    if os.path.exists(folders.log):
+        shutil.rmtree(folders.log)
     Path(log_dir_name).mkdir(parents=True, exist_ok=True)
     Config.EXECTIME = 0
     

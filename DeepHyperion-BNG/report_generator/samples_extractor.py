@@ -255,32 +255,33 @@ class DeepHyperionBngSample(BeamNGSample):
         road_nodes = simulation_data["road"]["nodes"]
         simulation_states = simulation_data["records"]
 
-        self.id = simulation_data["info"]["id"]
-        self.tool = "DeepHyperionBeamNG"
+        if len(simulation_states) > 0:
+            self.id = simulation_data["info"]["id"]
+            self.tool = "DeepHyperionBeamNG"
 
-        # Make sure we define this
-        self.road_nodes = road_nodes
-        self.simulation_states = simulation_states
+            # Make sure we define this
+            self.road_nodes = road_nodes
+            self.simulation_states = simulation_states
 
-        # If the Driver reached the end of the road the test did not fail, so there was no misbehaviour
-        # We care about only the boolean, not the entire thingy
-        self.misbehaviour, _ = metrics.is_oob(road_nodes, simulation_states)
+            # If the Driver reached the end of the road the test did not fail, so there was no misbehaviour
+            # We care about only the boolean, not the entire thingy
+            self.misbehaviour, _ = metrics.is_oob(road_nodes, simulation_states)
 
-        self.timestamp = simulation_data["info"]["start_time"]
-        # TODO Elapsed is missing we can have duration using end_time, but not time since the experiment is started
-        # self.elapsed = json_data["elapsed"]
-        # TODO This one is missing
-        # self.run = json_data["run"]
+            self.timestamp = simulation_data["info"]["start_time"]
+            # TODO Elapsed is missing we can have duration using end_time, but not time since the experiment is started
+            # self.elapsed = json_data["elapsed"]
+            # TODO This one is missing
+            # self.run = json_data["run"]
 
-        # Resample the nodes before computing the metrics
-        resampled_road_nodes = self._resampling(road_nodes)
+            # Resample the nodes before computing the metrics
+            resampled_road_nodes = self._resampling(road_nodes)
 
-        # Compute all the metrics
-        self.compute_input_metrics(resampled_road_nodes)
-        self.compute_output_metrics(self.simulation_states)
+            # Compute all the metrics
+            self.compute_input_metrics(resampled_road_nodes)
+            self.compute_output_metrics(self.simulation_states)
 
-        # Store to file besides the input json
-        self.dump()
+            # Store to file besides the input json
+            self.dump()
 
 
 class DeepJanusBngSample(BeamNGSample):

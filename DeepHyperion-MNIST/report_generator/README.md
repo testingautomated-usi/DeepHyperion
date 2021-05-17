@@ -89,53 +89,14 @@ name=moves,min=0,max=21,missing=0
    
    ```
    2020-12-22 22:47:25,853 INFO     Process Started
-{
-    "Total Samples": 132,
-    "Total Misbehaviors": 42,
-    "Features": {
-        "moves": {
-            "meta": {
-                "name": "moves",
-                "min-value": 0.0,
-                "max-value": 25.0,
-                "num-cells": 25
-            },
-            "stats": {
-                "mean": 2.8484848484848486,
-                "stdev": 5.562256734174351,
-                "median": 0.0
-            }
-        },
-        "bitmaps": {
-            "meta": {
-                "name": "bitmaps",
-                "min-value": 0.0,
-                "max-value": 500.0,
-                "num-cells": 25
-            },
-            "stats": {
-                "mean": 426.5984848484849,
-                "stdev": 28.298264141321148,
-                "median": 429.0
-            }
-        }
-    },
-    "Reports": [
-        {
-            "Features": [
-                "moves",
-                "bitmaps"
-            ],
-            "Total Cells": 625,
-            "Filled Cells": 35,
-            "Mapped Misbehaviors": 42,
-            "Misbehavior Relative Density": 1.2,
-            "Misbehavior Density": 0.0672,
-            "Filled Cells Density": 0.056
-        }
-    ]
-}
 ```
+This command produces many files in the `logs/run_XXX/archive` folder; the most relevant ones are:
+
+* `coverage-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
+* `misbehaviour-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
+* `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmap.npy`
+* `DeepHyperion-<RUN_ID>-Orientation-Bitmaps-stats.json`
+* `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.pdf`
 
 
 
