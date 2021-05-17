@@ -83,69 +83,14 @@ name=mean_lateral_position,min=166,max=178,missing=0
    
    ```
    2020-12-22 22:47:25,853 INFO     Process Started
-{
-    "Tool": "DeepHyperionBeamNG",
-    "Run ID": "1",
-    "Tags": [],
-    "Total Samples": 13,
-    "Valid Samples": 13,
-    "Invalid Samples": 0,
-    "Total Misbehaviors": 1,
-    "MisbehaviorPerSample": 0.07692307692307693,
-    "Features": {
-        "segment_count": {
-            "meta": {
-                "name": "segment_count",
-                "min-value": 1.0,
-                "max-value": 5.0,
-                "num-cells": 4
-            },
-            "stats": {
-                "mean": 2.076923076923077,
-                "stdev": 1.3821202589704016,
-                "median": 2
-            }
-        },
-        "mean_lateral_position": {
-            "meta": {
-                "name": "mean_lateral_position",
-                "min-value": 166.0,
-                "max-value": 178.0,
-                "num-cells": 25
-            },
-            "stats": {
-                "mean": 173.3846153846154,
-                "stdev": 3.3301266627177397,
-                "median": 174
-            }
-        }
-    },
-    "Reports": [
-        {
-            "Features": [
-                "segment_count",
-                "mean_lateral_position"
-            ],
-            "Sample Count": 13,
-            "Outlier Count": 0,
-            "Total Cells": 100,
-            "Filled Cells": 6,
-            "Mapped Misbehaviors": 1,
-            "Misbehavior Relative Density": 0.16666666666666666,
-            "Misbehavior Density": 0.01,
-            "Filled Cells Density": 0.06,
-            "Collisions": 2,
-            "Misbehavior Collisions": 0,
-            "Collision Ratio": 1.1666666666666667,
-            "Misbehavior Collision Ratio": 0.0,
-            "Coverage Sparseness": 20.2,
-            "Misbehavior Sparseness": 0.0,
-            "Avg Sample Distance": 13.0,
-            "Avg Misbehavior Distance": 0
-        }
-    ]
-}
-```
+   ```
+   This command produces report files in the `logs/run_XXX` folder:
+
+* `coverage-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
+* `misbehaviour-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
+* `probability-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
+* `DeepHyperionBeamNG-<RUN_ID>-stats.json`
+* `probability-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.pdf`
 
 
 
