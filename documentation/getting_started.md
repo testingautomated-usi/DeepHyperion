@@ -137,6 +137,8 @@ python rq2.py
 python rq3.py
 ```
 
+> NOTE: This command may produce RuntimeWarnings. Do not worry about them. The commands are successful if the plots are stored.
+
 Then, you will find the following files in `plots` folder:
 
 * `RQ1-MNIST.pdf` (Figure 3: RQ1: Misbehaviours found by DeepHyperion, DeepJanus and DLFuzz on MNIST)
