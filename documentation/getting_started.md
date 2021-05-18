@@ -39,10 +39,11 @@ Exporting inputs ...
 Done
 ```
 
-The tool produces the following outputs in the `logs/run_XXX_/log_800_YYY` folder (where XXX is the timestamp value and YYY the number of iterations):
+The tool produces the following outputs in the `logs/run_XXX_/log_800_YYY` folder (where XXX is the timestamp value):
 
-* `heatmap_Bitmaps_Orientation.png`: image representing the feature map;
-* `heatmap_Bitmaps_Orientation.json`: file containing the final report of the run;
+* `log_800_YYY` folder (where YYY is the number of iterations) containing:
+  * `heatmap_Bitmaps_Orientation.png`: image representing the feature map;
+  * `heatmap_Bitmaps_Orientation.json`: file containing the final report of the run;
 * `all`: folder containing all the inputs generated during the run (in image and npy formats);
 * `archive`: folder containing the solutions found during the run (in image and npy formats).
 
