@@ -10,7 +10,7 @@ This tool is developed in Python on top of the DEAP evolutionary computation fra
 
 > NOTE: If you want to use DeepHyperion-MNIST easily without configuring your environment from scratch, you can also see [__Getting Started__](../documentation/getting_started.md)
 
-### Configure Ubuntu ###
+### Configuring Ubuntu ###
 Pull an Ubuntu Docker image, run and configure it by typing in the terminal:
 
 ``` 
@@ -167,7 +167,7 @@ When the run is finished, the tool produces the following outputs in the `logs` 
 * [__DeepHyperion-MNIST/report_generator__](../DeepHyperion-MNIST/report_generator/README.md)
 
 
-### Troubleshooting ###
+## Troubleshooting ##
 
 * if pip cannot install the correct version of `opencv-python` check whether you upgraded pip correctly after you activate the virtual environment `.venv`
 
