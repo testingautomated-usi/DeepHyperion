@@ -45,17 +45,7 @@ Or, you can set the N = 10, which generates the following map:
 <img src="probability-DeepHyperionBeamNG-001-sd_steering-mean_lateral_position_10.PNG" alt="map" style="width:300px;"/></p>
 
 
-### Scenario 2: Performing MNIST experiments with digits different from 5s ###
-
-This scenario shows the applicability of the _DeepHyperion-MNIST_ on digit classes of MNIST different from the ones considered in the experimental evaluation, i.e. digit class "5".
-As an example, you can configure _DeepHyperion-MNIST_ to generate inputs for digit class "6".
-To do this, you should edit the parameter EXPECTED_LABEL in _DeepHyperion-MNIST/properties.py_ file as follows:
-
-```
-    EXPECTED_LABEL = int(os.getenv('DH_EXPECTED_LABEL', '6'))
-```
-
-### Scenario 3: Test a different DL model ###
+### Scenario 2: Test a different DL model ###
 
 This scenario shows the possibility of using trained models for _DeepHyperion-MNIST_ different from the one considered in the experimental evaluation.
 As an example, you can configure _DeepHyperion-MNIST_ to use the alternative model `cnnClassifier.h5` which is already in _models_ folder.
