@@ -145,7 +145,7 @@ Since the setup is complex, it might now work out-of-the box. Possible issues in
 
 - BeamNG cannot find the `registration.key`. BeamNG looks for this file in predefined directories, but you can force a specific directory by setting the `BNG_USER` env variable. Be sure to copy the `registration.key` into the folder defined by `BNG_USER`.
 
-> **NOTE**: A known BeamNG bug is caused by whitespaces in path, so avoid to use paths that contains whitespaces for `BNG_HOME` and `BNG_USER`
+    > **NOTE**: A known BeamNG bug is caused by whitespaces in path, so avoid to use paths that contains whitespaces for `BNG_HOME` and `BNG_USER`
 
 
 ### Generate Processed Data and Rescaled Maps ###
