@@ -17,6 +17,13 @@ docker run -it --rm ubuntu:bionic
 apt-get update && apt-get upgrade -y && apt-get clean
 apt-get install make
 ```
+And check if Make is correctly installed, by typing the following command:
+```
+make -version
+GNU Make 4.1
+```
+
+Check that the version of Make matches `4.1`.
 
 ### Copy the project into the docker container ###
 
@@ -47,7 +54,7 @@ update-alternatives --set python3 /usr/bin/python3.7
 curl -s https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3 get-pip.py --force-reinstall && \
     rm get-pip.py
-apt-get install python3.7-venv
+apt-get install -y python3.7-venv
 ```
 
 And check if it is correctly installed, by typing the following command:
