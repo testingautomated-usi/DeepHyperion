@@ -1,4 +1,5 @@
 # Global variables
+SHELL=/bin/bash
 DATA=data
 BEAMNG_DATA=$(DATA)/beamng
 MNIST_DATA=$(DATA)/mnist
