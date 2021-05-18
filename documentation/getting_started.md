@@ -126,8 +126,8 @@ In this case <YOUR_DOCKER_NAME> is tender_zhukovsky
 In case you want to regenerate the plots in the paper without re-running all the 100h+ of experiments, we provided the data of all runs of all the tools in `experiments/data`. 
 
 To regenerate the plots reported in the paper, run the commands we report below on the provided docker.
-> **NOTE**: Be sure to deactivate the virtual environment you used for steps 1 -- 3 and activate the one inside the `experiments` folder. 
-> Despite they share the same name, those virtual environments contain different packages!
+> **NOTE**: Be sure to deactivate the virtual environment you used for steps 1 -- 3 (simply by running the `deactivate` command) and activate the one inside the `experiments` folder. 
+> Despite they share the same name, those virtual environments contain different libraries.
 
 ```
 cd /DeepHyperion/experiments
