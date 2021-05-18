@@ -85,6 +85,8 @@ python report_generator/app.py generate-map --feature bitmaps [MIN feature 1] [M
 python report_generator/app.py generate-map --feature bitmaps 7 94 25 --feature orientation 3 207 25 ./logs/run_XXX/archive
 ```  
 
+> NOTE: This command may produce RuntimeWarnings. Do not worry and proceed with the next steps.
+
 This command produces many files in the `logs/run_XXX/archive` folder; the most relevant ones are:
 
 * `coverage-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
