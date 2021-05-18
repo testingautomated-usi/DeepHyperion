@@ -83,22 +83,22 @@ The steps to generate the maps are:
    ```
    python report_generator/app.py generate-map --feature moves 0 25 25 --feature bitmaps 0 500 25 ./logs/run_XXX/archive
    ```
-> NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
+   > NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
   
-> NOTE: You can add other features (assuming they are present in **all** the samples) by adding to the command entries like `--feature <NAME> <MIN> <MAX> <NUM_CELL>` (e.g., `--feature orientation 0 30 25`).
+   > NOTE: You can add other features (assuming they are present in **all** the samples) by adding to the command entries like `--feature <NAME> <MIN> <MAX> <NUM_CELL>` (e.g., `--feature orientation 0 30 25`).
 
    You should get something like this:
    
-   ```
-   2020-12-22 22:47:25,853 INFO     Process Started
-```
-This command produces many files in the `logs/run_XXX/archive` folder; the most relevant ones are:
+      ```
+      2020-12-22 22:47:25,853 INFO     Process Started
+      ```
+   This command produces many files in the `logs/run_XXX/archive` folder; the most relevant ones are:
 
-* `coverage-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
-* `misbehaviour-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
-* `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmap.npy`
-* `DeepHyperion-<RUN_ID>-Orientation-Bitmaps-stats.json`
-* `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.pdf`
+   * `coverage-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
+   * `misbehaviour-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
+   * `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmap.npy`
+   * `DeepHyperion-<RUN_ID>-Orientation-Bitmaps-stats.json`
+   * `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.pdf`
 
 
 
