@@ -95,7 +95,7 @@ This command produces many files in the `logs/run_XXX/archive` folder; the most 
 * `DeepHyperion-<RUN_ID>-Orientation-Bitmaps-stats.json`
 * `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.pdf`
 
-The `.npy` files contain the raw data collected from the tool's execution, the `-stats.json` file contains the statistics in of the execution, while the `-rescaled.pdf` file contains a visualization of the Misbehavior Probability map, similar to the following:
+The `.npy` files contain the raw data collected from the tool's execution, the `-stats.json` file contains the statistics of the execution, while the `-rescaled.pdf` file contains a visualization of the Misbehavior Probability map, similar to the following:
 
 ![](./probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG)
 
