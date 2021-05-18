@@ -175,13 +175,13 @@ When the run is finished, the tool produces the following outputs in the `logs` 
 
 * If the import of cairo, potrace or other modules fails, check that the correct version is installed. The correct version is reported in the file requirements.txt. The version of a module can be checked with the following command:
 
-    ```
+```
 $ pip3 show modulename | grep Version
 ```
     
-    To fix the problem and install a specific version, use the following command:
+To fix the problem and install a specific version, use the following command:
     
-    ```
+```
 $ pip3 install 'modulename==moduleversion' --force-reinstall
 ```
 
