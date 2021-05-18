@@ -99,7 +99,11 @@ The `.npy` files contain the raw data collected from the tool's execution, the `
 
 ![](./probability-DeepHyperion-X-orientation-bitmaps-Orientation-Bitmaps-black-box-rescaled.PNG)
 
+
 You can copy those files from the running docker image to your system, as follows:
+
+
+> NOTE: you should run this command outside the docker, i.e., opening a new terminal window
 
 ```
 docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/DeepHyperion-MNIST/logs/run_XXX/archive/  /path-to-your-Desktop/
@@ -114,6 +118,7 @@ CONTAINER ID   IMAGE                      COMMAND       CREATED          STATUS 
 3a77c777954d   zohdit/deephyperion:v1.1   "/bin/bash"   25 minutes ago   Up 25 minutes             tender_zhukovsky
 ```
 
+In this case <YOUR_DOCKER_NAME> is tender_zhukovsky
 
 
 ## Step 4: Reproduce Experimental Results ##
