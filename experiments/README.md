@@ -33,13 +33,11 @@ Those warnings are expected, so do not worry.
 
 If everything worked as expected you'll find the following plots under `./plots`:
 
-```
-RQ1-BeamNG.pdf
-RQ1-MNIST.pdf
-RQ2-BeamNG.pdf
-RQ2-MNIST.pdf
-RQ3-BeamNG.pdf
-RQ3-MNIST.pdf
-```
+* `RQ1-MNIST.pdf` (Figure 3: RQ1: Misbehaviours found by DeepHyperion, DeepJanus and DLFuzz on MNIST)
+* `RQ1-BeamNG.pdf` (Figure 4: RQ1: Misbehaviours found by DeepHyperion and DeepJanus on BeamNG)  
+* `RQ2-MNIST.pdf` (Figure 5: RQ2: Map cells filled by DeepHyperion, DeepJanus and DLFuzz on MNIST)
+* `RQ2-BeamNG.pdf` (Figure 6: RQ2: Map cells filled by DeepHyperion and DeepJanus on BeamNG)
+* `RQ3-MNIST.pdf`  (Figure 7: RQ3: Probability maps and feature discrimination for MNIST)
+* `RQ3-BeamNG.pdf`  (Figure 8: RQ3: Probability maps and feature discrimination for BeamNG)
 
 Those plots corresponds to the ones reported in Figures 3 -- 8 of the (pre-print) version of the paper.
