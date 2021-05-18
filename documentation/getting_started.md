@@ -51,6 +51,7 @@ The tool produces the following outputs in the `logs/run_XXX_/log_800_YYY` folde
 ## Step 3: Generate Maps  ##
 
 To generate rescaled maps and process the output of a run, use the following commands:
+> NOTE: Run these commands from the DeepHyperion/DeepHyperion-MNIST directory
 
 ```
 export LC_ALL=C.UTF-8
