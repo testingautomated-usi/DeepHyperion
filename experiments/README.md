@@ -56,7 +56,7 @@ apt install -y python3.7
 And check if it is correctly installed, by typing the following command:
 
 ``` 
-root@docker $ python3 -V
+python3 -V
 
 Python 3.7.10
 ```
