@@ -37,21 +37,21 @@ The steps to generate the maps are:
    ```
    > NOTE: you should select features based on your config in __(run_xxx/config.json)
 
-  You should get an output similar to:
+   You should get an output similar to:
   
-  ```
-2020-12-22 22:41:02,764 INFO     Process Started
-name=orientation,min=inf,max=-inf,missing=132
-name=bitmaps,min=333,max=482,missing=0
-name=moves,min=0,max=21,missing=0
-  ```
-   This outputs report for each feature specified in input its name, its min/max values, and the count of samples found for which that feature was not present (useful for debug)
+      ```
+      2020-12-22 22:41:02,764 INFO     Process Started
+      name=orientation,min=inf,max=-inf,missing=132
+      name=bitmaps,min=333,max=482,missing=0
+      name=moves,min=0,max=21,missing=0
+      ```
+      This outputs report for each feature specified in input its name, its min/max values, and the count of samples found for which that feature was not present (useful for debug)
 
    Removing the `--parsable` option yields a structured (JSON-like) report:
 
    ```
-2020-12-22 22:42:54,168 INFO     Process Started
-{
+   2020-12-22 22:42:54,168 INFO     Process Started
+   {
     "total": 132,
     "features": {
         "orientation": {
@@ -69,8 +69,8 @@ name=moves,min=0,max=21,missing=0
             "max": 21,
             "missing": 0
         }
-    }
-}
+      }
+   }
    ```
 
 3. Build the map and visualize it. Maps can contain two or more features, but their visualization is limited to two features at the time. To generate a map and generate a report run the following command (add `--visualize` if you want to visualize the map):
