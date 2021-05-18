@@ -27,11 +27,10 @@ apt install -y git
 
 ### Copy the project into the docker container ###
 
-To copy DeepHyperion-MNIST inside the docker container, open another console and run:
+To copy DeepHyperion inside the docker container, open another console and run:
 
 ``` 
-cd <DEEP_HYPERION_HOME>
-docker cp experiments/ <DOCKER_ID>:/
+docker cp <DEEP_HYPERION_HOME>/ <DOCKER_ID>:/
 ```
 
 Where `<DEEP_HYPERION_HOME>` is the location in which you downloaded the artifact and `<DOCKER_ID>` is the ID of the ubuntu docker image just started.
@@ -69,14 +68,14 @@ Check that the version of python matches `3.7.*`.
 Use the following commands to install pip and upgrade it to the latest version:
 
 ``` 
-root@docker $ apt install -y python3-pip
-root@docker $ python3 -m pip install --upgrade pip
+apt install -y python3-pip
+python3 -m pip install --upgrade pip
 ```
 
 Once the installation is complete, verify the installation by checking the pip version:
 
 ``` 
-root@docker $ python3 -m pip --version
+python3 -m pip --version
 
 pip 21.1.1 from /usr/local/lib/python3.7/dist-packages/pip (python 3.7)
 ```
@@ -86,6 +85,7 @@ pip 21.1.1 from /usr/local/lib/python3.7/dist-packages/pip (python 3.7)
 To regenerate the plots, run the following command from the **current** folder:
 
 ```
+cd DeepHyperion/experiments
 make plot-all
 ```
 
