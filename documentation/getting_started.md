@@ -27,7 +27,6 @@ Use the following commands to start a 3 minutes run of DeepHyperion-MNIST with t
 ```
 
 > NOTE: `properties.py` contains the tool configuration. You should edit this file to change the configuration. For example, if you want to run <i>DeepHyperion-MNIST</i> with the same configuration as in the paper, you need to set the `RUNTIME` variable inside `properties.py` as follows:
-
 ```
 RUNTIME  = int(os.getenv('DH_RUNTIME', '3600'))
 ```
@@ -40,7 +39,7 @@ Exporting inputs ...
 Done
 ```
 
-The tool produces the following outputs in the `logs/run_XXX_/log_800_XXX` folder (where XXX is the timestamp value):
+The tool produces the following outputs in the `logs/run_XXX_/log_800_YYY` folder (where XXX is the timestamp value and YYY the number of iterations):
 
 * `heatmap_Bitmaps_Orientation.png`: image representing the feature map;
 * `heatmap_Bitmaps_Orientation.json`: file containing the final report of the run;
