@@ -15,7 +15,7 @@ The steps to generate the maps are:
 
 1. Process the output of the tools and generate an `info_<ID>.json` file for each sample. This file contains the features, and various metadata about the sample (timestamp, sample-id, file location, tool name, run id, etc.)
 
-   Go to the root of the project (`./DeepHyperion-MNIST`) and run the following command to process a dataset folder (folders will be recursively checked):
+   To do it, go to the root of the project (`./DeepHyperion-MNIST`) and run the following command to process a dataset folder (folders will be recursively checked):
 
    ```
    export LC_ALL=C.UTF-8
@@ -73,7 +73,7 @@ The steps to generate the maps are:
    }
    ```
 
-3. Build the map and visualize it. Maps can contain two or more features, but their visualization is limited to two features at the time. To generate a map and generate a report run the following command (add `--visualize` if you want to visualize the map):
+3. Build the map and visualize it. Maps can contain two or more features, but their visualization is limited to two features at the time. To generate a map and generate a report, run the following command (add `--visualize` if you want to visualize the map):
 
    ```
    python report_generator/app.py generate-map --feature <NAME> <MIN> <MAX> <NUM_CELL> --feature <NAME> <MIN> <MAX> <NUM_CELL> ./logs/run_XXX/archive
