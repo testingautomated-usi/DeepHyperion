@@ -8,13 +8,13 @@ Follow the steps below to set up DeepHyperion and validate its general functiona
 Pull our pre-configured Docker image for DeepHyperion-MNIST:
 
 ``` 
-docker pull zohdit/deephyperion:v1.1
+docker pull zohdit/deephyperion:v1.2
 ```
 
 Run it by typing in the terminal the following commands:
 
 ```
-docker run -it --rm zohdit/deephyperion:v1.1
+docker run -it --rm zohdit/deephyperion:v1.2
 . .venv/bin/activate
 ```
 
