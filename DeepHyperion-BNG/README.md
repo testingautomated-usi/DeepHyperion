@@ -49,7 +49,7 @@ pip install -r requirements-37.txt
 > **Note**: the version of Shapely should match your system.
 
 
-### BeamNG simulator ###
+### BeamNG simulator Installation ###
 
 This tool needs the BeamNG simulator to be installed on the machine where it is running. 
 A free version of the BeamNG simulator for research purposes can be obtained by registering at [https://register.beamng.tech](https://register.beamng.tech) and following the instructions provided by BeamNG. Please fill the "Application Text" field of the registration form with the following text:
@@ -114,10 +114,13 @@ py.exe core/mapelites_bng.py
 
 If everything works fine, you should see that BeamNG.research starts automatically, loads a newly generated test scenario, and the virtual car moves autonomously. As described in the paper, the car is driven by a controller based on the NVidia DAVE2 architecture that receives images from the camera mounted on the virtual car (not from the user camera that shows the simulator on the screen) and predict the steering angle to apply. On the console, you might see messages about CUDA and other CNN-related libraries.
 
+> **NOTE**: The tool is configured to run for 300 **simulated** seconds to keep the demonstration small. This configuration should result in executing ca 10 simulations, which might take a different (real) time depending on the power of your computer. You can change the time budget by editing the `core/config.py` file and updating the value assigned to the `self.RUNTIME` variable.
+
 Click on the image to watch the demo:
+
+
 [![Watch the video](https://img.youtube.com/vi/a_fE4QRpCBQ/hqdefault.jpg)](https://www.youtube.com/watch?v=a_fE4QRpCBQ)
 
-> **NOTE**: The tool is configured to run for 300 **simulated** seconds to keep the demonstration small. This configuration should result in executing ca 10 simulations, which might take a different (real) time depending on the power of your computer. You can change the time budget by editing the `core/config.py` file and updating the value assigned to the `self.RUNTIME` variable.
 
 ### Output ###
 
@@ -127,7 +130,11 @@ When the run is finished, the tool produces the following outputs in the `logs` 
 * json files containing the final reports of the run;
 * other folders containing the generated inputs (as png and json files).
 
-### Troubleshooting
+### Generate Processed Data and Rescaled Maps ###
+
+* [__DeepHyperion-BNG/report_generator__](../DeepHyperion-BNG/report_generator)
+
+## Troubleshooting ##
 
 Since the setup is complex, it might now work out-of-the box. Possible issues include:
 
@@ -147,10 +154,10 @@ Since the setup is complex, it might now work out-of-the box. Possible issues in
 
     > **NOTE**: A known BeamNG bug is caused by whitespaces in path, so avoid to use paths that contains whitespaces for `BNG_HOME` and `BNG_USER`
 
-
-### Generate Processed Data and Rescaled Maps ###
-
-* [__DeepHyperion-BNG/report_generator__](../DeepHyperion-BNG/report_generator)
+- Issues in installing Shapely from requirements.txt: You can obtain Shapely directly from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#shapely). You should download the wheel file matching you Python version, i.e. download the file with cp37 in the name if you use Python 3.7. The wheel file should also match the architecture of your machine, i.e., you should install the file with either win32 or win_amd64 in the name. After downloading the wheel file, you can install Shapely by running (in your active virtual environment) the following command:
+    ```
+    pip install [path to the shapely file]
+    ```
 
 
 ## More Usages ##
