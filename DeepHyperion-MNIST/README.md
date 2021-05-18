@@ -8,7 +8,7 @@ This tool is developed in Python on top of the DEAP evolutionary computation fra
 
 ## Dependencies ##
 
-> NOTE: If you want to use DeepHyperion-MNIST easily without configuring environment, you can also see [__Getting Started__](../documentation/getting_started.md)
+> NOTE: If you want to use DeepHyperion-MNIST easily without configuring your environment from scratch, you can also see [__Getting Started__](../documentation/getting_started.md)
 
 ### Configure Ubuntu ###
 Pull an Ubuntu Docker image, run and configure it by typing in the terminal:
