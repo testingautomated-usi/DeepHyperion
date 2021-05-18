@@ -47,7 +47,7 @@ update-alternatives --set python3 /usr/bin/python3.7
 curl -s https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3 get-pip.py --force-reinstall && \
     rm get-pip.py
-apt-get install python3-venv
+apt-get install python3.7-venv
 ```
 
 And check if it is correctly installed, by typing the following command:
