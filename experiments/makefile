@@ -16,7 +16,7 @@ ifeq ('$(PYTHON3_OK)','')
     $(error package '$(PYTHON3)' not found)
 endif
 
-PYTHON_VERSION_MIN=3.7
+PYTHON_VERSION_MIN=3.6
 PYTHON_VERSION_MAX=3.8
 
 PYTHON_VERSION=$(shell $(PYTHON3) -c 'import sys; print("%d.%d"% sys.version_info[0:2])' )
