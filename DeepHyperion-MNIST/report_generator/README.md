@@ -35,7 +35,7 @@ The steps to generate the maps are:
    ```
    python report_generator/app.py extract-stats --parsable --feature bitmaps --feature moves ./logs/run_XXX/archive
    ```
-> NOTE: you should select features based on your config in __(run_xxx/config.json)
+   > NOTE: you should select features based on your config in __(run_xxx/config.json)
 
   You should get an output similar to:
   
