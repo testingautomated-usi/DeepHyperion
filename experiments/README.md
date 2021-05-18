@@ -14,15 +14,8 @@ Pull an Ubuntu Docker image, run and configure it by typing in the terminal:
 ``` 
 docker pull ubuntu:bionic
 docker run -it --rm ubuntu:bionic
-apt update && apt-get update
-apt-get install -y software-properties-common
-```
-
-### Installing git ###
-Use the following command to install git:
-
-``` 
-apt install -y git
+apt-get update && apt-get upgrade -y && apt-get clean
+apt-get install make
 ```
 
 ### Copy the project into the docker container ###
@@ -48,9 +41,12 @@ CONTAINER ID   IMAGE           COMMAND       CREATED          STATUS          PO
 Install Python 3.7:
 
 ``` 
-add-apt-repository ppa:deadsnakes/ppa
-apt update
-apt install -y python3.7
+apt-get install -y curl python3.7 python3.7-dev python3.7-distutils
+update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
+curl -s https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py --force-reinstall && \
+    rm get-pip.py
+apt-get install python3-venv
 ```
 
 And check if it is correctly installed, by typing the following command:
@@ -58,7 +54,7 @@ And check if it is correctly installed, by typing the following command:
 ``` 
 python3 -V
 
-Python 3.7.10
+Python 3.7.5
 ```
 
 Check that the version of python matches `3.7.*`.
