@@ -7,7 +7,7 @@ Systems through Illumination Search"
 
 ## Getting Started ##
 
-Click [here](./documentation/getting_started.md) to see how to set up DeepHyperion and validate its general functionality.
+Click [here](./documentation/getting_started.md) to see how to set up DeepHyperion and validate its general functionality by using our pre-configured Docker image.
 
 ## Detailed Description ##
 
