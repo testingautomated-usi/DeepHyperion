@@ -154,7 +154,7 @@ Since the setup is complex, it might now work out-of-the box. Possible issues in
 
     > **NOTE**: A known BeamNG bug is caused by whitespaces in path, so avoid to use paths that contains whitespaces for `BNG_HOME` and `BNG_USER`
 
-- Issues in installing Shapely from requirements.txt: You can obtain Shapely directly from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#shapely). You should download the wheel file matching you Python version, i.e. download the file with cp37 in the name if you use Python 3.7. The wheel file should also match the architecture of your machine, i.e., you should install the file with either win32 or win_amd64 in the name. After downloading the wheel file, you can install Shapely by running (in your active virtual environment) the following command:
+- Issues in installing Shapely from requirements.txt: You can obtain Shapely directly from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#shapely). You should download the wheel file matching your Python version, i.e. download the file with cp37 in the name if you use Python 3.7. The wheel file should also match the architecture of your machine, i.e., you should install the file with either win32 or win_amd64 in the name. After downloading the wheel file, you can install Shapely by running (in your active virtual environment) the following command:
     ```
     pip install [path to the shapely file]
     ```
