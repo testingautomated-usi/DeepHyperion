@@ -20,7 +20,7 @@ The steps to generate the maps are:
    ```
    python report_generator/app.py generate-samples --force-attribute run 1 --force-attribute tool DeepHyperionBeamNG ./logs/run_XXX/simulations
    ```
-> NOTE: the set of features to be computed is predefined for each tool.
+   > NOTE: the set of features to be computed is predefined for each tool.
     
     
 2. Process all the json files corresponding to the samples of all the runs for all the tools, to extract the maps `extrema` for each feature. Go to the root of the project (`./DeepHyperion-BeamNG`) and run the following command:
@@ -33,22 +33,22 @@ The steps to generate the maps are:
    ```
    python report_generator/app.py extract-stats --parsable --feature segment_count --feature mean_lateral_position ./logs/run_XXX/simulations
    ```
-> NOTE: you should select features based on your config in __(run_xxx/config.json)
+   > NOTE: you should select features based on your config in __(run_xxx/config.json)
 
-  You should get an output similar to:
+   You should get an output similar to:
   
-  ```
-2020-12-22 22:41:02,764 INFO     Process Started
-name=segment_count,min=1,max=5,missing=0
-name=mean_lateral_position,min=166,max=178,missing=0
-  ```
-   This outputs report for each feature specified in input its name, its min/max values, and the count of samples found for which that feature was not present (useful for debug)
+   ```
+   2020-12-22 22:41:02,764 INFO     Process Started
+   name=segment_count,min=1,max=5,missing=0
+   ame=mean_lateral_position,min=166,max=178,missing=0
+   ```
+   This output reports for each feature specified in input its name, its min/max values, and the count of samples found for which that feature was not present (useful for debug)
 
    Removing the `--parsable` option yields a structured (JSON-like) report:
 
    ```
-2020-12-22 22:42:54,168 INFO     Process Started
-{
+   2020-12-22 22:42:54,168 INFO     Process Started
+   {
     "total": 13,
     "features": {
         "segment_count": {
@@ -62,7 +62,7 @@ name=mean_lateral_position,min=166,max=178,missing=0
             "missing": 0
         }
     }
-}
+   }
    ```
 
 3. Build the map and visualize it. Maps can contain two or more features, but their visualization is limited to two features at the time. To generate a map and generate a report run the following command (add `--visualize` if you want to visualize the map):
@@ -75,9 +75,9 @@ name=mean_lateral_position,min=166,max=178,missing=0
    ```
    python report_generator/app.py generate-map --feature segment_count 1 5 4 --feature mean_lateral_position 166 178 25 ./logs/run_XXX/simulations
    ```
-> NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
+   > NOTE: You should set the <MIN> <MAX> values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bind.  
     
-> NOTE: You can add other features (assuming they are present in **all** the samples) by adding to the command entries like `--feature <NAME> <MIN> <MAX> <NUM_CELL>` (e.g., `--feature min_radius 0 30 25`).
+   > NOTE: You can add other features (assuming they are present in **all** the samples) by adding to the command entries like `--feature <NAME> <MIN> <MAX> <NUM_CELL>` (e.g., `--feature min_radius 0 30 25`).
 
    You should get something like this:
    
@@ -86,11 +86,11 @@ name=mean_lateral_position,min=166,max=178,missing=0
    ```
    This command produces report files in the `logs/run_XXX` folder:
 
-* `coverage-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
-* `misbehaviour-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
-* `probability-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
-* `DeepHyperionBeamNG-<RUN_ID>-stats.json`
-* `probability-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.pdf`
+   * `coverage-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
+   * `misbehaviour-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
+   * `probability-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
+   * `DeepHyperionBeamNG-<RUN_ID>-stats.json`
+   * `probability-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.pdf`
 
 
 
