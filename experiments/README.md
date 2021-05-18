@@ -8,6 +8,79 @@ This folder contains the data we obtained by conducting the experimental procedu
 
 The scripts require `make` and `python 3.7`
 
+### Configure Ubuntu ###
+Pull an Ubuntu Docker image, run and configure it by typing in the terminal:
+
+``` 
+docker pull ubuntu:bionic
+docker run -it --rm ubuntu:bionic
+apt update && apt-get update
+apt-get install -y software-properties-common
+```
+
+### Installing git ###
+Use the following command to install git:
+
+``` 
+apt install -y git
+```
+
+### Copy the project into the docker container ###
+
+To copy DeepHyperion-MNIST inside the docker container, open another console and run:
+
+``` 
+cd <DEEP_HYPERION_HOME>
+docker cp experiments/ <DOCKER_ID>:/
+```
+
+Where `<DEEP_HYPERION_HOME>` is the location in which you downloaded the artifact and `<DOCKER_ID>` is the ID of the ubuntu docker image just started.
+
+You can find the id of the docker image using the following command:
+
+```
+docker ps -a
+
+CONTAINER ID   IMAGE           COMMAND       CREATED          STATUS          PORTS     NAMES
+13e590d65e60   ubuntu:bionic   "/bin/bash"   2 minutes ago   Up 2 minutes             recursing_bhabha
+```
+
+### Installing Python 3.7 ###
+Install Python 3.7:
+
+``` 
+add-apt-repository ppa:deadsnakes/ppa
+apt update
+apt install -y python3.7
+```
+
+And check if it is correctly installed, by typing the following command:
+
+``` 
+root@docker $ python3 -V
+
+Python 3.7.10
+```
+
+Check that the version of python matches `3.7.*`.
+
+### Installing pip ###
+
+Use the following commands to install pip and upgrade it to the latest version:
+
+``` 
+root@docker $ apt install -y python3-pip
+root@docker $ python3 -m pip install --upgrade pip
+```
+
+Once the installation is complete, verify the installation by checking the pip version:
+
+``` 
+root@docker $ python3 -m pip --version
+
+pip 21.1.1 from /usr/local/lib/python3.7/dist-packages/pip (python 3.7)
+```
+
 ## (Re)Generate the plots ##
 
 To regenerate the plots, run the following command from the **current** folder:
