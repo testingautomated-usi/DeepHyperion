@@ -8,22 +8,22 @@ Follow the steps below to set up DeepHyperion and validate its general functiona
 Pull our pre-configured Docker image for DeepHyperion-MNIST:
 
 ``` 
-$ docker pull zohdit/deephyperion:v1.1
+docker pull zohdit/deephyperion:v1.1
 ```
 
 Run it by typing in the terminal the following commands:
 
 ```
-$ docker run -it --rm zohdit/deephyperion:v1.1
-root@docker $ . .venv/bin/activate
+docker run -it --rm zohdit/deephyperion:v1.1
+. .venv/bin/activate
 ```
 
 ## Step 2: Run DeepHyperion ##
 Use the following commands to start a 3 minutes run of DeepHyperion-MNIST with the "Bitmaps - Orientation" combination of features:
 
 ```
-(.venv) root@docker $ cd DeepHyperion/DeepHyperion-MNIST
-(.venv) root@docker $ python mapelites_mnist.py
+cd DeepHyperion/DeepHyperion-MNIST
+python mapelites_mnist.py
 ```
 
 > NOTE: `properties.py` contains the tool configuration. You should edit this file to change the configuration. For example, if you want to run <i>DeepHyperion-MNIST</i> with the same configuration as in the paper, you need to set the `RUNTIME` variable inside `properties.py` as follows:
@@ -53,10 +53,10 @@ The tool produces the following outputs in the `logs/run_XXX_/log_800_YYY` folde
 To generate rescaled maps and process the output of a run, use the following commands:
 
 ```
-(.venv) root@docker $ export LC_ALL=C.UTF-8
-(.venv) root@docker $ export LANG=C.UTF-8
-(.venv) root@docker $ python report_generator/app.py generate-samples ./logs/run_XXX
-(.venv) root@docker $ python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX/archive
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+python report_generator/app.py generate-samples ./logs/run_XXX
+python report_generator/app.py extract-stats --parsable --feature bitmaps --feature orientation ./logs/run_XXX/archive
 ```
 Where `logs/run_XXX` is the path of a folder containing the results of a run, e.g. the results obtained in Step 2.
 You should get an output similar to the following:
@@ -75,13 +75,13 @@ This output reports, for each feature specified as input:
 To generate the map and the report, run the following command:
 
 ```
-(.venv) root@docker $ python report_generator/app.py generate-map --feature bitmaps [MIN feature 1] [MAX feature 1] 25 --feature orientation [MIN feature 2] [MAX feature 2] 25 ./logs/run_XXX/archive
+python report_generator/app.py generate-map --feature bitmaps [MIN feature 1] [MAX feature 1] 25 --feature orientation [MIN feature 2] [MAX feature 2] 25 ./logs/run_XXX/archive
 ```
 
 > NOTE: You should set the minimum and maximum values for each feature based on previous command's output, otherwise, you might loose some individuals which are out of your defined bounds. In our example, we ran the following command:
 
 ```
-(.venv) root@docker $ python report_generator/app.py generate-map --feature bitmaps 7 94 25 --feature orientation 3 207 25 ./logs/run_XXX/archive
+python report_generator/app.py generate-map --feature bitmaps 7 94 25 --feature orientation 3 207 25 ./logs/run_XXX/archive
 ```  
 
 This command produces many files in the `logs/run_XXX/archive` folder; the most relevant ones are:
@@ -99,13 +99,13 @@ The `.npy` files contain the raw data collected from the tool's execution, the `
 You can copy those files from the running docker image to your system, as follows:
 
 ```
-$ docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/DeepHyperion-MNIST/logs/run_XXX/archive/  /path-to-your-Desktop/
+docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/DeepHyperion-MNIST/logs/run_XXX/archive/  /path-to-your-Desktop/
 ```
 
 You can find your docker's name and id using the following command:
 
 ```
-$ docker ps -a
+docker ps -a
 
 CONTAINER ID   IMAGE                      COMMAND       CREATED          STATUS          PORTS     NAMES
 3a77c777954d   zohdit/deephyperion:v1.1   "/bin/bash"   25 minutes ago   Up 25 minutes             tender_zhukovsky
@@ -122,11 +122,11 @@ To regenerate the plots reported in the paper, run the commands we report below 
 > Despite they share the same name, those virtual environments contain different packages!
 
 ```
-root@docker $ cd /DeepHyperion/experiments
-root@docker $ . .venv/bin/activate
-(.venv) root@docker $ python rq1.py
-(.venv) root@docker $ python rq2.py
-(.venv) root@docker $ python rq3.py
+cd /DeepHyperion/experiments
+. .venv/bin/activate
+python rq1.py
+python rq2.py
+python rq3.py
 ```
 
 Then, you will find the following files in `plots` folder:
@@ -143,6 +143,6 @@ These plots correspond to the ones reported in Figures 3 -- 8 of the (pre-print)
 To check the results, you should copy the files from the running docker to your system, as follows:
 
 ```
-$ docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/experiments/plots  /path-to-your-Desktop/
+docker cp <YOUR_DOCKER_NAME>:/DeepHyperion/experiments/plots  /path-to-your-Desktop/
 ```
 
