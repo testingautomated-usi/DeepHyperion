@@ -18,6 +18,8 @@ The steps to generate the maps are:
    Go to the root of the project (`./DeepHyperion-MNIST`) and run the following command to process a dataset folder (folders will be recursively checked):
 
    ```
+   export LC_ALL=C.UTF-8
+   export LANG=C.UTF-8
    python report_generator/app.py generate-samples ./logs/run_XXX
    ```
 > NOTE: the set of features to be computed is predefined for each tool.
