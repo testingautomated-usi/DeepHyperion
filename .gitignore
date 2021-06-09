@@ -1,0 +1,10 @@
+.vscode
+DeepHyperion-BNG/data/member_seeds/initial_pool/
+DeepHyperion-BNG/data/member_seeds/initial_population/
+DeepHyperion/initial_pool/
+DeepHyperion-BNG/core/__pycache__/
+experiments/data/beamng/
+experiments/data/mnist/
+experiments/plots/
+DeepHyperion-BNG/logs/
+experiments/__pycache__/

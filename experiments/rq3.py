@@ -2,6 +2,9 @@
 # This is the code for plotting the figures for RQ1. It is optimized towards plotting exactly those figures
 # Use data_analysis.py for explorative data analysis
 #
+import matplotlib
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
 
 from plotting_utils import load_probability_maps, generate_average_probability_maps, set_probability_maps_axes, store_figure_to_paper_folder
 import matplotlib.pyplot as plt

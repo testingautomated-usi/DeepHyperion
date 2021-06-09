@@ -2,6 +2,9 @@
 # This is the code for plotting the figures for RQ1. It is optimized towards plotting exactly those figures
 # Use data_analysis.py for explorative data analysis
 #
+import matplotlib
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
 
 from plotting_utils import load_data_from_folder, create_custom_palette, \
     filter_data_and_plot_as_boxplots, filter_data_by_tag, store_figure_to_paper_folder
