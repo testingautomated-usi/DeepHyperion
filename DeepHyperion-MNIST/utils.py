@@ -2,11 +2,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import logging as log
-import os
 import sys
-import csv
-import json
-import glob
 # For Python 3.6 we use the base keras
 import keras
 #from tensorflow import keras
@@ -16,6 +12,41 @@ import numpy as np
 from properties import IMG_SIZE, INTERVAL
 
 NAMESPACE = '{http://www.w3.org/2000/svg}'
+
+
+def compute_sparseness(map, x):
+    n = len(map)
+    # Sparseness is evaluated only if the archive is not empty
+    # Otherwise the sparseness is 1
+    if (n == 0) or (n == 1):
+        sparseness = 0
+    else:
+        sparseness = density(map, x)
+    return sparseness
+
+def get_neighbors(b):
+    neighbors = []
+    neighbors.append((b[0], b[1]+1))
+    neighbors.append((b[0]+1, b[1]+1))
+    neighbors.append((b[0]-1, b[1]+1))
+    neighbors.append((b[0]+1, b[1]))
+    neighbors.append((b[0]+1, b[1]-1))
+    neighbors.append((b[0]-1, b[1]))
+    neighbors.append((b[0]-1, b[1]-1))
+    neighbors.append((b[0], b[1]-1))
+
+    return neighbors
+
+def density(map, x):
+    b = x.features
+    density = 0
+    neighbors = get_neighbors(b)
+    for neighbor in neighbors:
+        if neighbor not in map:
+            density += 1
+    return density
+
+
 
 def input_reshape(x):
     # shape numpy vectors
