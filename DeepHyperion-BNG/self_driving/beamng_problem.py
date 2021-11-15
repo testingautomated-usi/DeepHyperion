@@ -1,13 +1,10 @@
 import itertools
 import json
-import random
 from typing import List
 
 from deap import creator
 
-from core.archive import Archive
 from core.folders import folders
-from core.log_setup import get_logger
 from core.member import Member
 from core.misc import delete_folder_recursively
 from core.problem import Problem
@@ -16,13 +13,10 @@ from core.seed_pool_impl import SeedPoolFolder, SeedPoolRandom
 from self_driving.beamng_config import BeamNGConfig
 from self_driving.beamng_evaluator import BeamNGEvaluator
 from self_driving.beamng_individual import BeamNGIndividual
-from self_driving.beamng_individual_set_store import BeamNGIndividualSetStore
 from self_driving.beamng_member import BeamNGMember
 from self_driving.road_generator import RoadGenerator
 from self_driving.initial_population_generator import initial_pool_generator, initial_population_generator
-
-log = get_logger(__file__)
-
+import logging as log
 
 class BeamNGProblem(Problem):
     def __init__(self, config: BeamNGConfig):
@@ -52,22 +46,6 @@ class BeamNGProblem(Problem):
 
     def deap_evaluate_individual(self, individual: BeamNGIndividual):
         return individual.evaluate()
-
-    def on_iteration(self, idx, pop: List[BeamNGIndividual], logbook):
-        self.experiment_path.mkdir(parents=True, exist_ok=True)
-        self.experiment_path.joinpath('config.json').write_text(json.dumps(self.config.__dict__))
-
-        gen_path = self.experiment_path.joinpath(f'gen{idx}')
-        gen_path.mkdir(parents=True, exist_ok=True)
-
-        # Generate final report at the end of the last iteration.
-        if idx + 1 == self.config.NUM_GENERATIONS:
-            report = {
-                'archive_len': 4,
-            }
-            gen_path.joinpath(f'report{idx}.json').write_text(json.dumps(report))
-
-        BeamNGIndividualSetStore(gen_path.joinpath('population')).save(pop)
 
     def generate_random_member(self, _max_angle) -> Member:
         result = RoadGenerator(num_control_nodes=self.config.num_control_nodes, max_angle=_max_angle,
@@ -107,6 +85,6 @@ class BeamNGProblem(Problem):
         # return
         # the following code does not work as wanted or expected!
         all_members = list(itertools.chain(*[(ind.m,) for ind in individuals]))
-        log.info('----evaluation warmup')
+        log.debug('----evaluation warmup')
         self._get_evaluator().evaluate(all_members)
-        log.info('----warmpup completed')
+        log.debug('----warmpup completed')

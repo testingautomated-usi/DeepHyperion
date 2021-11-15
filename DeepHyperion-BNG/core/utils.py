@@ -1,5 +1,4 @@
 import matplotlib
-import os
 import sys
 # Make sure we do not open windows to show images
 # TODO We need to make this call somewhere else...
@@ -10,13 +9,14 @@ import csv
 import json
 import glob
 import numpy as np
+import logging as log
 
 # local imports
 from core.curvature import findCircle, findCircleReturnCenterAndRadius, define_circle
 from self_driving.edit_distance_polyline import _calc_dist_angle
 from itertools import tee
 import math
-import logging as log
+
 # Resampling and spline interpolation
 from scipy.interpolate import splev, splprep
 from numpy.ma import arange
@@ -28,6 +28,60 @@ from shapely.geometry import Point, LineString
 
 THE_NORTH = [0,1]
 ANGLE_THRESHOLD = 0.005
+
+def compute_sparseness(map, x):
+    n = np.count_nonzero(map != None)
+    # Sparseness is evaluated only if the archive is not empty
+    # Otherwise the sparseness is 1
+    if (n == 0) or (n == 1):
+        sparseness = 0
+    else:
+        sparseness = density(map, x)
+    return sparseness
+
+def get_neighbors(b):
+    neighbors = []
+    neighbors.append((b[0], b[1]+1))
+    neighbors.append((b[0]+1, b[1]+1))
+    neighbors.append((b[0]-1, b[1]+1))
+    neighbors.append((b[0]+1, b[1]))
+    neighbors.append((b[0]+1, b[1]-1))
+    neighbors.append((b[0]-1, b[1]))
+    neighbors.append((b[0]-1, b[1]-1))
+    neighbors.append((b[0], b[1]-1))
+
+    # neighbors.append((b[0], b[1]+2))
+    # neighbors.append((b[0]+2, b[1]+2))
+    # neighbors.append((b[0]-2, b[1]+2))
+    # neighbors.append((b[0]+2, b[1]))
+    # neighbors.append((b[0]+2, b[1]-2))
+    # neighbors.append((b[0]-2, b[1]))
+    # neighbors.append((b[0]-2, b[1]-2))
+    # neighbors.append((b[0], b[1]-2))
+
+    # neighbors.append((b[0]+1, b[1]+2))
+    # neighbors.append((b[0]+2, b[1]+1))
+    # neighbors.append((b[0]-1, b[1]+2))
+    # neighbors.append((b[0]+2, b[1]-1))
+    # neighbors.append((b[0]+1, b[1]-2))
+    # neighbors.append((b[0]-1, b[1]-2))
+    # neighbors.append((b[0]-2, b[1]-1))
+    # neighbors.append((b[0]-2, b[1]+1))
+
+    return neighbors
+
+def density(map, x):
+    b = x.m.features
+    density = 0
+    count = 0
+    neighbors = get_neighbors(b)
+    for neighbor in neighbors:
+        if neighbor[0] >= 0 and neighbor[1] >= 0 and neighbor[0] < map.shape[0] and neighbor[1] < map.shape[1]:
+            count += 1
+            if map[neighbor] != None:
+                density += 1
+    relative_density = density/count
+    return relative_density
 
 def segment_count(x):
     nodes = x.m.sample_nodes
@@ -196,7 +250,8 @@ def direction_coverage(x, n_bins=25):
     covered_elements = set(np.digitize(direction_list, coverage_buckets))
     return int((len(covered_elements) / len(coverage_buckets))*100)
 
-def min_radius(x, w=5):
+
+def new_min_radius(x, w=5):
     mr = np.inf
     mincurv = []
     nodes = x.m.sample_nodes
@@ -214,6 +269,7 @@ def min_radius(x, w=5):
         mr = 90
 
     return int(mr*3.280839895)#, mincurv
+
 
 def curvature(x, w=5):
     mr = np.inf
@@ -241,6 +297,7 @@ def sd_steering(x):
     sd_steering = np.std(steering)
     return int(sd_steering)
 
+
 def mean_lateral_position(x):
     states = x.m.simulation.states
     lp = []
@@ -249,36 +306,6 @@ def mean_lateral_position(x):
     mean_lp = np.mean(lp) * 100
     return int(mean_lp)
 
-def new_rescale(features, perfs, new_min_1, new_max_1, new_min_2, new_max_2):
-    if new_max_1 > 25:
-        shape_1 = 25
-    else:
-        shape_1 = new_max_1 + 1
-    
-    if new_max_2 > 25:
-        shape_2 = 25
-    else:
-        shape_2 = new_max_2 + 1
-
-    output2 = np.full((shape_2, shape_1), np.inf, dtype=(float))
-
-    # interval1 = (new_max_1 - new_min_1) / shape_1
-    # interval2 = (new_max_2 - new_min_2) / shape_2
-
-    original_bins1 = np.linspace(new_min_1, new_max_1, shape_1)
-    original_bins2 = np.linspace(new_min_2, new_max_2, shape_2)
-
-    for (i, j), value in np.ndenumerate(perfs):
-        # new_j = int(j/interval1)
-        # new_i = int(i/interval2)
-        if i < new_max_2 and j < new_max_1:
-            new_j = np.digitize(j, original_bins1, right=False)
-            new_i = np.digitize(i, original_bins2, right=False)
-            if value != np.inf:
-                if output2[new_i, new_j] == np.inf or value < output2[new_i, new_j]:
-                    output2[new_i, new_j] = value
-                    #output1[new_i, new_j] = solutions[i, j]
-    return output2
 
 def new_resampling(sample_nodes, dist=1.5):
     new_sample_nodes = []
@@ -316,29 +343,13 @@ def new_resampling(sample_nodes, dist=1.5):
             points_y.append(new_sample_nodes[i][1])
     return final_nodes
 
-def setup_logging(log_to, debug):
+def log_exception(extype, value, trace):
+    log.exception('Uncaught exception:', exc_info=(extype, value, trace))
 
-    def log_exception(extype, value, trace):
-        log.exception('Uncaught exception:', exc_info=(extype, value, trace))
-
-    # Disable annoyng messages from matplot lib.
-    # See: https://stackoverflow.com/questions/56618739/matplotlib-throws-warning-message-because-of-findfont-python
-    log.getLogger('matplotlib.font_manager').disabled = True
-
+def setup_logging(log_file):
+    file_handler = log.FileHandler(log_file, 'a', 'utf-8')
     term_handler = log.StreamHandler()
-    log_handlers = [term_handler]
-    start_msg = "Started test generation"
-
-    if log_to is not None:
-        file_handler = log.FileHandler(log_to, 'a', 'utf-8')
-        log_handlers.append( file_handler )
-        start_msg += " ".join(["writing to file: ", str(log_to)])
-
-    log_level = log.DEBUG if debug else log.INFO
-
-    log.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=log_level, handlers=log_handlers)
-
+    log.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
+                  level=log.INFO, handlers=[term_handler, file_handler])
     sys.excepthook = log_exception
-
-    log.info(start_msg)
-
+    log.info('Started the logging framework writing to file: %s', log_file)

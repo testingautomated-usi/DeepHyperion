@@ -2,6 +2,7 @@ import sys
 import os
 import json
 import time
+from os.path import join
 from pathlib import Path
 import numpy as np
 from datetime import datetime
@@ -109,17 +110,22 @@ class MapElitesBNG(MapElites):
         states = []
         for record in records:
             state = VehicleState(timer=record["timer"]
+                                 , damage=record["damage"]
                                  , pos=record["pos"]
                                  , dir=record["dir"]
                                  , vel=record["vel"]
+                                 , gforces=record["gforces"]
+                                 , gforces2=record["gforces2"]
                                  , steering=record["steering"]
                                  , steering_input=record["steering_input"]
                                  , brake=record["brake"]
                                  , brake_input=record["brake_input"]
                                  , throttle=record["throttle"]
                                  , throttle_input=record["throttle_input"]
-                                 , wheelspeed=record["wheelspeed"]
-                                 , vel_kmh=record["vel_kmh"])
+                                 , throttleFactor=record["throttleFactor"]
+                                 , engineThrottle=record["engineThrottle"]
+                                 , wheelspeed=record["engineThrottle"]
+                                 , vel_kmh=record["engineThrottle"])
 
             sim_data_record = SimulationDataRecord(**state._asdict(),
                                                    is_oob=record["is_oob"],
@@ -134,6 +140,7 @@ class MapElitesBNG(MapElites):
         simulation_data.info = SimulationInfo()
         simulation_data.info.start_time = data["info"]["start_time"]
         simulation_data.info.end_time = data["info"]["end_time"]
+        simulation_data.info.elapsed_time = data["info"]["elapsed_time"]
         simulation_data.info.success = data["info"]["success"]
         simulation_data.info.computer_name = data["info"]["computer_name"]
         simulation_data.info.id = data["info"]["id"]
@@ -143,6 +150,7 @@ class MapElitesBNG(MapElites):
             member.distance_to_boundary = simulation_data.min_oob_distance()
             member.simulation = simulation_data
             individual: BeamNGIndividual = BeamNGIndividual(member, self.config)
+            individual.seed = path
         else:
             print("*********Bug************")
         return individual
@@ -150,92 +158,27 @@ class MapElitesBNG(MapElites):
     def generate_feature_dimensions(self, combination):
         fts = list()
 
-        if "MinRadius" in combination and "DirectionCoverage" in combination:
-            ft1 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
-            fts.append(ft1)
-            ft2 = FeatureDimension(name="DirectionCoverage", feature_simulator="dir_coverage", bins=1)
-            fts.append(ft2)
-
-        elif "MinRadius" in combination and "MeanLateralPosition" in combination:
+        if "MinRadius" in combination:
             ft1 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
             fts.append(ft1)
 
+        if "MeanLateralPosition" in combination:
             ft3 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
             fts.append(ft3)
 
-        elif "DirectionCoverage" in combination and "MeanLateralPosition" in combination:
+        if "DirectionCoverage" in combination:
             ft2 = FeatureDimension(name="DirectionCoverage", feature_simulator="dir_coverage", bins=1)
             fts.append(ft2)
 
-            ft3 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
-            fts.append(ft3)
-
-        elif "MinRadius" in combination and "SegmentCount" in combination:
-            ft1 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
-            fts.append(ft1)
+        if "SegmentCount" in combination:
             ft2 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
             fts.append(ft2)
 
-        elif "SegmentCount" in combination and "MeanLateralPosition" in combination:
-            ft1 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
-            fts.append(ft1)
-
-            ft3 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
-            fts.append(ft3)
-
-        elif "SegmentCount" in combination and "DirectionCoverage" in combination:
-            ft2 = FeatureDimension(name="DirectionCoverage", feature_simulator="dir_coverage", bins=1)
-            fts.append(ft2)
-
-            ft3 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
-            fts.append(ft3)
-
-        elif "SegmentCount" in combination and "SDSteeringAngle" in combination:
+        if  "SDSteeringAngle" in combination:
             ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
             fts.append(ft2)
 
-            ft3 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
-            fts.append(ft3)
-        
-        elif "DirectionCoverage" in combination and "SDSteeringAngle" in combination:
-            ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
-            fts.append(ft2)
-
-            ft3 = FeatureDimension(name="DirectionCoverage", feature_simulator="dir_coverage", bins=1)
-            fts.append(ft3)
-
-        elif "MinRadius" in combination and "SDSteeringAngle" in combination:
-            ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
-            fts.append(ft2)
-
-            ft3 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
-            fts.append(ft3)
-        
-        elif "SDSteeringAngle" in combination and "MeanLateralPosition" in combination:
-            ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
-            fts.append(ft2)
-
-            ft3 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
-            fts.append(ft3)
-
-        elif "Curvature" in combination and "SDSteeringAngle" in combination:
-            ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
-            fts.append(ft2)
-
-            ft3 = FeatureDimension(name="Curvature", feature_simulator="curvature", bins=1)
-            fts.append(ft3)
-
-        elif "Curvature" in combination and "SegmentCount" in combination:
-            ft2 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
-            fts.append(ft2)
-
-            ft3 = FeatureDimension(name="Curvature", feature_simulator="curvature", bins=1)
-            fts.append(ft3)
-
-        elif "Curvature" in combination and "MeanLateralPosition" in combination:
-            ft2 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
-            fts.append(ft2)
-
+        if "Curvature" in combination:
             ft3 = FeatureDimension(name="Curvature", feature_simulator="curvature", bins=1)
             fts.append(ft3)
 
@@ -261,19 +204,23 @@ class MapElitesBNG(MapElites):
         if function == "curvature":
             return us.curvature(x)
 
-    @staticmethod
-    def print_config(dir):
+    def print_config(self, dir):
         config = {
-            "MUTATION_EXTENT": str(self.config.MUTATION_EXTENT),
-            "MUTPB": str(self.config.MUTPB),
-            "keras_model_file": str(self.config.keras_model_file), 
-            "generator_name": str(self.config.generator_name),
-            "seed_folder": str(self.config.seed_folder),
-            "initial_population_folder": str(self.config.initial_population_generator), 
-            "Feature_Combination": str(self.config.Feature_Combination),
-            "RUNTIME": str(self.config.RUNTIME),
-            "RUN": str(self.config.run_id) 
-
+            "Pop size": str(self.config.POPSIZE),
+            "Pool size": str(self.config.POOLSIZE),
+            "Mutation extent": str(self.config.MUTATION_EXTENT),
+            "Mutation prob": str(self.config.MUTPB),
+            "Keras model file": str(self.config.keras_model_file), 
+            "Generator name": str(self.config.generator_name),
+            "Seed folder": str(self.config.seed_folder),
+            "Initial population folder": str(self.config.initial_population_folder), 
+            "Feature combination": str(self.config.Feature_Combination),
+            "Run time": str(self.config.RUNTIME),
+            "Run id": str(self.config.run_id),
+            "Rank prob": str(self.config.SELECTIONPROB),
+            "Rank bias": str(self.config.RANK_BIAS),
+            "Rank base": str(self.config.RANK_BASE),
+            "Selection Operator": str(self.config.SELECTIONOP),
         }
 
         filedest = join(dir, "config.json")
@@ -282,30 +229,26 @@ class MapElitesBNG(MapElites):
 
 
 def main():
-    
-    from folders import folders
+    from core.folders import folders
     log_dir_name = folders.experiments
     # Ensure the folder exists
     if os.path.exists(folders.log):
         shutil.rmtree(folders.log)
     Path(log_dir_name).mkdir(parents=True, exist_ok=True)
-    Config.EXECTIME = 0
     
+    # Setup logging
+    log_to = f"{log_dir_name}/logs.txt"
+    us.setup_logging(log_to)
+    print("Logging results to " + log_to)
+
+    Config.EXECTIME = 0
+
     config = cfg.BeamNGConfig()
     problem = BeamNGProblem.BeamNGProblem(config)
     
-
-    log_to = f"{log_dir_name}/logs.txt"
-    debug = f"{log_dir_name}/debug.txt"
-
-    # Setup logging
-    us.setup_logging(log_to, debug)
-    print("Logging results to " + log_to)
-
-    
     map_E = MapElitesBNG(config.Feature_Combination, problem, log_dir_name, int(config.run_id), True)
     map_E.run()
-    log.info(f"invalid mutation: {Config.INVALID}")
+    map_E.print_config(log_dir_name)
 
 
 if __name__ == "__main__":

@@ -4,13 +4,10 @@ import numpy as np
 from deap import creator
 
 from core.config import Config
-from core.log_setup import get_logger
-from core.misc import evaluate_sparseness
-from core.archive import Archive
 from core.individual import Individual
 from self_driving.beamng_member import BeamNGMember
 
-log = get_logger(__file__)
+import logging as log
 
 
 class BeamNGIndividual(Individual):
@@ -24,7 +21,7 @@ class BeamNGIndividual(Individual):
         self.name_ljust = self.name.ljust(6)
         self.config = config
         self.m.parent = self
-        self.seed: BeamNGMember
+        self.seed = None #: BeamNGMember
 
     def evaluate(self):
         self.m.evaluate()
@@ -32,14 +29,14 @@ class BeamNGIndividual(Individual):
         border = self.m.distance_to_boundary
         self.oob_ff = border if border > 0 else -0.1
 
-        log.info(f'evaluated {self}')
+        log.debug(f'evaluated {self}')
 
         return self.oob_ff
 
     def clone(self) -> 'BeamNGIndividual':
         res: BeamNGIndividual = creator.Individual(self.m.clone(), self.config)
         res.seed = self.seed
-        log.info(f'cloned to {res} from {self}')
+        log.debug(f'cloned to {res} from {self}')
         return res
 
     def to_dict(self):
@@ -60,4 +57,4 @@ class BeamNGIndividual(Individual):
     def mutate(self):
         road_to_mutate = self.m
         road_to_mutate.mutate()
-        log.info(f'mutated {road_to_mutate}')
+        log.debug(f'mutated {road_to_mutate}')
