@@ -93,7 +93,7 @@ class MapElites(ABC):
         # ranked selection probability is set to 0 at start
         filled = len(self.solutions)  
         sel_prob = self.config.SELECTIONPROB
-        self.extract_results(iter, self.elapsed_time)
+
         while Config.EXECTIME <= self.config.RUNTIME:  
             print(Config.EXECTIME)          
             # apply epsilon greedy
@@ -144,7 +144,7 @@ class MapElites(ABC):
 
     def extract_results(self, i, execution_time):
         # now = datetime.now().strftime("%Y%m%d%H%M%S")
-        log_dir_name = f"{self.log_dir_path}/{i}"
+        log_dir_name = f"{self.log_dir_path}" #/{i}"
         log_dir_path = Path(f"{log_dir_name}/archive")
         log_dir_path.mkdir(parents=True, exist_ok=True)
 

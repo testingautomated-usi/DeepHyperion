@@ -110,22 +110,17 @@ class MapElitesBNG(MapElites):
         states = []
         for record in records:
             state = VehicleState(timer=record["timer"]
-                                 , damage=record["damage"]
                                  , pos=record["pos"]
                                  , dir=record["dir"]
                                  , vel=record["vel"]
-                                 , gforces=record["gforces"]
-                                 , gforces2=record["gforces2"]
                                  , steering=record["steering"]
                                  , steering_input=record["steering_input"]
                                  , brake=record["brake"]
                                  , brake_input=record["brake_input"]
                                  , throttle=record["throttle"]
                                  , throttle_input=record["throttle_input"]
-                                 , throttleFactor=record["throttleFactor"]
-                                 , engineThrottle=record["engineThrottle"]
-                                 , wheelspeed=record["engineThrottle"]
-                                 , vel_kmh=record["engineThrottle"])
+                                 , wheelspeed=record["wheelspeed"]
+                                 , vel_kmh=record["vel_kmh"])
 
             sim_data_record = SimulationDataRecord(**state._asdict(),
                                                    is_oob=record["is_oob"],
