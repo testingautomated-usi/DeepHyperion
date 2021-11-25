@@ -147,7 +147,23 @@ pip install -r requirements.txt
 
 ### Run the Tool ###
 
-To run the command execute:
+
+To use the tool as DeepHyperion, in `properties.py`, set the parameters as follow:
+```
+SELECTIONOP    = str(os.getenv('DH_SELECTIONOP', 'random')) 
+SELECTIONPROB    = float(os.getenv('DH_SELECTIONPROB', '0.0'))
+``` 
+Or
+
+To use the tool as DeepHyperion-CS, in `properties.py`, set the parameters as follow:
+```
+SELECTIONOP    = str(os.getenv('DH_SELECTIONOP', 'ranked')) 
+SELECTIONPROB    = float(os.getenv('DH_SELECTIONPROB', '0.5'))
+``` 
+
+
+
+and then to run each of the tools use the following command:
 
 ```
 python mapelites_mnist.py

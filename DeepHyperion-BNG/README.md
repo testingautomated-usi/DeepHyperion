@@ -104,6 +104,20 @@ self.Feature_Combination = ["SegmentCount", "MeanLateralPosition"]
 ```
 
 ### Run the Tool ###
+
+To use the tool as DeepHyperion, in `core/config.py`, set the parameters as follow:
+```
+self.SELECTIONPROB = 0.0
+self.SELECTIONOP = "random"
+``` 
+Or
+
+To use the tool as DeepHyperion-CS, in `core/config.py`, set the parameters as follow:
+```
+self.SELECTIONPROB = 0.5
+self.SELECTIONOP = "ranked"
+```
+
 To run the tool, activate the python virtual environment and run the `core/mapelites_bng.py` script:
 
 ```
