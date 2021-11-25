@@ -89,6 +89,10 @@ class IlluminationAxisDefinition:
         self.num_cells = num_cells
         # Definition of the inner map, values might fall outside it if less than min
         self.original_bins = np.linspace(min_value, max_value, num_cells)
+        if min_value < 0:
+            self.abs_bins = np.linspace(0, max_value + abs(min_value), num_cells)
+        else:
+            self.abs_bins = np.linspace(min_value, max_value, num_cells)
         # Definition of the outer map
         # Include the default boundary conditions. Note that we do not add np.PINF, but the max value.
         # Check: https://stackoverflow.com/questions/4355132/numpy-digitize-returns-values-out-of-range
@@ -128,6 +132,8 @@ class IlluminationAxisDefinition:
         elif value > self.max_value:
             self.logger.warning("Sample %s has value %s above the max value %s for feature %s",  sample.id, value, self.max_value, self.feature_name)
 
+        if self.min_value < 0:
+            value = value + abs(self.min_value)
 
         if is_outer_map:
             return np.digitize(value, self.bins, right=False)
@@ -342,6 +348,21 @@ class IlluminationMap:
         total_samples = np.sum(map_data)
         return (total_samples - filled_cells) / filled_cells if filled_cells > 0 else np.NaN
 
+    def _auc_filled_cells(self, coverage_series, time_series):
+        """
+        Returns:
+            the area under the curv of coverage and time diagram
+        """
+        auc = np.trapz(x = time_series, y= coverage_series)
+        return auc
+
+    def _auc_mapped_misbehaviors(self, misbehavior_series, time_series):
+        """
+        Returns:
+            the area under the curv of mapped misbehaviours and time diagram
+        """
+        auc = np.trapz(x = time_series, y= misbehavior_series)
+        return auc
 
     def _get_tool(self, samples):
         # TODO Assume that all the samples belong to the same tool
@@ -452,6 +473,8 @@ class IlluminationMap:
 
             # Build the map data: For the moment forget about outer maps, those are mostly for visualization!
             coverage_data, misbehavior_data, _, _ = self._compute_maps_data(feature1, feature2, filtered_samples)
+            # Build the vectors for computing auc wrt time
+            coverage_auc_data, misbehavior_auc_data, time_data  = self._compute_auc_data(feature1, feature2, filtered_samples)
 
             # Compute statistics over the map data
             map_report = {
@@ -476,7 +499,10 @@ class IlluminationMap:
                 'Misbehavior Sparseness': self._avg_max_distance_between_filled_cells_from_map(misbehavior_data),
                 # The follwing two only for retro-compability
                 'Avg Sample Distance': self._avg_sparseness_from_map(coverage_data),
-                'Avg Misbehavior Distance': self._avg_sparseness_from_map(misbehavior_data)
+                'Avg Misbehavior Distance': self._avg_sparseness_from_map(misbehavior_data),
+                # Area under the curv
+                'AUC Filled Cells': self._auc_filled_cells(coverage_auc_data, time_data),
+                'AUC Mapped Misbehaviors': self._auc_mapped_misbehaviors(misbehavior_auc_data, time_data)
             }
 
             report["Reports"].append(map_report)
@@ -531,6 +557,55 @@ class IlluminationMap:
 
         return coverage_data, misbehaviour_data, coverage_outer_data, misbehaviour_outer_data
 
+
+    def _compute_auc_data(self, feature1, feature2, samples):
+        """
+        Create the raw data for the map by placing the samples on the map and counting filled cells and misbehaviours during time
+        Args:
+            feature1:
+            feature2:
+            samples:
+        Returns:
+            coverage_auc, misbehavior_auc, time_data
+        """
+        # TODO Refactor:
+
+        # Reshape the data as ndimensional array. But account for the lower and upper bins.
+        coverage_data = np.zeros(shape=(feature1.num_cells, feature2.num_cells), dtype=int)
+        misbehaviour_data = np.zeros(shape=(feature1.num_cells, feature2.num_cells), dtype=int)
+
+        coverage = 0
+        misbehavior = 0
+
+        coverage_auc_data = []
+        misbehaviour_auc_data = []
+        time_data = []
+
+        i = 0
+        for sample in sorted(samples,key=lambda s: elapsed_to_millisec(s.elapsed),reverse=False):
+            i +=1 
+            # Coordinates reason in terms of bins 1, 2, 3, while data is 0-indexed
+            x_coord = feature1.get_coordinate_for(sample, is_outer_map=False) - 1
+            y_coord = feature2.get_coordinate_for(sample, is_outer_map=False) - 1
+
+            if coverage_data[x_coord, y_coord] == 0:
+                # Increment the coverage 
+                coverage += 1
+                coverage_data[x_coord, y_coord] = 1
+
+            if sample.is_misbehavior() and misbehaviour_data[x_coord, y_coord] == 0:
+                # Increment the misbehaviour 
+                misbehavior += 1
+                misbehaviour_data[x_coord, y_coord] = 1
+
+            coverage_auc_data.append(coverage)
+            misbehaviour_auc_data.append(misbehavior)
+            millisecs = elapsed_to_millisec(sample.elapsed)
+            time_data.append(millisecs)
+
+        return coverage_auc_data, misbehaviour_auc_data, time_data
+
+
     def visualize_probability(self, tags=None, feature_selector=None, sample_selector=None):
         """
             Visualize the probability of finding a misbehavior in a give cell, computed as the total of misbehavior over
@@ -555,6 +630,8 @@ class IlluminationMap:
         # To compute confidence intervals and possibly other metrics on the map
         misbehaviour_maps = []
         coverage_maps = []
+        coverage_aucs = []
+        misbehaviour_aucs = []
 
         total_samples_in_the_map = filtered_samples
 
@@ -569,7 +646,11 @@ class IlluminationMap:
                 filtered_samples = drop_outliers_for(feature2, filtered_samples)
 
             coverage_data, misbehaviour_data, _, _ = self._compute_maps_data(feature1, feature2, filtered_samples)
+            coverage_auc_data, misbehavior_auc_data, time_data  = self._compute_auc_data(feature1, feature2, filtered_samples)
 
+            coverage_auc = np.column_stack((time_data, coverage_auc_data))
+
+            misbehaviour_auc = np.column_stack((time_data, misbehavior_auc_data))
             # figure
             fig, ax = plt.subplots(figsize=(8, 8))
 
@@ -643,7 +724,19 @@ class IlluminationMap:
             })
 
 
-        return figures, probability_maps, misbehaviour_maps, coverage_maps
+            coverage_aucs.append({
+                    "data": coverage_auc,
+                    "store_to": "-".join(["auc_coverage", tool_name, run_id, feature1.feature_name, feature2.feature_name])
+            })
+
+            misbehaviour_aucs.append({
+                    "data": misbehaviour_auc,
+                    "store_to": "-".join(["auc_misbehaviour", tool_name, run_id, feature1.feature_name, feature2.feature_name])
+            })
+
+
+        return figures, probability_maps, misbehaviour_maps, coverage_maps, misbehaviour_aucs, coverage_aucs
+
 
 
     def visualize(self, tags=None, feature_selector=None, sample_selector=None):
@@ -689,6 +782,8 @@ class IlluminationMap:
 
             # TODO For the moment, since filtered_Samples might be different we need to rebuild this every time
             coverage_data, misbehaviour_data, _, _ = self._compute_maps_data(feature1, feature2, filtered_samples)
+            # Build the vectors for computing auc wrt time
+            coverage_auc_data, misbehavior_auc_data, time_data  = self._compute_auc_data(feature1, feature2, filtered_samples)
 
             # figure
             fig, ax = plt.subplots(figsize=(8, 8))

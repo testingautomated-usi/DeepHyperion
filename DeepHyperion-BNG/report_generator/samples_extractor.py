@@ -312,7 +312,7 @@ class DeepJanusBngSample(BeamNGSample):
 
         self.timestamp = simulation_data["info"]["start_time"]
         # TODO Elapsed is missing we can have duration using end_time, but not time since the experiment is started
-        # self.elapsed = json_data["elapsed"]
+        self.elapsed = simulation_data["info"]["elapsed_time"]
         # TODO This one is missing
         # self.run = json_data["run"]
 
