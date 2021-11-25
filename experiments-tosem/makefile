@@ -74,7 +74,7 @@ clean-plots:
 ./plots/RQ2-MNIST.pdf ./plots/RQ2-BeamNG.pdf: $(BEAMNG_DATA) $(MNIST_DATA) .venv
 	$(V_PYTHON) rq2.py
 
-./plots/RQ3-MNIST.pdf ./plots/RQ3-BeamNG.pdf: $(BEAMNG_DATA) $(MNIST_DATA) .venv
+./plots/RQ3-MNIST-1.pdf ./plots/RQ3-MNIST-2.pdf ./plots/RQ3-BeamNG-1.pdf ./plots/RQ3-BeamNG-2.pdf: $(BEAMNG_DATA) $(MNIST_DATA) .venv
 	$(V_PYTHON) rq3.py
 
 ### Plotting "Commands". Use the following only if you want to plot each single figure, otherwise use plot-all
@@ -90,5 +90,5 @@ rq3: $(BEAMNG_DATA) $(MNIST_DATA) .venv
 
 ### Plot all the figures in the paper from the data
 
-plot-all: ./plots/RQ1-MNIST.pdf ./plots/RQ1-BeamNG.pdf ./plots/RQ2-MNIST.pdf ./plots/RQ2-BeamNG.pdf ./plots/RQ3-MNIST.pdf ./plots/RQ3-BeamNG.pdf
+plot-all: ./plots/RQ1-MNIST.pdf ./plots/RQ1-BeamNG.pdf ./plots/RQ2-MNIST.pdf ./plots/RQ2-BeamNG.pdf ./plots/RQ3-MNIST-1.pdf ./plots/RQ3-MNIST-2.pdf ./plots/RQ3-BeamNG-1.pdf ./plots/RQ3-BeamNG-2.pdf
 	@echo Done
