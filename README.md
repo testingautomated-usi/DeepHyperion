@@ -19,7 +19,7 @@ The package is structured as follows:
 * [__DeepHyperion-MNIST__](./DeepHyperion-MNIST) contains the DeepHyperion tool adapted to the handwritten digit classification case study and the instructions on how to use it;
 * [__DeepHyperion-BNG__](./DeepHyperion-BNG) contains the DeepHyperion tool adapted to the self-driving car case study and the instructions on how to use it;
 * [__experiments-issta__](./experiments-issta) contains the raw experimental data and the scripts to obtain the results reported in the ISSTA paper;
-* [__experiments-tosem__](./experiments-issta) contains the raw experimental data and the scripts to obtain the results reported in the TOSEM paper;
+* [__experiments-tosem__](./experiments-tosem) contains the raw experimental data and the scripts to obtain the results reported in the TOSEM paper;
 * [__documentation__](./documentation) contains a quick installation guide and a detailed description of the tool.
 * [__preprint__](./preprint.pdf) is the preprint version of our paper describing DeepHyperion.
 

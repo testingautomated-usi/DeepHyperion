@@ -149,7 +149,7 @@ Then, you will find the following files in `plots` folder:
 * `RQ3-BeamNG.pdf`  (Figure 8: RQ3: Probability maps and feature discrimination for BeamNG)
 
 
-These plots correspond to the ones reported in Figures 3 -- 8 of the (pre-print) version of the paper.
+These plots correspond to the ones reported in Figures 3 -- 8 of the (pre-print) version of the ISSTA paper.
 To check the results, you should copy the files from the running docker to your system, as follows:
 
 ```
