@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class FeatureDimension:
     """
     Implements a feature dimension of the MAP-Elites algorithm
@@ -14,8 +13,8 @@ class FeatureDimension:
         """
         self.name = name
         self.feature_simulator = feature_simulator
-        self.bins = bins
         self.min = np.inf
+        self.bins = bins
 
     def feature_descriptor(self, map_elite, x):
         """

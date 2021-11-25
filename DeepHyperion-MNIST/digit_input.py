@@ -24,6 +24,9 @@ class Digit:
         self.expected_label = label
         self.predicted_label = None
         self.confidence = None
+        self.rank = np.inf
+        self.selected_counter = 0
+        self.placed_mutant = 0
         Digit.COUNT += 1
 
     def to_dict(self):
@@ -37,7 +40,10 @@ class Digit:
                 'elapsed': str(self.elapsed_time),
                 'tool' : str(self.tool),
                 'run' : str(self.run),
-                'features': self.features
+                'features': self.features,
+                'rank': str(self.rank),
+                'selected': str(self.selected_counter),
+                'placed_mutant': str(self.placed_mutant)
         }
 
     def dump(self, filename):
@@ -74,7 +80,7 @@ class Digit:
             dst = join(Folder.DST_ARC, "mbr"+str(self.id))
         self.dump(dst)
         self.save_npy(dst)
-        self.save_png(dst)
+        # self.save_png(dst)
         self.save_svg(dst)
 
     def clone(self):

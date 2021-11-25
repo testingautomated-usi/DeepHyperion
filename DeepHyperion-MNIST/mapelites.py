@@ -4,14 +4,17 @@ from datetime import datetime
 from abc import ABC, abstractmethod
 from pathlib import Path
 import json
+import math
 import logging as log
 
 # local imports
 from individual import Individual
-from plot_utils import plot_heatmap, plot_fives
-import utils
+from plot_utils import plot_heatmap
+from utils import compute_sparseness, get_neighbors
+from properties import RANK_BIAS, SELECTIONPROB, SELECTIONOP, RANK_BASE
 from timer import Timer
-
+import random
+import itertools   
 
 class MapElites(ABC):
 
@@ -31,19 +34,14 @@ class MapElites(ABC):
             self.place_operator = operator.ge
 
         self.iterations = iterations
-
+        
         self.random_solutions = bootstrap_individuals
+        # self.starting_seeds = generate_diverse_initial_population()
         self.feature_dimensions = self.generate_feature_dimensions()
 
-        # get number of bins for each feature dimension
-        ft_bins = [ft.bins for ft in self.feature_dimensions]
-
         # Map of Elites: Initialize data structures to store solutions and fitness values
-        self.solutions = np.full(
-            ft_bins, None,
-            dtype=object
-        )
-        self.performances = np.full(ft_bins, np.inf, dtype=float)
+        self.solutions = dict()
+        self.performances = dict()
 
         log.info("Configuration completed.")
 
@@ -56,95 +54,192 @@ class MapElites(ABC):
         for _ in range(0, self.random_solutions):
             x = self.generate_random_solution()
             # add solution to elites computing features and performance
-            self.place_in_mapelites(x)
-
+            self.place_in_mapelites(x, None, 0)
+    
     def run(self):
         """
         Main iteration loop of MAP-Elites
         """
         # start by creating an initial set of random solutions
         self.generate_initial_population()
-        i = 0
-        while Timer.has_budget():
-            log.info(f"ITERATION {i}")
-            log.info("Select and mutate.")
-            # get the index of a random individual from the map of elites
-            ind = self.random_selection()
+        # self.generate_training_population()
+        # iteration counter
+        iter = 0
+        # ranked selection probability is set to 0 at start
+        filled = len(self.solutions)  
+        sel_prob = SELECTIONPROB
+        while Timer.has_budget():            
+            # apply epsilon greedy
+            selection_prob = random.uniform(0,1)
+            if selection_prob <= sel_prob:
+                # get the index of a random individual from the map of elites
+                idx = self.rank_selection(individuals=1)[0]
+            else:
+                idx = self.random_selection(individuals=1)[0]
+            
+            self.solutions[idx].member.selected_counter += 1  
+            parent = self.solutions[idx]
+            log.info(f"Iteration {iter}: Selecting individual {parent.member.id} at {parent.features} with rank: {parent.member.rank} and seed: {parent.member.seed}")  
+            
             # mutate the individual
-            ind = self.mutation(ind)
+            ind = self.mutation(parent)
             # place the new individual in the map of elites
-            self.place_in_mapelites(ind)
-            i += 1
+            self.place_in_mapelites(ind, idx, iter)
+            self.elapsed_time = Timer.get_elapsed_time()
+
+            if SELECTIONOP == "dynamic_ranked":
+                # check coverage every 10000 iterations
+                if iter % 1000 == 0:
+                    last_filled = filled
+                    filled = len(self.solutions) 
+                    # if coverage doesn't change in last 1000 iterations
+                    if filled == last_filled:
+                        if sel_prob <= 1.0:
+                            # increase ranked selection probability
+                            sel_prob += 0.05
+                            log.info(f"Rank Selection probability increased to {sel_prob}")
+            iter += 1
 
         self.elapsed_time = Timer.get_elapsed_time()
-        self.extract_results(i, self.elapsed_time)
+        self.extract_results(iter, self.elapsed_time)
 
         if self.minimization:
-            best = self.performances.argmin()
+            idx = min(self.performances.items(), key=operator.itemgetter(1))[0]
         else:
-            best = self.performances.argmax()
+            idx = max(self.performances.items(), key=operator.itemgetter(1))[0]
 
-        idx = np.unravel_index(best, self.performances.shape)
+        
         best_perf = self.performances[idx]
         best_ind = self.solutions[idx]
         log.info(f"Best overall value: {best_perf}"
-              f" produced by individual {best_ind.member.id}"
+              f" produced by individual {best_ind}"
               f" and placed at {self.map_x_to_b(best_ind)}")
 
     def extract_results(self, iterations, execution_time):
-        # self.log_dir_path is "logs/temp_..."
-        log_dir_name = f"{self.log_dir_path}/log_{self.random_solutions}_{iterations}"
-
-        # Create another folder insider the log one ...
-        log_dir_path = Path(f"{log_dir_name}") # {self.feature_dimensions[1].name}_{self.feature_dimensions[0].name}")
+        log_dir_name = f"{self.log_dir_path}"#/log_{iterations}_{execution_time}"
+        log_dir_path = Path(f"{log_dir_name}")
         log_dir_path.mkdir(parents=True, exist_ok=True)
 
         # filled values                                 
-        filled = np.count_nonzero(self.solutions is not None)
-        total = np.size(self.solutions)        
+        filled = len(self.solutions)        
 
         original_seeds = set()
         mis_seeds = set()
-        for (i, j), value in np.ndenumerate(self.solutions):
-            if self.solutions[i, j] is not None:
-                original_seeds.add(self.solutions[i, j].seed)
-                if self.performances[i, j] < 0:
-                    mis_seeds.add(self.solutions[i, j].seed)
-                self.solutions[i, j].member.export()
-
         Individual.COUNT_MISS = 0
-        for (i, j), value in np.ndenumerate(self.performances):
-            if self.performances[i, j] < 0:
+        for x in enumerate(self.performances.items()): 
+            # enumerate function returns a tuple in the form
+            # (index, (key, value)) it is a nested tuple
+            # for accessing the value we do indexing x[1][1]
+            original_seeds.add(self.solutions[x[1][0]].seed)
+            if x[1][1] < 0:
                 Individual.COUNT_MISS += 1
-                
+                mis_seeds.add(self.solutions[x[1][0]].seed)
+            self.solutions[x[1][0]].member.export()
+    
+        feature_dict = dict()
+        for ft in self.feature_dimensions:
+            feature_dict.update({f"{ft.name}_min": ft.min,
+            f"{ft.name}_max": ft.max})
 
+        _performances = {}
+
+        # convert keys to string   
+        for key, value in self.performances.items():
+            _key = str(key)
+            _performances[_key] = str(value)
+
+        run_time = execution_time
         report = {
-            "Run time": str(self.elapsed_time),
-            f"{self.feature_dimensions[1].name}_min": self.feature_dimensions[1].min,
-            f"{self.feature_dimensions[1].name}_max": self.feature_dimensions[1].bins,
-            f"{self.feature_dimensions[0].name}_min": self.feature_dimensions[0].min,
-            f"{self.feature_dimensions[0].name}_max": self.feature_dimensions[0].bins,
+            "Run time": str(run_time),
             'Covered seeds': len(original_seeds),
             'Filled cells': (filled),
-            'Filled density': (filled / total),
             'Misclassified seeds': len(mis_seeds),
             'Misclassifications': (Individual.COUNT_MISS),
-            'Misclassification density': (Individual.COUNT_MISS / filled),
-            'Performances': self.performances.tolist()
+            'Performances': _performances
         }
-        
-        dst = f"{log_dir_name}/report_" + self.feature_dimensions[1].name + "_" + self.feature_dimensions[
-            0].name + "_" + str(execution_time) + '.json'
-        report_string = json.dumps(report)
 
-        file = open(dst, 'w')
-        file.write(report_string)
-        file.close()
+        report.update(feature_dict)
         
-        self.plot_map_of_elites(self.performances, log_dir_name)    
-        # plot_fives(f"{log_dir_name}", self.feature_dimensions[1].name, self.feature_dimensions[0].name)    
+        dst = f"{log_dir_name}/report.json"
+        with open(dst, 'w') as f:
+            (json.dump(report, f, sort_keys=False, indent=4))
 
-    def place_in_mapelites(self, x):
+
+        # Find the order of features in tuples
+        b = tuple()
+        for ft in self.feature_dimensions:
+            i = ft.name
+            b = b + (i,)
+
+        for feature1, feature2 in itertools.combinations(self.feature_dimensions, 2):         
+            # # Create another folder insider the log one ...
+            # log_dir_path = Path(f"{log_dir_name}/{feature1.name}_{feature2.name}")
+            # log_dir_path.mkdir(parents=True, exist_ok=True)
+
+            # Find the position of each feature in indexes
+            x = list(b).index(feature1.name)
+            y = list(b).index(feature2.name)
+
+            # Define a new 2-D dict
+            _solutions = {}
+            _performances = {}
+                
+            for key, value in self.performances.items():
+                _key = (key[x], key[y])
+                if _key in _performances:
+                    if _performances[_key] > value:
+                        _performances[_key] = value
+                        _solutions[_key] = self.solutions[key]
+                else:
+                    _performances[_key] = value
+                    _solutions[_key] = self.solutions[key]
+
+            # filled values                                 
+            filled = len(_solutions)        
+
+            original_seeds = set()
+            mis_seeds = set()
+            Individual.COUNT_MISS = 0
+            for x in enumerate(_performances.items()): 
+                # enumerate function returns a tuple in the form
+                # (index, (key, value)) it is a nested tuple
+                # for accessing the value we do indexing x[1][1]
+                original_seeds.add(_solutions[x[1][0]].seed)
+                if x[1][1] < 0:
+                    Individual.COUNT_MISS += 1
+                    mis_seeds.add(_solutions[x[1][0]].seed)
+        
+            feature_dict = {}
+            feature_dict.update({f"{feature1.name}_min": feature1.min,
+            f"{feature1.name}_max": feature1.bins})
+
+            feature_dict.update({f"{feature2.name}_min": feature2.min,
+            f"{feature2.name}_max": feature2.bins})
+
+            str_performances = {}
+            # convert keys to string   
+            for key, value in _performances.items():
+                str_performances[str(key)] = str(value)
+
+            run_time = execution_time
+            report = {
+                "Run time": str(run_time),
+                'Covered seeds': len(original_seeds),
+                'Filled cells': (filled),
+                'Misclassified seeds': len(mis_seeds),
+                'Misclassifications': (Individual.COUNT_MISS),
+                'Performances': str_performances
+            }
+
+            report.update(feature_dict)
+            
+            dst = f"{log_dir_name}/report_" + feature1.name + "_" + feature2.name + '.json'
+            with open(dst, 'w') as f:
+                (json.dump(report, f, sort_keys=False, indent=4))
+
+            self.plot_map_of_elites(_performances, log_dir_name, feature1, feature2)       
+
+    def place_in_mapelites(self, x, parent, iter):
         """
         Puts a solution inside the N-dimensional map of elites space.
         The following criteria is used:
@@ -158,28 +253,55 @@ class MapElites(ABC):
         """
         # get coordinates in the feature space
         b = self.map_x_to_b(x)
+        x.features = b
         # performance of the x
         perf = self.performance_measure(x)
 
-        reconstruct = False
-        for i in range(len(b)):
-            # if the bin is not already present in the map
-            if b[i] >= self.feature_dimensions[i].bins:
-                reconstruct = True
-                self.feature_dimensions[i].bins = b[i] + 1
-
-        if reconstruct:
-            # reconstruct map to add the new bins
-            self.reconstruct_map()
-
+        status = None
         # place operator performs either minimization or maximization
         # compares value of x with value of the individual already in the bin
-        if self.place_operator(perf, self.performances[b]):
-            log.info(f"PLACE: Placing individual {x.member.id} at {b} with perf: {perf}")
+        if b in self.performances:
+            if self.place_operator(perf, self.performances[b]):
+                log.info(f"Iteration {iter}: Replacing individual {x.member.id} at {b} with perf: {perf} and seed: {x.member.seed}")
+                
+                if parent is not None:
+                    self.solutions[parent].member.placed_mutant += 1
+                self.performances[b] = perf
+                self.solutions[b] = x
+                status = "Replace"
+            else:
+                log.info(f"Iteration {iter}: Rejecting individual {x.member.id} at {b} with perf: {perf} in favor of {self.performances[b]}")
+                status = "Reject"
+        else:
+
+            log.info(f"Iteration {iter}: Placing individual {x.member.id} at {b} with perf: {perf} and seed: {x.member.seed}")                    
+            status = "Place"
+            if parent is not None:
+                self.solutions[parent].member.placed_mutant += 1
             self.performances[b] = perf
             self.solutions[b] = x
-        else:
-            log.info(f"PLACE: Individual {x.member.id} rejected at {b} with perf: {perf} in favor of {self.performances[b]}")
+
+        if SELECTIONOP != "random":
+            self.rank_in_mapelites(b, parent, status)
+
+    def rank_in_mapelites(self, b, parent, status):
+        if status == "Place" or status == "Replace":
+            if RANK_BASE == "perf":
+                self.solutions[b].member.rank = self.performances[b]
+            elif RANK_BASE == "density":
+                self.solutions[b].member.rank = compute_sparseness(self.solutions, self.solutions[b])
+                neighbors = get_neighbors(b)
+                # compute rank for all neighbors
+                for neighbor in neighbors:
+                    if neighbor in self.solutions:      
+                        self.solutions[neighbor].member.rank = compute_sparseness(self.solutions, self.solutions[neighbor])
+            else:
+                if parent is not None and self.solutions[parent].member.selected_counter > 0:
+                    self.solutions[parent].member.rank = self.solutions[parent].member.placed_mutant / self.solutions[parent].member.selected_counter
+                self.solutions[b].member.rank = 1.0
+        elif RANK_BASE == "contribution_score":
+            if parent is not None and self.solutions[parent].member.selected_counter > 0:
+                self.solutions[parent].member.rank = self.solutions[parent].member.placed_mutant / self.solutions[parent].member.selected_counter
 
     def random_selection(self, individuals=1):
         """
@@ -189,69 +311,53 @@ class MapElites(ABC):
         :param individuals: The number of individuals to randomly select
         :return: A list of N random elites
         """
+        solutions = [value for key, value in self.solutions.items()]
+        rand_ind = np.random.randint(0, len(solutions), 1)[0]
+        idxs = list()
+        idxs.append(solutions[rand_ind].features)
 
-        def _get_random_index():
+        return idxs
+
+    def rank_selection(self, individuals=1):
+
+        def _get_sparse_index():
             """
-            Get a random cell in the N-dimensional feature space
+            Get a  cell in the N-dimensional feature space which is more sparse
             :return: N-dimensional tuple of integers
             """
-            indexes = tuple()
-            for ft in self.feature_dimensions:
-                rnd_ind = np.random.randint(0, ft.bins, 1)[0]
-                indexes = indexes + (rnd_ind,)
-            return indexes
-
-        def _is_not_initialized(index):
-            """
-            Checks if the selected index points to a None solution (not yet initialized)            
-            :return: Boolean
-            """
-            if self.solutions[index] is None:
-                return True
-            return False
-
+            if RANK_BASE == "perf":
+                # select the individuals that are most likely to misclassified
+                solutions = [value for key, value in self.solutions.items() if value.member.rank >= 0]
+                solutions.sort(key=lambda x: x.member.rank, reverse=False)
+            elif RANK_BASE == "density":
+                solutions = [value for key, value in self.solutions.items()]
+                solutions.sort(key=lambda x: x.member.rank, reverse=False)
+            elif RANK_BASE == "contribution_score":
+                solutions = [value for key, value in self.solutions.items()]
+                solutions.sort(key=lambda x: x.member.rank, reverse=True)
+            r = random.uniform(0, 1)
+            d = RANK_BIAS - math.sqrt((RANK_BIAS * RANK_BIAS) - (4.0 * (RANK_BIAS - 1.0) * r))
+            length = len(solutions)
+            d = d / 2.0 / (RANK_BIAS - 1.0)      
+            idx = int(length*d)
+            return solutions[idx].features
+        
         # individuals
         inds = list()
         idxs = list()
         for _ in range(0, individuals):
-            idx = _get_random_index()
-            # we do not want to repeat entries
-            while idx in idxs or _is_not_initialized(idx):
-                idx = _get_random_index()
+            idx = _get_sparse_index()
             idxs.append(idx)
             inds.append(self.solutions[idx])
+        return idxs
 
-        if individuals == 1:
-            return inds[0]
-        else:
-            return inds
-
-    def reconstruct_map(self):
-        """
-        Extend Map of elites dynamically if needed
-        """
-        # get number of bins for each feature dimension
-        ft_bins = [ft.bins for ft in self.feature_dimensions]
-
-        new_solutions = np.full(
-            ft_bins, None,
-            dtype=(object)
-        )
-        new_performances = np.full(ft_bins, np.inf, dtype=float)
-
-        new_solutions[0:self.solutions.shape[0], 0:self.solutions.shape[1]] = self.solutions
-        new_performances[0:self.performances.shape[0], 0:self.performances.shape[1]] = self.performances
-        self.solutions = new_solutions
-        self.performances = new_performances
-        return
-
-    def plot_map_of_elites(self, perfs, log_dir_name):
+    def plot_map_of_elites(self, perfs, log_dir_name, feature1, feature2):
         """
         Plot a heatmap of elites
         """
         plot_heatmap(perfs,
-                     self.feature_dimensions[1].name,
-                     self.feature_dimensions[0].name,
+                     feature1.name,
+                     feature2.name,
                      savefig_path=log_dir_name
                      )
 

@@ -9,37 +9,43 @@ import re
 import numpy as np
 import glob
 import cv2
+import pandas as pd
 
+NAMESPACE = '{http://www.w3.org/2000/svg}'
 
-def plot_heatmap(data, 
-                xlabel,
-                ylabel,                                  
+def plot_heatmap(data,
+                ylabel,  
+                xlabel,                                                
                 minimization=False,
                 savefig_path=None,
                  ):
     plt.clf()
     plt.cla()
 
+    ser = pd.Series(list(data.values()),
+                  index=pd.MultiIndex.from_tuples(data.keys()))
+    df = ser.unstack().fillna(0)
+    df = ser.unstack().fillna(np.inf)
+
     # figure
     fig, ax = plt.subplots(figsize=(8, 8))
 
-    cmap = sns.cubehelix_palette(dark=0.1, light=0.9, as_cmap=True)
-    # Cells have a value between 0.0 and 1.0 since they represent probabilities
+    cmap = sns.cubehelix_palette(as_cmap=True)
 
     # Set the color for the under the limit to be white (0.0) so empty cells are not visualized
-    # cmap.set_under('0.0')
+    # cmap.set_under('-1.0')
     # Plot NaN in white
     cmap.set_bad(color='white')    
     
-    ax = sns.heatmap(data, cmap=cmap)
+    ax = sns.heatmap(df)
     ax.invert_yaxis()
-    plt.xlabel(xlabel.name)
-    plt.ylabel(ylabel.name)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
 
     # get figure to save to file
     if savefig_path:
         ht_figure = ax.get_figure()
-        fig_name = savefig_path+"/heatmap_"+xlabel.name+"_"+ylabel.name
+        fig_name = savefig_path+"/heatmap_"+xlabel+"_"+ylabel
         print(os.path.abspath(fig_name))
         ht_figure.savefig(fig_name)
 
@@ -63,7 +69,26 @@ def plot_heatmap_rescaled(data,
                  ):
     plt.clf()
     plt.cla()
-    ax = sns.heatmap(data)
+
+    plt.clf()
+    plt.cla()
+
+    ser = pd.Series(list(data.values()),
+                  index=pd.MultiIndex.from_tuples(data.keys()))
+    df = ser.unstack().fillna(0)
+    df = ser.unstack().fillna(np.inf)
+
+    # figure
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    cmap = sns.cubehelix_palette(as_cmap=True)
+
+    # Set the color for the under the limit to be white (0.0) so empty cells are not visualized
+    # cmap.set_under('-1.0')
+    # Plot NaN in white
+    cmap.set_bad(color='white')    
+    
+    ax = sns.heatmap(df)
     ax.invert_yaxis()
     plt.xlabel(xlabel.name)
     plt.ylabel(ylabel.name)
@@ -89,17 +114,16 @@ def plot_heatmap_rescaled(data,
     ytickslabel = [round(the_bin, 1) for the_bin in np.linspace(min_value_y, max_value_y, num_cells_y)]
 
     ax.set_xticklabels(xtickslabel)
-    plt.xticks(rotation=30)
+    plt.xticks(rotation=45)
     ax.set_yticklabels(ytickslabel)
     plt.yticks(rotation=0)
-    #ax.set_aspect("equal")
-    ax.tick_params(axis='both', which='major', labelsize=7)
+
     # get figure to save to file
     if savefig_path:
         ht_figure = ax.get_figure()
         fig_name = savefig_path+"/heatmap_"+xlabel.name+"_"+ylabel.name
         print(os.path.abspath(fig_name))
-        ht_figure.savefig(fig_name, dpi=400)
+        ht_figure.savefig(fig_name)
 
     plt.clf()
     plt.cla()
@@ -228,17 +252,17 @@ def plot_heatmap_rescaled_expansion(data, expansion,
     plt.close()
  
 
-
-
 def plot_svg(xml, filename):
     root = ET.fromstring(xml)
     svg_path = root.find(NAMESPACE + 'path').get('d')
     wsvg(svg_path, filename=filename+'.svg')
 
+
 def getImage(path):
     img = plt.imread(path)
     res = cv2.resize(img, dsize=(150, 150), interpolation=cv2.INTER_AREA)
     return OffsetImage(res)
+
 
 def plot_roads(dir_path, xlabel, ylabel):    
     paths = glob.glob(dir_path + "/"+xlabel+"_"+ylabel+"/*.jpg")

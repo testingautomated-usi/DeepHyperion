@@ -10,6 +10,7 @@ from self_driving.beamng_road_imagery import BeamNGRoadImagery
 from self_driving.decal_road import DecalRoad
 from core.folders import folders
 from core.misc import delete_folder_recursively
+from core.timer import Timer
 
 SimulationDataRecordProperties = ['timer', 'pos', 'dir', 'vel', 'steering',
                                   'steering_input', 'brake', 'brake_input', 'throttle', 'throttle_input',
@@ -25,6 +26,7 @@ SimulationParams = namedtuple('SimulationParameters', ['beamng_steps', 'delay_ms
 class SimulationInfo:
     start_time: str
     end_time: str
+    elapsed_time: str
     success: bool
     exception_str: str
     computer_name: str
@@ -121,6 +123,7 @@ class SimulationData:
 
     def end(self, success: bool, exception=None):
         self.info.end_time = str(datetime.datetime.now())
+        self.info.elapsed_time = str(Timer.get_elapsed_time())
         self.info.success = success
         if exception:
             self.exception_str = str(exception)

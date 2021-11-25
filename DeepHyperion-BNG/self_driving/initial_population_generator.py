@@ -4,7 +4,7 @@ from pathlib import Path
 import time
 import numpy as np
 import random
-
+import logging as log
 
 path = Path(os.path.abspath(__file__))
 # This corresponds to DeepHyperion-BNG
@@ -41,7 +41,10 @@ def get_min_distance_from_set(ind, solution):
     return distances[0]
 
 def manhattan_dist(ind1, ind2):
-    return distance.cityblock(list(ind1), list(ind2))
+    dist = 0
+    for i in range(0,len(ind1)):
+        dist = dist + abs(ind1[i] - ind2[i])
+    return dist
 
 
 def initial_pool_generator(config, problem):
@@ -49,25 +52,29 @@ def initial_pool_generator(config, problem):
     attempts = 0
     storage = SeedStorage('initial_pool')
     i = 0
-    while good_members_found < config.POOLSIZE:#40:
+    while good_members_found < config.POOLSIZE:
         path = storage.get_path_by_index(good_members_found + 1)
+        # if path.exists():
+        #     print('member already exists', path)
+        #     good_members_found += 1
+        #     continue
         attempts += 1
-        print(f'attempts {attempts} good {good_members_found} looking for {path}')
+        log.debug(f'attempts {attempts} good {good_members_found} looking for {path}')
 
-        # rand = random.uniform(0,1)
-        # if rand < 0.3:
-        #     max_angle = 80
-        # else:
-        #     max_angle = random.randint(10,100)
-        max_angle = 80
+        max_angle = random.randint(10,100)
 
         member = problem.generate_random_member(max_angle)
         member.evaluate()
         if member.distance_to_boundary <= 0:
             continue
+        #member = problem.member_class().from_dict(member.to_dict())
         member.config = config
         member.problem = problem
+        #member.clear_evaluation()
+
+        #member.distance_to_boundary = None
         good_members_found += 1
+       # path.write_text(json.dumps(member.to_dict()))
         path.write_text(json.dumps({
             "control_nodes": member.control_nodes,
             member.simulation.f_params: member.simulation.params._asdict(),
@@ -83,13 +90,13 @@ def initial_population_generator(path, config, problem):
     type = config.Feature_Combination
     shuffle(all_roads)
 
-    roads = all_roads[:40]
+    roads = all_roads
 
     original_set = list()
 
     individuals = []
     popsize = config.POPSIZE
-    i = 0
+
     for road in roads:
         with open(road) as json_file:
             data = json.load(json_file)
@@ -137,6 +144,7 @@ def initial_population_generator(path, config, problem):
         simulation_data.info = SimulationInfo()
         simulation_data.info.start_time = data["info"]["start_time"]
         simulation_data.info.end_time = data["info"]["end_time"]
+        simulation_data.info.elapsed_time = data["info"]["elapsed_time"]
         simulation_data.info.success = data["info"]["success"]
         simulation_data.info.computer_name = data["info"]["computer_name"]
         simulation_data.info.id = data["info"]["id"]
@@ -193,7 +201,7 @@ def feature_simulator(function, x):
     :return:
     """
     if function == 'min_radius':
-        return us.min_radius(x)
+        return us.new_min_radius(x)
     if function == 'mean_lateral_position':
         return us.mean_lateral_position(x)
     if function == "dir_coverage":
@@ -206,95 +214,30 @@ def feature_simulator(function, x):
         return us.curvature(x)
 
 
-def generate_feature_dimension(_type):
+def generate_feature_dimension(combination):
     fts = list()
 
-    if _type == 0:
-        ft1 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
-        fts.append(ft1)
-        ft2 = FeatureDimension(name="DirectionCoverage", feature_simulator="dir_coverage", bins=1)
-        fts.append(ft2)
+    if "MinRadius" in combination:
+            ft1 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
+            fts.append(ft1)
 
-    elif _type == 1:
-        ft1 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
-        fts.append(ft1)
-
+    if "MeanLateralPosition" in combination:
         ft3 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
         fts.append(ft3)
 
-    elif _type == 2:
+    if "DirectionCoverage" in combination:
         ft2 = FeatureDimension(name="DirectionCoverage", feature_simulator="dir_coverage", bins=1)
         fts.append(ft2)
 
-        ft3 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
-        fts.append(ft3)
-
-    elif _type == 3:
-        ft1 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
-        fts.append(ft1)
+    if "SegmentCount" in combination:
         ft2 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
         fts.append(ft2)
 
-    elif _type == 4:
-        ft1 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
-        fts.append(ft1)
-
-        ft3 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
-        fts.append(ft3)
-
-    elif _type == 5:
-        ft2 = FeatureDimension(name="DirectionCoverage", feature_simulator="dir_coverage", bins=1)
-        fts.append(ft2)
-
-        ft3 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
-        fts.append(ft3)
-
-    elif _type == 6:
+    if  "SDSteeringAngle" in combination:
         ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
         fts.append(ft2)
 
-        ft3 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
-        fts.append(ft3)
-
-    elif _type == 7:
-        ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
-        fts.append(ft2)
-
-        ft3 = FeatureDimension(name="DirectionCoverage", feature_simulator="dir_coverage", bins=1)
-        fts.append(ft3)
-
-    elif _type == 8:
-        ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
-        fts.append(ft2)
-
-        ft3 = FeatureDimension(name="MinRadius", feature_simulator="min_radius", bins=1)
-        fts.append(ft3)
-
-    elif _type == 9:
-        ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
-        fts.append(ft2)
-
-        ft3 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
-        fts.append(ft3)
-
-    elif _type == 10:
-        ft2 = FeatureDimension(name="SDSteeringAngle", feature_simulator="sd_steering", bins=1)
-        fts.append(ft2)
-
-        ft3 = FeatureDimension(name="Curvature", feature_simulator="curvature", bins=1)
-        fts.append(ft3)
-
-    elif _type == 11:
-        ft2 = FeatureDimension(name="SegmentCount", feature_simulator="segment_count", bins=1)
-        fts.append(ft2)
-
-        ft3 = FeatureDimension(name="Curvature", feature_simulator="curvature", bins=1)
-        fts.append(ft3)
-
-    elif _type == 12:
-        ft2 = FeatureDimension(name="MeanLateralPosition", feature_simulator="mean_lateral_position", bins=1)
-        fts.append(ft2)
-
+    if "Curvature" in combination:
         ft3 = FeatureDimension(name="Curvature", feature_simulator="curvature", bins=1)
         fts.append(ft3)
 

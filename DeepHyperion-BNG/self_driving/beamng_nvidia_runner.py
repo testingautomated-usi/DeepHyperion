@@ -5,10 +5,9 @@ import traceback
 from typing import List, Tuple
 from datetime import datetime
 from tensorflow.keras.models import load_model
-
+import logging as log
 from core.folder_storage import SeedStorage
 from core.folders import folders
-from core.log_setup import get_logger
 from core.config import Config
 from self_driving.beamng_brewer import BeamNGBrewer
 from self_driving.beamng_config import BeamNGConfig
@@ -22,9 +21,6 @@ from self_driving.simulation_data_collector import SimulationDataCollector
 from self_driving.utils import get_node_coords, points_distance
 from self_driving.vehicle_state_reader import VehicleStateReader
 from udacity_integration.beamng_car_cameras import BeamNGCarCameras
-
-
-log = get_logger(__file__)
 
 FloatDTuple = Tuple[float, float, float, float]
 

@@ -43,14 +43,13 @@ def orientation_calc(digit, threshold):
     y = []
     image = deepcopy(digit.purified)
     bw = np.asarray(image)
-    for _, ix, iy, _ in np.ndindex(bw.shape):
-        if bw[_, ix, iy, _] > threshold:
+    for iz, ix, iy, ig in np.ndindex(bw.shape):
+        if bw[iz, ix, iy, ig] > threshold:
             x.append([iy])
             y.append(ix)
     X = np.array(x)
     Y = np.array(y)
     lr = LinearRegression(fit_intercept=True).fit(X, Y)
-    normalized_ori = (-lr.coef_ + 2)/4
-    # scale to be between 0 and 100
+    normalized_ori = -lr.coef_ 
     new_ori = normalized_ori * 100
     return int(new_ori)
