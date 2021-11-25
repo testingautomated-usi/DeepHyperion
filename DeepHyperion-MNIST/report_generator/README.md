@@ -94,11 +94,16 @@ The steps to generate the maps are:
       ```
    This command produces many files in the `logs/run_XXX/archive` folder; the most relevant ones are:
 
+   * `auc-coverage-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
+   * `auc-misbehaviour-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
    * `coverage-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
    * `misbehaviour-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.npy`
    * `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmap.npy`
    * `DeepHyperion-<RUN_ID>-Orientation-Bitmaps-stats.json`
    * `probability-DeepHyperion-<RUN_ID>-orientation-bitmaps-Orientation-Bitmaps.pdf`
+
+
+   
 
 
 

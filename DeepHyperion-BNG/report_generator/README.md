@@ -86,6 +86,8 @@ The steps to generate the maps are:
    ```
    This command produces report files in the `logs/run_XXX` folder:
 
+   * `auc-coverage-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
+   * `auc-misbehaviour-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
    * `coverage-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
    * `misbehaviour-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
    * `probability-DeepHyperionBeamNG-<RUN_ID>-segment_count-mean_lateral_position.npy`
