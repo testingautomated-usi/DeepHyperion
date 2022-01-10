@@ -139,7 +139,7 @@ class MapElites(ABC):
         feature_dict = dict()
         for ft in self.feature_dimensions:
             feature_dict.update({f"{ft.name}_min": ft.min,
-            f"{ft.name}_max": ft.max})
+            f"{ft.name}_max": ft.bins})
 
         _performances = {}
 
