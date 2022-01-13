@@ -50,8 +50,8 @@ class MapElitesMNIST(MapElites):
         b = tuple()
         for ft in self.feature_dimensions:
             i = ft.feature_descriptor(self, x)
-            # if i < ft.min:
-            #     ft.min = i
+            if i < ft.min:
+                ft.min = i
             b = b + (i,)
         return b
 
