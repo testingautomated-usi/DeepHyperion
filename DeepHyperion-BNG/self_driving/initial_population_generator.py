@@ -108,7 +108,7 @@ def initial_population_generator(path, config, problem):
 
         bbox_size = (-250.0, 0.0, 250.0, 500.0)
         road_bbox = RoadBoundingBox(bbox_size)
-        member = BeamNGMember(data["control_nodes"], [tuple(t) for t in sample_nodes], len(data["control_nodes"]),
+        member = BeamNGMember(data["control_nodes"], [tuple(t) for t in sample_nodes], 20,
                               road_bbox)
         member.config = config
         member.problem = problem
