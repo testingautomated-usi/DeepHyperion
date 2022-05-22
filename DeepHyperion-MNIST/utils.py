@@ -6,12 +6,91 @@ import sys
 # For Python 3.6 we use the base keras
 import keras
 #from tensorflow import keras
-
+import math
 import numpy as np
 # local imports
 from properties import IMG_SIZE, INTERVAL
 
 NAMESPACE = '{http://www.w3.org/2000/svg}'
+
+
+
+
+def curv_angle(x11, y11, x12, y12, x21, y21, x22, y22):
+     sameside = False
+     if x22 - x11 == 0:
+         x = x11
+         if (x > x12 and x > x21) or (x < x12 and x < x21):
+             sameside = True #both on same side
+     else:
+         m = (y22 - y11) / (x22 - x11)
+         b = y11 - m * x11
+         if (y12 > m * x12 + b and y21 > m * x21 + b) or (y12 < m * x12 + b and y21 < m *x21 + b):
+             sameside = True #both on same side
+
+     if sameside == True:
+         if x12 - x11 == 0:
+             A = 90
+         else:
+             y = (y12 - y11)
+             x = (x12 - x11)  
+             # A = angle between x-axis and line 1
+             A = math.atan2(x,y) * 180 / math.pi
+             A = np.abs((A + 180) % 360 - 180)
+
+         if x22 - x21 == 0:
+             B = 90
+         else:
+             y = (y22 - y21)
+             x = (x22 - x21)  
+             # B = angle between x-axis and line 2
+             B = math.atan2(x, y) * 180 / math.pi
+             B = np.abs((B + 180) % 360 - 180)
+         #Angle between line 1 and line 2 = A - B
+         angle = np.abs(A - B)
+         return angle
+     else:        
+         # first angle
+
+         if x12 - x11 == 0:
+             A = 90
+         else:
+             y = (y12 - y11)
+             x = (x12 - x11)  
+             A = math.atan2(x,y) * 180 / math.pi
+             A = np.abs((A + 180) % 360 - 180)
+
+         if x21 - x12 == 0:
+             B = 90
+         else:
+             y = (y21 - y12)
+             x = (x21 - x12)         
+             B = math.atan2(x,y) * 180 / math.pi
+             B = np.abs((B + 180) % 360 - 180)
+
+         #Angle between line 1 and line 2 = A - B
+         angle1 = np.abs(A - B)
+
+         # second angle
+
+         if x21 - x12 == 0:
+             A = 90
+         else:
+             y = (y21 - y12)
+             x = (x21 - x12)       
+             A = math.atan2(x,y) * 180 / math.pi
+             A = np.abs((A + 180) % 360 - 180)
+         if x22 - x21 == 0:
+             B = 90
+         else:
+             y = (y22 - y21)
+             x = (x22 - x21)        
+             B = math.atan2(x,y) * 180 / math.pi        
+             B = np.abs((B + 180) % 360 - 180)
+         #Angle between line 1 and line 2 = A - B
+         angle2 = np.abs(A - B)
+
+         return np.min([angle1, angle2])
 
 
 def compute_sparseness(map, x):
