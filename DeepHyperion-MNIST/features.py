@@ -4,6 +4,7 @@ import re
 from copy import deepcopy
 import xml.etree.ElementTree as ET
 import numpy as np
+from utils import curv_angle
 
 NAMESPACE = '{http://www.w3.org/2000/svg}'
 
@@ -53,3 +54,15 @@ def orientation_calc(digit, threshold):
     normalized_ori = -lr.coef_ 
     new_ori = normalized_ori * 100
     return int(new_ori)
+
+def angle_calc(digit):
+     angles = []
+     root = ET.fromstring(digit.xml_desc)
+     svg_path = root.find(NAMESPACE + 'path').get('d')
+     pattern = re.compile('([\d\.]+),([\d\.]+)\sC\s([\d\.]+),([\d\.]+)\s([\d\.]+),([\d\.]+)\s([\d\.]+),([\d\.]+)\s')
+     segments = pattern.findall(svg_path)
+     for segment in segments:        
+         angle = curv_angle(float(segment[0]), float(segment[1]), float(segment[2]), float(segment[3]), float(segment[4]), float(segment[5]), float(segment[6]), float(segment[7]))
+         angles.append(angle)
+     avg_ang = np.min(angles)
+     return int(avg_ang)
