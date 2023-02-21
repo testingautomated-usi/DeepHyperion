@@ -121,10 +121,10 @@ def mutate(text, operator_name):
     mutant_vector = text    
     if operator_name == 1:
         mutant_vector = apply_mutoperator1(text)
-    elif operator_name == 2:        
-        mutant_vector = apply_mutoperator2(text)  
-    elif operator_name == 3:        
-        mutant_vector = apply_mutoperator3(text)
+#   elif operator_name == 2:        
+#        mutant_vector = apply_mutoperator2(text)  
+#    elif operator_name == 3:        
+#        mutant_vector = apply_mutoperator3(text)
     elif operator_name == 4:        
         mutant_vector = apply_mutoperator4(text)
     elif operator_name == 5:
