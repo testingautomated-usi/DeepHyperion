@@ -15,7 +15,7 @@ class TextMutator:
         counter_mutations = 0
         while condition:
             # Select mutation operator.
-            mutation = random.choice([1,2,3,4,5])
+            mutation = random.choice([1,4,5])
 
             counter_mutations += 1
 
