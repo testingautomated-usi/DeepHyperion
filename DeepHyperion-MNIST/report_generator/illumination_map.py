@@ -2,6 +2,7 @@
 import numpy as np
 from itertools import combinations
 import matplotlib.pyplot as plt
+import re
 
 from report_generator.samples_extractor import Sample
 
@@ -11,6 +12,11 @@ import logging
 import statistics
 import time
 
+def elapsed_to_millisec(elapsed):
+    # compute milli seconds for sample's elapsed time
+    times = re.split(r"[:.]", elapsed)
+    millisecs = float(times[0])*3600+float(times[1])*60+float(times[2])+float(times[3])/1000000.
+    return millisecs
 
 def manhattan(coords_ind1, coords_ind2):
     return abs(coords_ind1[0] - coords_ind2[0]) + abs(coords_ind1[1] - coords_ind2[1])
