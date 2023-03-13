@@ -96,10 +96,6 @@ class IlluminationAxisDefinition:
         self.num_cells = num_cells
         # Definition of the inner map, values might fall outside it if less than min
         self.original_bins = np.linspace(min_value, max_value, num_cells)
-        if min_value < 0:
-            self.abs_bins = np.linspace(0, max_value + abs(min_value), num_cells)
-        else:
-            self.abs_bins = np.linspace(min_value, max_value, num_cells)
         # Definition of the outer map
         # Include the default boundary conditions. Note that we do not add np.PINF, but the max value.
         # Check: https://stackoverflow.com/questions/4355132/numpy-digitize-returns-values-out-of-range
@@ -138,9 +134,6 @@ class IlluminationAxisDefinition:
             self.logger.warning("Sample %s has value %s below the min value %s for feature %s", sample.id, value, self.min_value, self.feature_name)
         elif value > self.max_value:
             self.logger.warning("Sample %s has value %s above the max value %s for feature %s",  sample.id, value, self.max_value, self.feature_name)
-
-        if self.min_value < 0:
-            value = value + abs(self.min_value)
 
         if is_outer_map:
             return np.digitize(value, self.bins, right=False)
