@@ -3,7 +3,7 @@
 ## General Information ##
 This repository contains the source code and the data of the paper "DeepHyperion: Exploring the Feature Space of Deep Learning-Based
 Systems through Illumination Search"
- by T. Zohdinasab, V. Riccio, A. Gambi and P. Tonella, to be published in the Proceedings of the ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA 2021).
+ by T. Zohdinasab, V. Riccio, A. Gambi and P. Tonella, published in the Proceedings of the ACM SIGSOFT International Symposium on Software Testing and Analysis (ISSTA 2021).
 
 ## Getting Started ##
 
